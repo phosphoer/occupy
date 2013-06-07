@@ -2,9 +2,6 @@
 var camera, scene, renderer;
 var geometry, material, mesh;
 
-init();
-animate();
-
 function init() {
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -22,6 +19,8 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
     document.body.appendChild( renderer.domElement );
+
+    animate();
 
 }
 
