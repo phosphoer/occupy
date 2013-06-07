@@ -1,0 +1,4 @@
+function Engine()
+{
+  JSEngine = this;
+}
