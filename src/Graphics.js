@@ -15,14 +15,14 @@ function init() {
     mesh = new THREE.Mesh( geometry, material );
     scene.add( mesh );
 
-    var light = new THREE.AmbientLight(0x404040);
-    scene.add(light);
+    var light = new THREE.AmbientLight(0x101010);
+    //scene.add(light);
 
     light = new THREE.PointLight( 0xFFFFFF, 1, 1000 );
     light.position.set( 10, 10, 0 );
     scene.add( light );
 
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias:true });
     renderer.setClearColor(0x101010, 1)
    
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -42,5 +42,14 @@ function animate() {
     mesh.rotation.y += 0.02;
 
     renderer.render( scene, camera );
+
+}
+
+function onWindowResize(){
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
