@@ -1,5 +1,6 @@
-function Player()
+function Player(parent)
 {
+  this.parent = parent;
   this.movementSpeed = 5;
 }
 
