@@ -10,7 +10,6 @@ function Material(config)
     this.color = config.color || 0xFFFFFF;
 };
 
-
 function createLevelChunk(xWidth, zWidth, height)
 {
     var level = [];
@@ -36,35 +35,32 @@ function createLevelChunk(xWidth, zWidth, height)
     return level;
 }
 
-function Graphics() {
-
-    var levelWidth = 60;
-    var levelDepth = 20;
-
-    this.cameras = {};
-
+function Graphics()
+{
     this.scene = new THREE.Scene();
-
-    geometry = new THREE.CubeGeometry( 1, 1, 1 );
-    material = new THREE.MeshLambertMaterial( { color: 0x1100ff} );
-
-    var mesh = new THREE.Mesh( geometry, material );
-    mesh.position.x = -levelWidth/2;
-    mesh.position.z = -levelDepth/2;
-    this.scene.add( mesh );
-
-    var light = new THREE.AmbientLight(0x404040);
-    //this.scene.add(light);
-
-    light = new THREE.PointLight( 0xFFFFFF, 1, 60 );
-    light.position.set( 0, 40, levelDepth / 2);
-    this.scene.add( light );
+    this.cameras = {};
 
     renderer = new THREE.WebGLRenderer({ antialias:true });
     renderer.setClearColor(0x101010, 1)
     renderer.autoClear = false;
+    document.body.appendChild(renderer.domElement);
 
-    document.body.appendChild( renderer.domElement );
+    this.UnitCube = new THREE.CubeGeometry(1, 1, 1);
+
+    material = new THREE.MeshLambertMaterial( { color: 0x1100ff} );
+
+    var levelWidth = 60;
+    var levelDepth = 20;
+    var mesh = new THREE.Mesh( this.UnitCube, material );
+    mesh.position.x = -levelWidth/2;
+    mesh.position.z = -levelDepth/2;
+    this.scene.add( mesh );
+
+    var light = new THREE.AmbientLight(0x141414);
+    this.scene.add(light);
+    light = new THREE.PointLight( 0xFFFFFF, 1, 120 );
+    light.position.set( 0, 80, levelDepth / 2);
+    this.scene.add( light );
 
     var levelChunk = createLevelChunk(levelWidth, levelDepth, 1);
     for(var i = 0; i < levelWidth; ++i)
@@ -74,7 +70,7 @@ function Graphics() {
             if(levelChunk[i][j] != null)
             {
                 var material = new THREE.MeshLambertMaterial( { color: levelChunk[i][j].color} );
-                var cube = new THREE.Mesh( geometry, material );
+                var cube = new THREE.Mesh( this.UnitCube, material );
                 cube.position = new THREE.Vector3(i, 0, j);
                 mesh.add(cube);
             }
@@ -86,14 +82,6 @@ function Graphics() {
 
 Graphics.prototype.update = function(dt)
 {
-
-    // note: three.js includes requestAnimationFrame shim
-    //requestAnimationFrame( animate );
-
-    //mesh.rotation.x += 0.01;
-    //mesh.rotation.y += 0.02;
-
-
     // This is basically the entire canvas size (note we use viewports below)
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.clear();
@@ -113,5 +101,4 @@ Graphics.prototype.update = function(dt)
 function onWindowResize()
 {
     renderer.setSize( window.innerWidth, window.innerHeight );
-
 }   
