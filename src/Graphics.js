@@ -5,17 +5,26 @@ var geometry, material, mesh;
 function init() {
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.z = 1000;
+    camera.position.z = 10;
 
     scene = new THREE.Scene();
 
-    geometry = new THREE.CubeGeometry( 200, 200, 200 );
-    material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+    geometry = new THREE.CubeGeometry( 1, 1, 1 );
+    material = new THREE.MeshLambertMaterial( { color: 0x1100ff} );
 
     mesh = new THREE.Mesh( geometry, material );
     scene.add( mesh );
 
-    renderer = new THREE.CanvasRenderer();
+    var light = new THREE.AmbientLight(0x404040);
+    scene.add(light);
+
+    light = new THREE.PointLight( 0xFFFFFF, 1, 1000 );
+    light.position.set( 10, 10, 0 );
+    scene.add( light );
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setClearColor(0x101010, 1)
+   
     renderer.setSize( window.innerWidth, window.innerHeight );
 
     document.body.appendChild( renderer.domElement );
