@@ -12,8 +12,7 @@ function main()
   tower.components.collider.height = tower.components.tower.sizeZ;
 
   // center tower on ground
-  tower.position.set(-tower.components.tower.sizeX / 2, 1,
-                     -tower.components.tower.sizeZ / 2);
+  tower.position.set(0, 1, 0);
 
   e.start();
 }

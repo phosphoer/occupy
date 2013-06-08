@@ -22,7 +22,7 @@ Tower.prototype.buildFromAsset = function(asset)
     this.sizeX = asset.x;
     this.sizeY = asset.y;
     this.sizeZ = asset.z;
-    
+
     // load mesh from file
     for(var j = 0; j < asset.y; ++j)
     {
@@ -32,12 +32,12 @@ Tower.prototype.buildFromAsset = function(asset)
             {
                 var cubeColor = asset.data[j * asset.x * asset.z + k * asset.x + i];
                 if(cubeColor != 0)
-                {      
+                {
                     var material = new THREE.MeshLambertMaterial( { color: cubeColor} );
                     var mesh = new THREE.Mesh(geometry, material);
-                    mesh.position = new THREE.Vector3(i, asset.y - j - 1, k);
+                    mesh.position = new THREE.Vector3(i - asset.x / 2 + 0.5, asset.y - j - 1, k - asset.z / 2 + 0.5);
                     this.base.add(mesh);
-                }   
+                }
             }
         }
     }
