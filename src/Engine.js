@@ -3,6 +3,7 @@ function Engine()
   JSEngine = this;
 
   // Add "systems"
+  this.factory = new Factory();
   this.game = new Game();
 
   this.lastTime = new Date();
@@ -25,5 +26,6 @@ function engineUpdate()
   requestAnimFrame(engineUpdate);
 
   // Update stuff
+  JSEngine.factory.update(dt);
   JSEngine.game.update(dt);
 }

@@ -7,6 +7,11 @@ function GameObject()
   this.components = {};
 }
 
+GameObject.prototype.destroy = function()
+{
+  engine.factory.destroyObject(this.id);
+}
+
 function Factory()
 {
   this.currentId = 0;
