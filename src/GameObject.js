@@ -1,5 +1,6 @@
 function GameObject()
 {
+  this.parent = null;
   this.id = -1;
   this.x = 0;
   this.y = 0;
