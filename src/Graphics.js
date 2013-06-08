@@ -41,9 +41,7 @@ function Graphics() {
     var levelWidth = 60;
     var levelDepth = 20;
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
-
+    this.camera = null;
 
     this.scene = new THREE.Scene();
 
@@ -84,10 +82,6 @@ function Graphics() {
         }
     }
 
-    camera.position.z = 40;
-    camera.position.y = 20;
-    //camera.position.x = levelWidth / 2;
-
 
 }
 
@@ -100,7 +94,11 @@ Graphics.prototype.update = function(dt)
     //mesh.rotation.x += 0.01;
     //mesh.rotation.y += 0.02;
 
-    renderer.render( this.scene, camera );
+    if (this.camera)
+    {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.render( this.scene, this.camera.cam );
+    }
 
 }
 
