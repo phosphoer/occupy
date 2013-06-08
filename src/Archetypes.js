@@ -17,3 +17,18 @@ function createPlayer(inputProfile, playerColor, offsetY)
   chaseCam.components.camera.sizeY = 0.5;
   chaseCam.components.camera.offsetY = offsetY;
 }
+
+function createHuman()
+{
+  var obj = JSEngine.factory.createObject();
+  obj.components.human = new Human(obj);
+  obj.components.cube = new Cube(obj, { color:0x00FF00 });
+  obj.components.collider = new Collider(obj);
+  obj.components.collider.isSolid = false;
+  obj.position.y = 1;
+  if (Math.random() < 0.5)
+    obj.position.x = -30 + Math.random() * 5;
+  else
+    obj.position.x = 30 - Math.random() * 5;
+  obj.position.z = Math.round(-10 + Math.random() * 20);
+}
