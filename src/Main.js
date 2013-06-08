@@ -7,6 +7,9 @@ function main()
 
   var tower = e.factory.createObject();
   tower.components.tower = new Tower(tower);
+  tower.components.collider = new Collider(tower);
+  tower.components.collider.width = tower.components.tower.sizeX;
+  tower.components.collider.height = tower.components.tower.sizeZ;
 
   // center tower on ground
   tower.position.set(-tower.components.tower.sizeX / 2, 1,
