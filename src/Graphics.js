@@ -5,6 +5,12 @@ var geometry, material;
 
 var levelCubes;
 
+function Material(config)
+{
+    this.color = config.color || 0xFFFFFF;
+};
+
+
 function createLevelChunk(xWidth, zWidth, height)
 {
     var level = [];
@@ -14,7 +20,16 @@ function createLevelChunk(xWidth, zWidth, height)
 
         for(var j = 0; j < zWidth; ++j)
         {
-            level[i][j] = 1;
+            var material;
+            if((i + j) % 2 == 0)
+            {
+                material = new Material({ color: 0x1100ff });
+            }
+            else
+            {
+                material = new Material({ color: 0x110088 });
+            }
+            level[i][j] = material;
         }
     }
 
@@ -23,8 +38,8 @@ function createLevelChunk(xWidth, zWidth, height)
 
 function Graphics() {
 
-    var levelWidth = 40;
-    var levelDepth = 10;
+    var levelWidth = 60;
+    var levelDepth = 20;
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -44,7 +59,7 @@ function Graphics() {
     //this.scene.add(light);
 
     light = new THREE.PointLight( 0xFFFFFF, 1, 60 );
-    light.position.set( levelWidth  / 2, 40, levelDepth / 2);
+    light.position.set( 0, 40, levelDepth / 2);
     this.scene.add( light );
 
     renderer = new THREE.WebGLRenderer({ antialias:true });
@@ -59,8 +74,9 @@ function Graphics() {
     {
         for(var j = 0; j < levelDepth; ++j)
         {
-            if(levelChunk[i][j])
+            if(levelChunk[i][j] != null)
             {
+                var material = new THREE.MeshLambertMaterial( { color: levelChunk[i][j].color} );
                 var cube = new THREE.Mesh( geometry, material );
                 cube.position = new THREE.Vector3(i, 0, j);
                 mesh.add(cube);
