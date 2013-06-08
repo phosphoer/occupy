@@ -20,13 +20,13 @@ function createLevelChunk(xWidth, zWidth, height)
         for(var j = 0; j < zWidth; ++j)
         {
             var material;
-            if((i + j) % 2 == 0)
+            if(Math.random() < 0.5)
             {
-                material = new Material({ color: 0x1100ff });
+                material = new Material({ color: 0x22aa22 });
             }
             else
             {
-                material = new Material({ color: 0x110088 });
+                material = new Material({ color: 0x559933 });
             }
             level[i][j] = material;
         }
@@ -101,4 +101,9 @@ Graphics.prototype.update = function(dt)
 function onWindowResize()
 {
     renderer.setSize( window.innerWidth, window.innerHeight );
+<<<<<<< HEAD
 }   
+=======
+
+}
+>>>>>>> ae38803fd97fa11878102affcab72f1658c37f3d
