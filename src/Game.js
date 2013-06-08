@@ -6,15 +6,26 @@ function Game()
 
 Game.prototype.update = function(dt)
 {
-  // Spawn more humans
+  // Look for end of wave
   if (this.humanCount === 0)
   {
-    for (var i = 0; i < this.nextWaveCount; ++i)
-    {
-      createHuman();
-    }
-
-    // Scale up difficulty
-    this.nextWaveCount *= 1.2;
+    this.waveEnd();
   }
+}
+
+Game.prototype.waveEnd = function()
+{
+  this.nextWave();
+}
+
+Game.prototype.nextWave = function()
+{
+  // Spawn humans
+  for (var i = 0; i < this.nextWaveCount; ++i)
+  {
+    createHuman();
+  }
+
+  // Scale up difficulty
+  this.nextWaveCount *= 1.2;
 }
