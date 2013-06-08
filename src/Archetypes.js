@@ -14,7 +14,7 @@ function createPlayer(inputProfile, playerColor, offsetY)
   chaseCam.position.set(0, 20, 40);
   chaseCam.components.camera = new Camera(chaseCam);
   chaseCam.components.camera.target = newPlayer;
-  chaseCam.components.camera.sizeY = 0.5;
+  chaseCam.components.camera.sizeY = 1;
   chaseCam.components.camera.offsetY = offsetY;
 }
 
