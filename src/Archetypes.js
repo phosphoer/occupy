@@ -22,7 +22,7 @@ function createHuman()
 {
   var obj = JSEngine.factory.createObject();
   obj.components.human = new Human(obj);
-  obj.components.cube = new Cube(obj, { color:0x00FF00 });
+  obj.components.cube = new Cube(obj, { color:0xE8C0A7 });
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.position.y = 1;
