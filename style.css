@@ -1,0 +1,10 @@
+div.Menu
+{
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  left: 200px;
+  top: 10px;
+  color: #888;
+  background-color: #222;
+}

@@ -15,12 +15,9 @@ Game.prototype.update = function(dt)
 
 Game.prototype.waveEnd = function()
 {
-  var ui = $("<div />").appendTo($("body"));
-  ui.text("blah");
-  ui.css("position", "absolute");
-  ui.css("left", "200px");
-  ui.css("top", "10px");
-  ui.css("color", "#fff");
+  // var ui = $("<div class='Menu' />").appendTo($("body"));
+  // ui.text("blah");
+
 
   this.nextWave();
 }
