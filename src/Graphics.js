@@ -21,7 +21,7 @@ function createLevelChunk(xWidth, zWidth, height)
     return level;
 }
 
-function init() {
+function Graphics() {
 
     var levelWidth = 40;
     var levelDepth = 10;
@@ -71,14 +71,13 @@ function init() {
     camera.position.x = levelWidth / 2;
 
 
-    animate();
-
 }
 
-function animate() {
+Game.prototype.update = function(dt)
+{
 
     // note: three.js includes requestAnimationFrame shim
-    requestAnimationFrame( animate );
+    //requestAnimationFrame( animate );
 
     //mesh.rotation.x += 0.01;
     //mesh.rotation.y += 0.02;

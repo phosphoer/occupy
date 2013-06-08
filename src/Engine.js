@@ -6,6 +6,7 @@ function Engine()
   this.input = new Input();
   this.factory = new Factory();
   this.game = new Game();
+  this.graphics = new Graphics();
 
   this.lastTime = new Date();
 }
