@@ -21,5 +21,8 @@ Game.prototype.update = function(dt)
         obj.position.x = 30 - Math.random() * 5;
       obj.position.z = Math.round(-10 + Math.random() * 20);
     }
+
+    // Scale up difficulty
+    this.nextWaveCount *= 1.2;
   }
 }
