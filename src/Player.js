@@ -5,6 +5,7 @@ function Player(parent, inputProfile)
   this.dashSpeed = 15;
   this.dashTime = 0.2;
   this.dashTimer = 0;
+  this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
 
   if (inputProfile == 0)
@@ -25,12 +26,24 @@ function Player(parent, inputProfile)
   }
 }
 
+Player.prototype.onCollide = function(obj)
+{
+  var human = obj.components.human;
+  if (human && this.isDashing)
+  {
+    obj.sendEvent("killed");
+  }
+}
+
 Player.prototype.update = function(dt)
 {
   if (this.dashTimer > 0)
     this.dashTimer -= dt;
   else
+  {
+    this.isDashing = false;
     this.movementSpeed = this.normalSpeed;
+  }
 
   moveX = 0;
   moveZ = 0;
@@ -60,12 +73,11 @@ Player.prototype.update = function(dt)
 
   angle = Math.atan2(-moveZ, -moveX);
 
-
-
   if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= 0)
   {
     this.movementSpeed = this.dashSpeed;
     this.dashTimer = this.dashTime;
+    this.isDashing = true;
   }
 
   if (JSEngine.input.isDown(JSEngine.input.P))

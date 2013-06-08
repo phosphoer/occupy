@@ -6,6 +6,11 @@ function Human(parent)
   ++JSEngine.game.humanCount;
 }
 
+Human.prototype.killed = function()
+{
+  this.parent.destroy();
+}
+
 Human.prototype.update = function(dt)
 {
   var angleToCenter = Math.atan2(-this.parent.position.z, -this.parent.position.x);
