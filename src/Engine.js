@@ -30,4 +30,5 @@ function engineUpdate()
   // Update stuff
   JSEngine.factory.update(dt);
   JSEngine.game.update(dt);
+  JSEngine.graphics.update(dt);
 }

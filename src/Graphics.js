@@ -1,5 +1,5 @@
 
-var camera, scene, renderer;
+var camera,  renderer;
 var geometry, material, mesh;
 
 
@@ -30,20 +30,20 @@ function Graphics() {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 
-    scene = new THREE.Scene();
+    this.scene = new THREE.Scene();
 
     geometry = new THREE.CubeGeometry( 1, 1, 1 );
     material = new THREE.MeshLambertMaterial( { color: 0x1100ff} );
 
     mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
+    this.scene.add( mesh );
 
     var light = new THREE.AmbientLight(0x404040);
-    //scene.add(light);
+    //this.scene.add(light);
 
     light = new THREE.PointLight( 0xFFFFFF, 1, 60 );
     light.position.set( levelWidth  / 2, 40, levelDepth / 2);
-    scene.add( light );
+    this.scene.add( light );
 
     renderer = new THREE.WebGLRenderer({ antialias:true });
     renderer.setClearColor(0x101010, 1)
@@ -73,7 +73,7 @@ function Graphics() {
 
 }
 
-Game.prototype.update = function(dt)
+Graphics.prototype.update = function(dt)
 {
 
     // note: three.js includes requestAnimationFrame shim
@@ -82,7 +82,7 @@ Game.prototype.update = function(dt)
     //mesh.rotation.x += 0.01;
     //mesh.rotation.y += 0.02;
 
-    renderer.render( scene, camera );
+    renderer.render( this.scene, camera );
 
 }
 
