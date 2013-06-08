@@ -3,6 +3,7 @@ function Engine()
   JSEngine = this;
 
   // Add "systems"
+  this.input = new Input();
   this.factory = new Factory();
   this.game = new Game();
 
