@@ -9,7 +9,7 @@ function Human(parent)
 
 Human.prototype.killed = function(angle)
 {
-  createBloodSpray(10, this.parent.position, angle);
+  createBloodSpray(20, this.parent.position, angle);
   this.parent.destroy();
 
   if (!this.dead)
