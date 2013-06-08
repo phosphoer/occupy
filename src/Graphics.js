@@ -1,5 +1,5 @@
 
-var camera,  renderer;
+var renderer;
 var geometry, material;
 
 
@@ -41,7 +41,7 @@ function Graphics() {
     var levelWidth = 60;
     var levelDepth = 20;
 
-    this.camera = null;
+    this.cameras = {};
 
     this.scene = new THREE.Scene();
 
@@ -62,8 +62,7 @@ function Graphics() {
 
     renderer = new THREE.WebGLRenderer({ antialias:true });
     renderer.setClearColor(0x101010, 1)
-   
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.autoClear = false;
 
     document.body.appendChild( renderer.domElement );
 
@@ -94,19 +93,25 @@ Graphics.prototype.update = function(dt)
     //mesh.rotation.x += 0.01;
     //mesh.rotation.y += 0.02;
 
-    if (this.camera)
-    {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.render( this.scene, this.camera.cam );
-    }
 
+    // This is basically the entire canvas size (note we use viewports below)
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.clear();
+
+    for (var i in this.cameras)
+    {
+        var camera = this.cameras[i];
+
+        if (camera.active)
+        {
+            renderer.setViewport(camera.pixelOffsetX, camera.pixelOffsetY, camera.pixelSizeX, camera.pixelSizeY);
+            renderer.render( this.scene, camera.cam );
+        }
+    }
 }
 
-function onWindowResize(){
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
+function onWindowResize()
+{
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }   

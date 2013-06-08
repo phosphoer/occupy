@@ -16,6 +16,11 @@ function Cube(parent, config)
   this.mesh.position = this.parent.position;
 }
 
+Cube.prototype.destroy = function()
+{
+  JSEngine.graphics.scene.remove(this.mesh);
+}
+
 Cube.prototype.update = function(dt)
 {
 }

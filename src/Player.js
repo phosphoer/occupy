@@ -1,11 +1,28 @@
-function Player(parent)
+function Player(parent, inputProfile)
 {
   this.parent = parent;
   this.normalSpeed = 5;
-  this.dashSpeed = 25;
+  this.dashSpeed = 15;
   this.dashTime = 0.2;
   this.dashTimer = 0;
   this.movementSpeed = this.normalSpeed;
+
+  if (inputProfile == 0)
+  {
+    this.forwardKey = JSEngine.input.W;
+    this.backwardKey = JSEngine.input.S;
+    this.leftKey = JSEngine.input.A;
+    this.rightKey = JSEngine.input.D;
+    this.boostKey = JSEngine.input.SPACE;
+  }
+  else
+  {
+    this.forwardKey = JSEngine.input.I;
+    this.backwardKey = JSEngine.input.K;
+    this.leftKey = JSEngine.input.J;
+    this.rightKey = JSEngine.input.L;
+    this.boostKey = JSEngine.input.SHIFT;
+  }
 }
 
 Player.prototype.update = function(dt)
@@ -15,29 +32,44 @@ Player.prototype.update = function(dt)
   else
     this.movementSpeed = this.normalSpeed;
 
-  if (JSEngine.input.isDown(JSEngine.input.W))
+  moveX = 0;
+  moveZ = 0;
+
+  if (JSEngine.input.isDown(this.forwardKey))
   {
-    this.parent.position.z -= this.movementSpeed * dt;
+    moveZ -= this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isDown(JSEngine.input.S))
+  if (JSEngine.input.isDown(this.backwardKey))
   {
-    this.parent.position.z += this.movementSpeed * dt;
+    moveZ += this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isDown(JSEngine.input.A))
+  if (JSEngine.input.isDown(this.leftKey))
   {
-    this.parent.position.x -= this.movementSpeed * dt;
+    moveX -= this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isDown(JSEngine.input.D))
+  if (JSEngine.input.isDown(this.rightKey))
   {
-    this.parent.position.x += this.movementSpeed * dt;
+    moveX += this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isDown(JSEngine.input.SPACE) && this.dashTimer <= 0)
+  this.parent.position.x += moveX;
+  this.parent.position.z += moveZ;
+
+  angle = Math.atan2(-moveZ, -moveX);
+
+
+
+  if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= 0)
   {
     this.movementSpeed = this.dashSpeed;
     this.dashTimer = this.dashTime;
+  }
+
+  if (JSEngine.input.isDown(JSEngine.input.P))
+  {
+    this.parent.destroy();
   }
 }
