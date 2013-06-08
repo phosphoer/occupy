@@ -1,8 +1,5 @@
 
 var renderer;
-var geometry, material;
-
-
 var levelCubes;
 
 function Material(config)
@@ -40,21 +37,19 @@ function Graphics()
     this.scene = new THREE.Scene();
     this.cameras = {};
 
+    this.UnitCube = new THREE.CubeGeometry(1, 1, 1);
+
     renderer = new THREE.WebGLRenderer({ antialias:true });
     renderer.setClearColor(0x101010, 1)
     renderer.autoClear = false;
     document.body.appendChild(renderer.domElement);
 
-    this.UnitCube = new THREE.CubeGeometry(1, 1, 1);
-
-    material = new THREE.MeshLambertMaterial( { color: 0x1100ff} );
-
     var levelWidth = 60;
     var levelDepth = 20;
-    var mesh = new THREE.Mesh( this.UnitCube, material );
-    mesh.position.x = -levelWidth/2;
-    mesh.position.z = -levelDepth/2;
-    this.scene.add( mesh );
+    var base = new THREE.Object3D();
+    base.position.x = -levelWidth/2;
+    base.position.z = -levelDepth/2;
+    this.scene.add(base);
 
     var light = new THREE.AmbientLight(0x141414);
     this.scene.add(light);
@@ -72,12 +67,10 @@ function Graphics()
                 var material = new THREE.MeshLambertMaterial( { color: levelChunk[i][j].color} );
                 var cube = new THREE.Mesh( this.UnitCube, material );
                 cube.position = new THREE.Vector3(i, 0, j);
-                mesh.add(cube);
+                base.add(cube);
             }
         }
     }
-
-
 }
 
 Graphics.prototype.update = function(dt)
