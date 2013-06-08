@@ -14,13 +14,26 @@ function Factory()
   this.objectsDeleted = [];
 }
 
+Factory.prototype.createObject = function()
+{
+  var obj = new GameObject();
+  obj.id = this.currentId++;
+  this.objects[obj.id] = obj;
+
+  return obj;
+}
+
+Factory.prototype.destroyObject = function(id)
+{
+  this.objectsDeleted.push(id);
+}
+
 Factory.prototype.update = function(dt)
 {
   // Delete objects
   for (var i in this.objectsDeleted)
-  {
-    delete this.objects[this.objectsDeleted[i].id];
-  }
+    delete this.objects[this.objectsDeleted[i]];
+  this.objectsDeleted = [];
 
   // Update components
   for (var i in this.objects)
