@@ -5,6 +5,7 @@ function Collider(parent)
   this.height = 1;
   this.isSolid = true;
   this.stopOnGround = true;
+  this.frictionOnGround = false;
 }
 
 Collider.prototype.update = function(dt)
@@ -32,6 +33,11 @@ Collider.prototype.update = function(dt)
 
   if (this.stopOnGround && pos.y < 1)
     pos.y = 1;
+  if (this.frictionOnGround && this.parent.components.velocity && pos.y <= 1)
+  {
+    this.parent.components.velocity.x *= 0.96;
+    this.parent.components.velocity.z *= 0.96;
+  }
 }
 
 Collider.prototype.collide = function(c)

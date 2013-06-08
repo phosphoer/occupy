@@ -7,8 +7,8 @@ function Gravity(parent, amount)
 
 Gravity.prototype.update = function(dt)
 {
-  if (this.parent.velocity)
-    this.parent.velocity.y -= this.gravity * dt;
+  if (this.parent.components.velocity)
+    this.parent.components.velocity.y -= this.gravity * dt;
   else
   {
     this.yVel += this.gravity * dt;

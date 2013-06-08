@@ -38,17 +38,18 @@ function createBloodSpray(amount, pos, angle)
   for (var i = 0; i < amount; ++i)
   {
     var obj = JSEngine.factory.createObject();
-    obj.components.lifetime = new LifeTime(obj, 0.5 + Math.random());
-    obj.components.cube = new Cube(obj, { color: 0xFF0000 });
     var v = {};
     var speed = 5 + Math.random() * 10;
     v.x = Math.cos(angle - 0.3 + Math.random() * 0.6) * speed;
-    v.y = Math.random() * 5;
+    v.y = Math.random() * 10;
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
+    obj.components.lifetime = new LifeTime(obj, 0.5 + Math.random() * 2);
+    obj.components.cube = new Cube(obj, { color: 0xFF0000 });
     obj.components.velocity = new Velocity(obj, v);
-    obj.components.gravity = new Gravity(obj, 5);
+    obj.components.gravity = new Gravity(obj, 8);
     obj.components.collider = new Collider(obj);
     obj.components.collider.isSolid = false;
+    obj.components.collider.frictionOnGround = true;
     obj.position.x = pos.x;
     obj.position.y = pos.y || 1;
     obj.position.z = pos.z;
