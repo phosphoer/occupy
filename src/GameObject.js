@@ -15,10 +15,15 @@ GameObject.prototype.destroy = function()
 
 GameObject.prototype.sendEvent = function(name, args)
 {
+  // Construct arguments
+  var message_args = [];
+  for (var i = 1; i < arguments.length; ++i)
+    message_args.push(arguments[i]);
+
   for (var j in this.components)
   {
     if (this.components[j][name])
-      this.components[j][name](args);
+      this.components[j][name].apply(this.components[j], message_args);
   }
 }
 
@@ -49,7 +54,7 @@ Factory.prototype.sendEventToAll = function(name, args)
   for (var i in this.objects)
   {
     var obj = this.objects[i];
-    obj.sendEvent(name, args);
+    obj.sendEvent.apply(obj, arguments);
   }
 }
 
