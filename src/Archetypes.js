@@ -46,7 +46,9 @@ function createBloodSpray(amount, pos, angle)
     v.y = Math.random() * 5;
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
     obj.components.velocity = new Velocity(obj, v);
-    obj.components.gravity = new Gravity(obj, 1);
+    obj.components.gravity = new Gravity(obj, 5);
+    obj.components.collider = new Collider(obj);
+    obj.components.collider.isSolid = false;
     obj.position.x = pos.x;
     obj.position.y = pos.y || 1;
     obj.position.z = pos.z;

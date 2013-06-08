@@ -4,6 +4,7 @@ function Collider(parent)
   this.width = 1;
   this.height = 1;
   this.isSolid = true;
+  this.stopOnGround = true;
 }
 
 Collider.prototype.update = function(dt)
@@ -28,6 +29,9 @@ Collider.prototype.update = function(dt)
     pos.z = -10;
   if (pos.z > 9)
     pos.z = 9;
+
+  if (this.stopOnGround && pos.y < 1)
+    pos.y = 1;
 }
 
 Collider.prototype.collide = function(c)
