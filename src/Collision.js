@@ -35,6 +35,7 @@ Collider.prototype.collide = function(c)
   var myPos = this.parent.position;
   var pos = c.parent.position;
 
+  // Check for intersection
   if (myPos.x + this.width / 2 < pos.x - c.width / 2)
     return false;
   if (myPos.x - this.width / 2 > pos.x + c.width / 2)
@@ -44,6 +45,14 @@ Collider.prototype.collide = function(c)
   if (myPos.z - this.height / 2 > pos.z + c.height / 2)
     return false;
 
+  // Send the oncollide message if we are colliding
+  this.parent.sendEvent("onCollide", c.parent);
+
+  // Don't resolve if other is not solid (but doesn't matter if we are?)
+  if (!c.isSolid)
+    return;
+
+  // Resolve penetration
   var pen = {x: 0, z: 0};
   if (myPos.x < pos.x)
     pen.x = (myPos.x + this.width / 2) - (pos.x - c.width / 2);
