@@ -23,7 +23,6 @@ Camera.prototype.update = function(dt)
     this.parent.position.lerp(newPosition, this.smoothing);
 
     this.cam.fov = this.fov;
-    this.cam.aspect = window.innerWidth / window.innerHeight;
 
     this.cam.lookAt(this.target.position);
   }
