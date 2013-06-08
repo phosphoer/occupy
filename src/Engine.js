@@ -2,6 +2,9 @@ function Engine()
 {
   JSEngine = this;
 
+  // Add "systems"
+  this.game = new Game();
+
   this.lastTime = new Date();
 }
 
@@ -18,5 +21,9 @@ function engineUpdate()
   if (dt > 0.1) dt = 0.1;
   JSEngine.lastTime = newTime;
 
+  // Get update called again
   requestAnimFrame(engineUpdate);
+
+  // Update stuff
+  JSEngine.game.update(dt);
 }
