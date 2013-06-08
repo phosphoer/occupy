@@ -101,8 +101,4 @@ Graphics.prototype.update = function(dt)
 function onWindowResize()
 {
     renderer.setSize( window.innerWidth, window.innerHeight );
-<<<<<<< HEAD
-=======
-
->>>>>>> ae38803fd97fa11878102affcab72f1658c37f3d
 }
