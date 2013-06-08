@@ -23,6 +23,9 @@ function createLevelChunk(xWidth, zWidth, height)
 
 function init() {
 
+    var levelWidth = 40;
+    var levelDepth = 10;
+
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -38,8 +41,8 @@ function init() {
     var light = new THREE.AmbientLight(0x404040);
     //scene.add(light);
 
-    light = new THREE.PointLight( 0xFFFFFF, 1, 1000 );
-    light.position.set( 10, 10, 0 );
+    light = new THREE.PointLight( 0xFFFFFF, 1, 60 );
+    light.position.set( levelWidth  / 2, 40, levelDepth / 2);
     scene.add( light );
 
     renderer = new THREE.WebGLRenderer({ antialias:true });
@@ -49,8 +52,6 @@ function init() {
 
     document.body.appendChild( renderer.domElement );
 
-    var levelWidth = 40;
-    var levelDepth = 10;
     var levelChunk = createLevelChunk(levelWidth, levelDepth, 1);
     for(var i = 0; i < levelWidth; ++i)
     {
@@ -66,7 +67,7 @@ function init() {
     }
 
     camera.position.z = 40;
-    camera.position.y = 10;
+    camera.position.y = 20;
     camera.position.x = levelWidth / 2;
 
 
