@@ -6,8 +6,9 @@ function Human(parent)
   ++JSEngine.game.humanCount;
 }
 
-Human.prototype.killed = function()
+Human.prototype.killed = function(angle)
 {
+  createBloodSpray(10, this.parent.position, angle);
   this.parent.destroy();
 }
 

@@ -31,7 +31,7 @@ Player.prototype.onCollide = function(obj)
   var human = obj.components.human;
   if (human && this.isDashing)
   {
-    obj.sendEvent("killed");
+    obj.sendEvent("killed", Math.atan2(obj.position.z - this.parent.position.z, obj.position.x - this.parent.position.x));
   }
 }
 
