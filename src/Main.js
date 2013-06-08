@@ -7,6 +7,5 @@ function main()
   player.components.cube = new Cube(player, { color:0xFF0000 });
   player.position.y = 1;
 
-
   e.start();
 }
