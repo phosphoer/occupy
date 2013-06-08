@@ -9,6 +9,15 @@ function Engine()
   this.graphics = new Graphics();
 
   this.lastTime = new Date();
+
+  this.stats = new Stats();
+  this.stats.domElement.style.position = 'absolute';
+  this.stats.domElement.style.top = '0px';
+  this.stats.domElement.style.zIndex = 100;
+
+  var container = document.createElement('div');
+  container.appendChild(this.stats.domElement);  
+  document.body.appendChild(container);
 }
 
 Engine.prototype.start = function()
@@ -31,4 +40,6 @@ function engineUpdate()
   JSEngine.factory.update(dt);
   JSEngine.game.update(dt);
   JSEngine.graphics.update(dt);
+
+  JSEngine.stats.update();
 }
