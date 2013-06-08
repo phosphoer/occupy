@@ -7,11 +7,22 @@ function Player(parent)
 Player.prototype.update = function(dt)
 {
   if (JSEngine.input.isDown(JSEngine.input.W))
-    this.parent.z -= this.movementSpeed * dt;
-  if (JSEngine.input.isDown(JSEngine.input.A))
-    this.parent.z += this.movementSpeed * dt;
+  {
+    this.parent.position.z -= this.movementSpeed * dt;
+  }
+
   if (JSEngine.input.isDown(JSEngine.input.S))
-    this.parent.x -= this.movementSpeed * dt;
+  {
+    this.parent.position.z += this.movementSpeed * dt;
+  }
+
+  if (JSEngine.input.isDown(JSEngine.input.A))
+  {
+    this.parent.position.x -= this.movementSpeed * dt;
+  }
+
   if (JSEngine.input.isDown(JSEngine.input.D))
-    this.parent.x += this.movementSpeed * dt;
+  {
+    this.parent.position.x += this.movementSpeed * dt;
+  }
 }

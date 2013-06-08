@@ -1,6 +1,6 @@
 
 var camera,  renderer;
-var geometry, material, mesh;
+var geometry, material;
 
 
 var levelCubes;
@@ -35,7 +35,9 @@ function Graphics() {
     geometry = new THREE.CubeGeometry( 1, 1, 1 );
     material = new THREE.MeshLambertMaterial( { color: 0x1100ff} );
 
-    mesh = new THREE.Mesh( geometry, material );
+    var mesh = new THREE.Mesh( geometry, material );
+    mesh.position.x = -levelWidth/2;
+    mesh.position.z = -levelDepth/2;
     this.scene.add( mesh );
 
     var light = new THREE.AmbientLight(0x404040);
@@ -68,7 +70,7 @@ function Graphics() {
 
     camera.position.z = 40;
     camera.position.y = 20;
-    camera.position.x = levelWidth / 2;
+    //camera.position.x = levelWidth / 2;
 
 
 }
