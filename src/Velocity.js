@@ -28,12 +28,13 @@ Velocity.prototype.update = function(dt)
         {
             dir.x /= len;
             dir.y /= len;
-            dir.z /= len;        
+            dir.z /= len;
         }
 
         if (len < 1)
         {
             this.parent.destroy();
+            JSEngine.game.money += 1;
         }
         else
         {
