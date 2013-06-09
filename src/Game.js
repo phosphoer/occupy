@@ -1,14 +1,14 @@
 function Game()
 {
-  this.nextWaveCount = 5;
+  this.nextWaveCount = 3;
   this.humanCount = 0;
   this.players = {};
   this.firstRun = true;
   this.numStocks = 0;
   this.stockPrice = 0;
   this.money = 1000;
-  this.menuTime = 8;
-  this.menuTimer = 0;
+  this.menuTime = 800;
+  this.menuTimer = 8;
   this.hasAccepted = false;
 
   this.increaseSpeedPrice = 2500;
@@ -56,9 +56,21 @@ Game.prototype.waveEnd = function()
   this.menuUI = $("<div class='Menu' />").appendTo($("body"));
   this.menuUI.append("<div class='MenuTitle'>Upgrade your shit!</div>");
 
-  var upgradeSpeed = $("<div class='Button'>Buy increased speed: " + this.increaseSpeedPrice + " pints</div>").appendTo(this.menuUI);
-  var upgradeSize = $("<div class='Button'>Buy increased size: " + this.increaseSizePrice + " pints</div>").appendTo(this.menuUI);
-  var upgradeDash = $("<div class='Button'>Buy increased dash: " + this.increaseDashPrice + " pints</div>").appendTo(this.menuUI);
+  var upgradeSpeed = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  upgradeSpeed.append("<div>Speed</div>");
+  upgradeSpeed.append("<img width='100px' height='100px' src='res/icons/speed.png' />");
+  upgradeSpeed.append("<div>" + this.increaseSpeedPrice + " pints</div>");
+
+  var upgradeSize = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  upgradeSize.append("<div>Size</div>");
+  upgradeSize.append("<img width='100px' height='100px' src='res/icons/size.png' />");
+  upgradeSize.append("<div>" + this.increaseSizePrice + " pints</div>");
+
+  var upgradeDash = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  upgradeDash.append("<div>Dash</div>");
+  upgradeDash.append("<img width='100px' height='100px' src='res/icons/dash.png' />");
+  upgradeDash.append("<div>" + this.increaseDashPrice + " pints</div>");
+
   var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(this.menuUI);
   var buyStocks = $("<div class='Button'>Buy stocks</div>").appendTo(this.menuUI);
   var sellStocks = $("<div class='Button'>Sell stocks</div>").appendTo(this.menuUI);
