@@ -14,6 +14,7 @@ function Cube(parent, config)
   JSEngine.graphics.scene.add(this.mesh);
   
   this.mesh.position = this.parent.position;
+  this.mesh.rotation = this.parent.rotation;
 }
 
 Cube.prototype.destroy = function()

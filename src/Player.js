@@ -7,6 +7,9 @@ function Player(parent, inputProfile)
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
+  this.rotationSmoothing = 0.2;
+
+  JSEngine.game.players[parent.id] = this;
 
   if (inputProfile == 0)
   {
@@ -33,6 +36,11 @@ Player.prototype.onCollide = function(obj)
   {
     obj.sendEvent("killed", Math.atan2(obj.position.z - this.parent.position.z, obj.position.x - this.parent.position.x));
   }
+}
+
+Player.prototype.destroy = function()
+{
+  delete JSEngine.game.players[this.parent.id];
 }
 
 Player.prototype.update = function(dt)
@@ -71,7 +79,10 @@ Player.prototype.update = function(dt)
   this.parent.position.x += moveX;
   this.parent.position.z += moveZ;
 
-  angle = Math.atan2(-moveZ, -moveX);
+  angle = Math.atan2(moveZ, -moveX);
+
+  //this.parent.rotation.y = angle * this.rotationSmoothing + this.parent.rotation.y * (1.0 - this.rotationSmoothing);
+  this.parent.rotation.y = angle;
 
   if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= 0)
   {

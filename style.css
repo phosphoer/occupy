@@ -1,0 +1,19 @@
+div.Menu
+{
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  left: 200px;
+  top: 10px;
+  color: #888;
+  background-color: #222;
+}
+
+.graph
+{
+  width: 500px;
+  height: 200px;
+  padding: 20px 15px 15px 15px;
+  margin: 15px auto 30px auto;
+  background: rgba(0, 0, 0, 0);
+}

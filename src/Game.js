@@ -2,6 +2,7 @@ function Game()
 {
   this.nextWaveCount = 5;
   this.humanCount = 0;
+  this.players = {};
 }
 
 Game.prototype.update = function(dt)
@@ -25,7 +26,7 @@ Game.prototype.nextWave = function()
   // Spawn humans
   for (var i = 0; i < this.nextWaveCount; ++i)
   {
-    createHuman();
+    createHuman(1);
   }
 
   // Scale up difficulty
