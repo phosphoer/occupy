@@ -22,7 +22,7 @@ function Tower(parent)
   var material = new THREE.MeshLambertMaterial( { vertexColors: true} );
   var mesh = new THREE.Mesh(geometry, material);
   this.material = material;
-  
+
 
   var offset = new THREE.Object3D();
   this.base.add(offset);
@@ -35,8 +35,8 @@ function Tower(parent)
   this.lastDamageTime = -10000;
 
   this.healthBarContainer = $("<div class='HealthBarContainer' />").appendTo($("body"));
-  this.healthBar = $("<div class='HealthBar' />").appendTo(this.healthBarContainer); 
-  this.healthBarInner = $("<div class='HealthBarInner' />").appendTo(this.healthBar);  
+  this.healthBar = $("<div class='HealthBar' />").appendTo(this.healthBarContainer);
+  this.healthBarInner = $("<div class='HealthBarInner' />").appendTo(this.healthBar);
 
 }
 
@@ -45,12 +45,12 @@ Tower.prototype.update = function(dt)
 {
     this.lastDt = dt;
     this.damageTimer += dt;
-    this.healthBarContainer.css("width", 200 + 5 * 50 + "px");
-    this.healthBar.css("width", (this.health / this.maxHealth) * 100 + "%");
+    // this.healthBarContainer.css("width", 200 + 5 * 50 + "px");
+    // this.healthBar.css("width", (this.health / this.maxHealth) * 100 + "%");
 
-    this.healthBarContainer.css("width", 200 + 5 * 50 + "px");
-    this.healthBar.css("width", 100 + "%"); 
-    this.healthBarInner.css("width", (this.health / this.maxHealth) * 100 + "%");   
+    // this.healthBarContainer.css("width", 200 + 5 * 50 + "px");
+    this.healthBar.css("width", 100 + "%");
+    this.healthBarInner.css("width", (this.health / this.maxHealth) * 100 + "%");
 
     if (this.damageTimer - this.lastDamageTime < 0.5)
     {
@@ -90,7 +90,7 @@ Tower.prototype.applyDamage = function(amount)
 function buildChunkFromAsset(asset)
 {
     var chunk = [];
-    
+
     var sizeX = asset.x;
     var sizeY = asset.y;
     var sizeZ = asset.z;
@@ -109,9 +109,9 @@ function buildChunkFromAsset(asset)
 
             }
         }
-    } 
+    }
 
-    return chunk;   
+    return chunk;
 }
 
 function buildGeometryFromChunk(chunk, sizeX, sizeY, sizeZ)
@@ -146,35 +146,35 @@ function buildGeometryFromChunk(chunk, sizeX, sizeY, sizeZ)
                     geometry.vertices.push(new THREE.Vector3(i - 0.5, j + 0.5, k + 0.5));
 
                     var color = new THREE.Color(block);
-                    geometry.faces.push(new THREE.Face4(n + 0, n + 1, n + 2, n + 3, 
-                                        n1, 
+                    geometry.faces.push(new THREE.Face4(n + 0, n + 1, n + 2, n + 3,
+                                        n1,
                                         color));
 
                     // top
-                    geometry.faces.push(new THREE.Face4(n + 7, n + 6, n + 5, n + 4, 
-                                        n2, 
+                    geometry.faces.push(new THREE.Face4(n + 7, n + 6, n + 5, n + 4,
+                                        n2,
                                         color));
 
                     // back
 
-                    //geometry.faces.push(new THREE.Face4(n + 0, n + 1, n + 5, n + 4, 
-                    //                    new THREE.Vector3(1, 0, 0), 
-                    //  
+                    //geometry.faces.push(new THREE.Face4(n + 0, n + 1, n + 5, n + 4,
+                    //                    new THREE.Vector3(1, 0, 0),
+                    //
 
-                    // front                
-                   geometry.faces.push(new THREE.Face4(n + 3, n + 2, n + 6, n + 7, 
-                                       n3, 
-                                       color));  
-                    
+                    // front
+                   geometry.faces.push(new THREE.Face4(n + 3, n + 2, n + 6, n + 7,
+                                       n3,
+                                       color));
+
                     // left
-                    geometry.faces.push(new THREE.Face4(n + 0, n + 3, n + 7, n + 4, 
-                                        n4, 
-                                        color));   
+                    geometry.faces.push(new THREE.Face4(n + 0, n + 3, n + 7, n + 4,
+                                        n4,
+                                        color));
 
-                    // right       
-                    geometry.faces.push(new THREE.Face4(n + 5, n + 6, n + 2, n + 1, 
-                                        n5, 
-                                        color));                                                                             
+                    // right
+                    geometry.faces.push(new THREE.Face4(n + 5, n + 6, n + 2, n + 1,
+                                        n5,
+                                        color));
                 }
             }
         }
