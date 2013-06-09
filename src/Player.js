@@ -40,6 +40,7 @@ function Player(parent, inputProfile)
 Player.prototype.upgradedStuff = function()
 {
   this.bloodLevelMax = 1 + JSEngine.game.vampireLevel;
+  this.bloodLevel = this.bloodLevelMax;
 }
 
 Player.prototype.onCollide = function(obj)

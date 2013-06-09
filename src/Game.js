@@ -25,18 +25,22 @@ Game.prototype.update = function(dt)
 Game.prototype.waveEnd = function()
 {
   this.inMenu = true;
+  JSEngine.stocks.show();
 
   var ui = $("<div class='Menu' />").appendTo($("body"));
   ui.append("<div class='MenuTitle'>Upgrade your shit!</div>");
 
   var upgradeVamp = $("<div class='Button'>Upgrade your vampire</div>").appendTo(ui);
   var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(ui);
+  var buyStocks = $("<div class='Button'>Buy stocks</div>").appendTo(ui);
+  var sellStocks = $("<div class='Button'>Sell stocks</div>").appendTo(ui);
 
   var that = this;
   upgradeVamp.bind("click", function()
     {
       that.inMenu = false;
       ui.remove();
+      JSEngine.stocks.hide();
       that.nextWave();
       that.upgradeVampire();
     });
@@ -44,8 +48,15 @@ Game.prototype.waveEnd = function()
     {
       that.inMenu = false;
       ui.remove();
+      JSEngine.stocks.hide();
       that.nextWave();
       that.upgradeTower();
+    });
+  buyStocks.bind("click", function()
+    {
+    });
+  sellStocks.bind("click", function()
+    {
     });
 }
 

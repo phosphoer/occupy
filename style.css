@@ -21,9 +21,11 @@ div.MenuTitle
 {
   width: 500px;
   height: 200px;
-  padding: 20px 15px 15px 15px;
-  margin: 15px auto 30px auto;
   background: rgba(0, 0, 0, 0);
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  opacity: 0.9;
 }
 
 div.Button
