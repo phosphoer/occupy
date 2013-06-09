@@ -12,7 +12,7 @@ function main()
   tower.components.collider.height = tower.components.tower.sizeZ;
 
   // center tower on ground
-  tower.position.set(0, 1, -12);
+  tower.position.set(0, 1, -11);
 
   var prefix = "res/skybox";
   var suffix = ".bmp";

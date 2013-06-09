@@ -53,23 +53,12 @@ function Graphics()
 
 
     var levelChunk = createLevelChunk(levelWidth, levelDepth, 1);
-    for(var i = 0; i < levelWidth; ++i)
-    {
-        for(var j = 0; j < levelDepth; ++j)
-        {
-            var block = levelChunk[i * levelDepth + j];
-            if(block != null)
-            {
-                var material = new THREE.MeshLambertMaterial( { color: block} );
-                var cube = new THREE.Mesh( this.UnitCube, material );
-                cube.position = new THREE.Vector3(i, 0, j);
-                //base.add(cube);
-            }
-        }
-    }
-
     var geo = buildGeometryFromChunk(levelChunk, levelWidth, 1, levelDepth);
     base.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({vertexColors:true})));
+
+    var rect = new THREE.Mesh(new THREE.CubeGeometry(62, 60, 32), new THREE.MeshLambertMaterial({color:0x101010}));
+    base.add(rect);
+    rect.position.set(29.5, -30, 14.5);
 }
 
 Graphics.prototype.update = function(dt)
