@@ -22,7 +22,7 @@ Velocity.prototype.update = function(dt)
     var len = dir.x * dir.x + dir.y * dir.y + dir.z * dir.z;
     len = Math.sqrt(len);
 
-    if(len < 5)
+    if(len < 5 || JSEngine.game.inMenu)
     {
         if(len != 0)
         {
