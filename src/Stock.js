@@ -2,6 +2,10 @@ function Stocks()
 {
   this.ui = $('<div id="placeholder" class="graph"></div>').appendTo($("body"));
 
+  this.tempColor = "rgb(200, 200, 50)";
+  this.tempColorFrames = 0;
+
+
   var container = $("#placeholder");
 
   // Determine how many data points to keep based on the placeholder's initial size;
@@ -35,6 +39,20 @@ function Stocks()
     return res;
   }
 
+
+  var data2 = [
+    //[0.7,3.0,0.2,0.4],
+    //[1.5,2.2,0.3,0.4],
+    [maximum,100.0,0.0,0.0]
+  ];
+
+  var data2_points = {
+    show: true,
+    radius: 5,
+    errorbars: "y", 
+    yerr: {show:true, asymmetric:true}
+  };
+
   series = [
     {
       data: getRandomData(),
@@ -43,6 +61,11 @@ function Stocks()
       {
         fill: true
       }
+    },
+    {
+      data: data2,
+      color: "rgb(200, 50, 50)",
+      points: data2_points,
     }
   ];
 
@@ -85,10 +108,26 @@ function Stocks()
     }
   });
 
+  self = this;
+
   // Update the random dataset at 25FPS for a smoothly-animating chart
   setInterval(function updateRandom()
   {
+    if (self.tempColorFrames > 0)
+    {
+      series[0].color = self.tempColor;
+    }
+    else
+    {
+      series[0].color = "rgb(200, 50, 50)";
+    }
+    --self.tempColorFrames;
+
     series[0].data = getRandomData();
+
+
+    //series[1]
+
     plot.setData(series);
     plot.draw();
   }, 40);

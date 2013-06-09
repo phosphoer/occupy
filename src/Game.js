@@ -50,6 +50,9 @@ function Game()
   this.increaseSizePrice = 1000;
   this.increaseDashPrice = 600;
 
+  this.introText = "10,000 years into the future, vampires have taken over planet Earth, after the great setting of the sun, known to the pitiful humans as the great 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his  journey will not be over until every last human is dead, and all the available  upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path.";
+  this.introTextCounter = 0;
+
   $("<div id='topHudContainer' />").appendTo($("body"));
   this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("#topHudContainer"));
   $("<img width='75px' height='75px' src='res/icons/money.png' />").appendTo(this.moneyDisplay);
@@ -63,7 +66,22 @@ function Game()
 
   $("<div class='MainMenuTitle'>#Occupy Vampire Wallstreet</div>").appendTo(this.mainMenuContainer);
   var mainMenuBody = $("<div class='MainMenuBody'></div>").appendTo(this.mainMenuContainer);
-  $("<div class='Agreement'>10,000 years into the future, vampires have taken over planet Earth, after the great setting of the sun, known to the pitiful humans as the great 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his  journey will not be over until every last human is dead, and all the available  upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path. </div>").appendTo(mainMenuBody);
+  $("<div id='agreement' class='Agreement'>10,000 years into the future, vampires have taken over planet Earth, after the great setting of the sun, known to the pitiful humans as the great 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his  journey will not be over until every last human is dead, and all the available  upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path. </div>").appendTo(mainMenuBody);
+  
+  $("#agreement").text("");
+
+  me = this;
+
+   // Update the random dataset at 25FPS for a smoothly-animating chart
+  setInterval(function()
+  {
+    if (me.introTextCounter <= me.introText.length)
+    {
+      me.introTextCounter += 10;
+      $("#agreement").text(me.introText.substring(0, me.introTextCounter));
+    }
+  }, 40);
+
   var startGame = $("<div class='Button'>I Accept</div>").appendTo(mainMenuBody);
   var that = this;
 
@@ -99,6 +117,9 @@ function Game()
 
 Game.prototype.update = function(dt)
 {
+  // We're scared that physics can move the tower, because.. well.. things and stuff
+  this.tower.position.set(0, 1, -11);
+
   if (!this.hasAccepted)
     JSEngine.stop();
 
@@ -327,6 +348,9 @@ Game.prototype.buyStocks = function()
   {
     ++this.numStocks;
     this.money -= this.stockPrice;
+
+    JSEngine.stocks.tempColor = "rgb(215, 80, 55)";
+    JSEngine.stocks.tempColorFrames = 2;
   }
 }
 
@@ -336,6 +360,9 @@ Game.prototype.sellStocks = function()
   {
     --this.numStocks;
     this.money += this.stockPrice;
+
+    JSEngine.stocks.tempColor = "rgb(215, 80, 55)";
+    JSEngine.stocks.tempColorFrames = 2;
   }
 }
 

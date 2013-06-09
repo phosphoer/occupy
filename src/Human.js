@@ -10,7 +10,6 @@ function Human(parent, type)
   this.lastHitTime = -10000;
   this.lastTargetAngle = 0;
   this.refireTime = 0;
-  this.refireTimer = 0;
   this.minTargetRange = -10000;
   this.wormTime = 0;
   this.wormTimer = 0;
@@ -82,6 +81,7 @@ function Human(parent, type)
   }
 
   this.originalColor = this.parent.components.cube.material.color.getHex();
+  this.refireTimer = Math.random() * this.refireTime;
 }
 
 Human.prototype.killed = function(angle)
@@ -151,7 +151,7 @@ Human.prototype.update = function(dt)
     if (this.refireTimer > this.refireTime)
     {
       this.refireTimer = 0;
-      var vel = new THREE.Vector3(Math.cos(targetAngle) * this.projectileSpeed, 10, Math.sin(targetAngle) * this.projectileSpeed);
+      var vel = new THREE.Vector3(Math.cos(targetAngle) * this.projectileSpeed, 14, Math.sin(targetAngle) * this.projectileSpeed);
       createEnemyProjectile(this.parent.position, vel, this.damage);
       this.shootSound.play();
     }
