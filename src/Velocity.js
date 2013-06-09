@@ -1,4 +1,4 @@
-function Velocity(parent, vel, omega)
+function Velocity(parent, vel, omega, target)
 {
   this.parent = parent;
   this.x = vel.x;
@@ -6,10 +6,48 @@ function Velocity(parent, vel, omega)
   this.z = vel.z;
 
   this.omega = omega;
+
+  this.target = target;
 }
 
 Velocity.prototype.update = function(dt)
 {
+  if(this.parent.components.lifetime.life <= 0)
+  {
+    var dirx = this.target.x
+    var dir = { x:this.target.x - this.parent.position.x,
+                y:this.target.y - this.parent.position.y,
+                z:this.target.z - this.parent.position.z };
+
+    var len = dir.x * dir.x + dir.y * dir.y + dir.z * dir.z;
+    len = Math.sqrt(len);
+
+    if(len < 5)
+    {
+        if(len != 0)
+        {
+            dir.x /= len;
+            dir.y /= len;
+            dir.z /= len;        
+        }
+
+        if (len < 1)
+        {
+            this.parent.destroy();
+        }
+        else
+        {
+            this.x += .5 * dir.x;
+            this.y += .5 * dir.y;
+            this.z += .5 * dir.z;
+        }
+    }
+  }
+
+  this.omega.x *= .96;
+  this.omega.y *= .96;
+  this.omega.z *= .96;
+
   this.parent.position.x += this.x * dt;
   this.parent.position.y += this.y * dt;
   this.parent.position.z += this.z * dt;

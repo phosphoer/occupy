@@ -9,6 +9,6 @@ LifeTime.prototype.update = function(dt)
   this.life -= dt;
   if (this.life <= 0)
   {
-    this.parent.destroy();
+    //this.parent.destroy();
   }
 }
