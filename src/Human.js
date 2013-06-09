@@ -44,6 +44,7 @@ Human.prototype.update = function(dt)
     this.parent.position.z += Math.sin(angleToCenter) * this.movementSpeed * dt;
 
     targetAngle = Math.atan2(-this.parent.position.z, -this.parent.position.x);
+    return;
 
   }
   else if (this.type == 1)
