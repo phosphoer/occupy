@@ -39,7 +39,7 @@ function Player(parent, inputProfile)
 
 Player.prototype.upgradedStuff = function()
 {
-  this.bloodLevelMax = 1 + JSEngine.game.vampireLevel;
+  this.bloodLevelMax = 1;
   this.bloodLevel = this.bloodLevelMax;
 }
 

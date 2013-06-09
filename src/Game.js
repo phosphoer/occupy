@@ -4,11 +4,16 @@ function Game()
   this.humanCount = 0;
   this.players = {};
   this.firstRun = true;
-  this.vampireLevel = 0;
-  this.towerLevel = 0;
   this.numStocks = 0;
   this.stockPrice = 0;
   this.money = 1000;
+  this.menuTime = 8;
+  this.menuTimer = 0;
+  this.hasAccepted = false;
+
+  this.increaseSpeedPrice = 5000;
+  this.increaseSizePrice = 10000;
+  this.increaseDashPrice = 20000;
 
   this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("body"));
   this.moneyCountUI = $("<div />").appendTo(this.moneyDisplay);
@@ -17,6 +22,7 @@ function Game()
 
 Game.prototype.update = function(dt)
 {
+  this.menuTimer += dt;
   this.stockPrice = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
   this.moneyCountUI.text("Blood Money: " + Math.round(this.money) + " pints ");
   this.stockCountUI.text("Blood Stocks: " + Math.round(this.numStocks));
@@ -30,38 +36,69 @@ Game.prototype.update = function(dt)
       this.nextWave();
   }
 
+  if (this.menuTimer >= this.menuTime && this.inMenu)
+  {
+    this.inMenu = false;
+    this.menuUI.remove();
+    JSEngine.stocks.hide();
+    this.nextWave();
+  }
+
   this.firstRun = false;
 }
 
 Game.prototype.waveEnd = function()
 {
   this.inMenu = true;
+  this.menuTimer = 0;
   JSEngine.stocks.show();
 
-  var ui = $("<div class='Menu' />").appendTo($("body"));
-  ui.append("<div class='MenuTitle'>Upgrade your shit!</div>");
+  this.menuUI = $("<div class='Menu' />").appendTo($("body"));
+  this.menuUI.append("<div class='MenuTitle'>Upgrade your shit!</div>");
 
-  var upgradeVamp = $("<div class='Button'>Upgrade your vampire</div>").appendTo(ui);
-  var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(ui);
-  var buyStocks = $("<div class='Button'>Buy stocks</div>").appendTo(ui);
-  var sellStocks = $("<div class='Button'>Sell stocks</div>").appendTo(ui);
+  var upgradeSpeed = $("<div class='Button'>Buy increased speed: " + this.increaseSpeedPrice + " pints</div>").appendTo(this.menuUI);
+  var upgradeSize = $("<div class='Button'>Buy increased size: " + this.increaseSizePrice + " pints</div>").appendTo(this.menuUI);
+  var upgradeDash = $("<div class='Button'>Buy increased dash: " + this.increaseDashPrice + " pints</div>").appendTo(this.menuUI);
+  var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(this.menuUI);
+  var buyStocks = $("<div class='Button'>Buy stocks</div>").appendTo(this.menuUI);
+  var sellStocks = $("<div class='Button'>Sell stocks</div>").appendTo(this.menuUI);
 
   var that = this;
-  upgradeVamp.bind("click", function()
+  function closeMenu()
+  {
+    that.inMenu = false;
+    that.menuUI.remove();
+    that.nextWave();
+    JSEngine.stocks.hide();
+  }
+
+  upgradeSpeed.bind("click", function()
     {
-      that.inMenu = false;
-      ui.remove();
-      JSEngine.stocks.hide();
-      that.nextWave();
-      that.upgradeVampire();
+      if (that.money >= that.increaseSpeedPrice)
+      {
+        that.money -= that.increaseSpeedPrice;
+        closeMenu();
+      }
+    });
+  upgradeSize.bind("click", function()
+    {
+      if (that.money >= that.increaseSizePrice)
+      {
+        that.money -= that.increaseSizePrice;
+        closeMenu();
+      }
+    });
+  upgradeDash.bind("click", function()
+    {
+      if (that.money >= that.increaseDashPrice)
+      {
+        that.money -= that.increaseDashPrice;
+        closeMenu();
+      }
     });
   upgradeTower.bind("click", function()
     {
-      that.inMenu = false;
-      ui.remove();
-      JSEngine.stocks.hide();
-      that.nextWave();
-      that.upgradeTower();
+      closeMenu();
     });
   buyStocks.bind("click", function()
     {
@@ -89,18 +126,6 @@ Game.prototype.sellStocks = function()
     --this.numStocks;
     this.money += this.stockPrice;
   }
-}
-
-Game.prototype.upgradeVampire = function()
-{
-  ++this.vampireLevel;
-  JSEngine.factory.sendEventToAll("upgradedStuff");
-}
-
-Game.prototype.upgradeTower = function()
-{
-  ++this.towerLevel;
-  JSEngine.factory.sendEventToAll("upgradedStuff");
 }
 
 Game.prototype.nextWave = function()
