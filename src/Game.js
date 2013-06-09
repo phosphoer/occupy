@@ -83,7 +83,7 @@ Game.prototype.waveEnd = function()
   this.stockMenu.append("<div class='MenuTitle'>Stock Market</div>");
 
   this.waveCompleteMenu = $("<div class='WaveMenu' />").appendTo($("body"));
-  this.waveCompleteMenu.append("<div class='MenuTitle'>Wave 1 Complete</div>");
+  this.waveCompleteMenu.append("<div class='MenuTitle'>Wave " + JSEngine.game.wave + " Complete</div>");
 
   var next = $("<div class='WaveTimer'>Next Wave <span id='waveTimer'></span></div>").appendTo(this.waveCompleteMenu);
 
