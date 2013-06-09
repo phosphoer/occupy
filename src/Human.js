@@ -11,6 +11,9 @@ function Human(parent, type)
   this.refireTime = 0;
   this.refireTimer = 0;
   this.minTargetRange = -10000;
+  this.wormTime = 0;
+  this.wormTimer = 0;
+  this.wormDirectionIndex = 0;
 
   // Standard drone
   if (type == 0)
@@ -59,8 +62,20 @@ function Human(parent, type)
     this.parent.components.cube.material.emissive.setHex(0x090202);
     this.target = pickRandomValue(JSEngine.game.players).parent;
   }
-
-  ++JSEngine.game.humanCount;
+  // Advanced archers
+  else if (type == 4)
+  {
+    this.wormTime = 1;
+    this.refireTime = 0.2;
+    this.projectileSpeed = 20;
+    this.blood = 25;
+    this.damage = 0.5;
+    this.movementSpeed = 10 + Math.random() * 2;
+    this.parent.scale.set(0.6, 2.2, 0.6);
+    this.parent.components.cube.material.color.setHex(0x82C9FA);
+    this.parent.components.cube.material.emissive.setHex(0x0C030F);
+    this.target = JSEngine.game.tower;
+  }
 }
 
 Human.prototype.killed = function(angle)
@@ -120,6 +135,43 @@ Human.prototype.update = function(dt)
   var range = Math.sqrt(toTargetX * toTargetX + toTargetZ * toTargetZ);
   
   this.parent.rotation.y = -targetAngle;
+
+
+  if (this.wormTime > 0)
+  {
+    this.wormTimer += dt;
+
+    if (this.wormTimer > this.wormTime)
+    {
+      this.wormTimer = 0;
+      this.wormDirectionIndex = Math.floor(Math.random() * 4);
+    }
+
+    var dirIndex = this.wormDirectionIndex;
+
+    if (dirIndex == 0)
+    {
+      toTargetX = 0;
+      toTargetZ = 1;
+    }
+    else if (dirIndex == 1)
+    {
+      toTargetX = 0;
+      toTargetZ = -1;
+    }
+    else if (dirIndex == 2)
+    {
+      toTargetX = 1;
+      toTargetZ = 0;
+    }
+    else if (dirIndex == 3)
+    {
+      toTargetX = -1;
+      toTargetZ = 0;
+    }
+
+    targetAngle = Math.atan2(toTargetZ, toTargetX);
+  }  
 
   if (range > this.minTargetRange)
   {
