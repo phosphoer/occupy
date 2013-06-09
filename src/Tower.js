@@ -64,7 +64,7 @@ function buildGeometryFromChunk(chunk, sizeX, sizeY, sizeZ)
 
     var n1 = new THREE.Vector3(0, -1, 0);
     var n2 = new THREE.Vector3(0,  1, 0);
-    var n3 = new THREE.Vector3(0,  0, -1);
+    var n3 = new THREE.Vector3(0,  0, 1);
     var n4 = new THREE.Vector3(-1, 0, 0);
     var n5 = new THREE.Vector3( 1, 0, 0);
 
