@@ -2,7 +2,7 @@ function Game()
 {
   this.nextWaveCount = 5;
   this.humanCount = 0;
-  this.inMenu = false;
+  this.players = {};
   this.firstRun = true;
   this.vampireLevel = 0;
   this.towerLevel = 0;
@@ -66,7 +66,7 @@ Game.prototype.nextWave = function()
   // Spawn humans
   for (var i = 0; i < this.nextWaveCount; ++i)
   {
-    createHuman();
+    createHuman(1);
   }
 
   // Scale up difficulty

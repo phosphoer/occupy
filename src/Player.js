@@ -9,6 +9,8 @@ function Player(parent, inputProfile)
   this.movementSpeed = this.normalSpeed;
   this.bloodLevel = 1;
   this.bloodLevelMax = 1;
+  this.rotationSmoothing = 0.2;
+  JSEngine.game.players[parent.id] = this;
 
   if (inputProfile == 0)
   {
@@ -46,6 +48,11 @@ Player.prototype.onCollide = function(obj)
     if (this.bloodLevel > this.bloodLevelMax)
       this.bloodLevel = this.bloodLevelMax;
   }
+}
+
+Player.prototype.destroy = function()
+{
+  delete JSEngine.game.players[this.parent.id];
 }
 
 Player.prototype.update = function(dt)
@@ -88,7 +95,10 @@ Player.prototype.update = function(dt)
   this.parent.position.x += moveX;
   this.parent.position.z += moveZ;
 
-  angle = Math.atan2(-moveZ, -moveX);
+  angle = Math.atan2(moveZ, -moveX);
+
+  //this.parent.rotation.y = angle * this.rotationSmoothing + this.parent.rotation.y * (1.0 - this.rotationSmoothing);
+  this.parent.rotation.y = angle;
 
   if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= -0.5)
   {

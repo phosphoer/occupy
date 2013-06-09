@@ -3,6 +3,7 @@ function GameObject()
   this.id = -1;
   this.isAlive = true;
   this.position = new THREE.Vector3(0, 0, 0);
+  this.rotation = new THREE.Vector3(0, 0, 0);
   this.components = {};
 }
 

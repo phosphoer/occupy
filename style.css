@@ -17,6 +17,15 @@ div.MenuTitle
   text-align: center;
 }
 
+.graph
+{
+  width: 500px;
+  height: 200px;
+  padding: 20px 15px 15px 15px;
+  margin: 15px auto 30px auto;
+  background: rgba(0, 0, 0, 0);
+}
+
 div.Button
 {
   background-color: #333;
