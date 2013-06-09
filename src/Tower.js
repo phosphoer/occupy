@@ -3,6 +3,8 @@ function Tower(parent)
   this.parent = parent;
   this.maxHealth = 1000;
   this.health = this.maxHealth;
+  this.alarmSound = new Audio("res/alarm.wav");
+  this.alarmSound.volume = 0.3;
 
   this.base = new THREE.Object3D();
   JSEngine.graphics.scene.add(this.base);
@@ -90,6 +92,7 @@ Tower.prototype.applyDamage = function(amount)
 {
   this.health -= amount;
   this.lastDamageTime = this.damageTimer;
+  this.alarmSound.play();
 }
 
 
