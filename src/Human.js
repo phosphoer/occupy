@@ -19,7 +19,7 @@ function Human(parent, type)
   this.maxHits = 1;
   this.blinkSpeed = 15;
   this.shootSound = new Audio("res/shoot.wav");
-  this.shootSound.volume = 0.2;
+  this.shootSound.volume = 0.1;
 
   // Standard drone
   if (type == 0)
