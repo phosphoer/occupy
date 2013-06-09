@@ -1,21 +1,25 @@
+@font-face { font-family: Retro; src: url( 'res/visitor2.ttf'); }
+
 html, body
 {
   -webkit-user-select:none;
   -moz-user-select:none;
   cursor: default;
+  font-family: Retro;
 }
 
 div.Menu
 {
   position: absolute;
-  width: 400px;
-  height: 300px;
+  width: 450px;
+  height: 400px;
   left: 200px;
   top: 10px;
   color: #888;
   background-color: #222;
   border-radius: 5px;
   padding: 10px;
+  font-size: 30px;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -86,7 +90,7 @@ div.MoneyCounter
   right: 20px;
   bottom: 20px;
   color: #888;
-
+  font-size: 26px;
 
   -webkit-user-select:none;
   -moz-user-select:none;
