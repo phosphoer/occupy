@@ -24,7 +24,13 @@ function Engine()
 
 Engine.prototype.start = function()
 {
+  this.running = true;
   engineUpdate();
+}
+
+Engine.prototype.stop = function()
+{
+  this.running = false;
 }
 
 function engineUpdate()
@@ -36,7 +42,8 @@ function engineUpdate()
   JSEngine.lastTime = newTime;
 
   // Get update called again
-  requestAnimFrame(engineUpdate);
+  if (JSEngine.running)
+    requestAnimFrame(engineUpdate);
 
   // Update stuff
   JSEngine.factory.update(dt);

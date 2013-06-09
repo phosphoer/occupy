@@ -69,6 +69,33 @@ Game.prototype.update = function(dt)
   this.updateSpawns(dt);
 }
 
+Game.prototype.restart = function()
+{
+  window.location = window.location;
+}
+
+Game.prototype.lose = function()
+{
+  var fade = $("<div />").appendTo($("body"));
+  fade.css("position", "absolute");
+  fade.css("display", "block");
+  fade.css("left", "0px");
+  fade.css("top", "0px");
+  fade.css("width", "100%");
+  fade.css("height", "100%");
+  fade.css("background-color", "#000");
+  fade.css("opacity", "0");
+
+  fade.animate(
+  {
+    opacity: 1
+  }, 2000, function()
+  {
+    fade.remove();
+    JSEngine.game.restart();
+  });
+}
+
 Game.prototype.waveEnd = function()
 {
   this.inMenu = true;
@@ -149,7 +176,7 @@ Game.prototype.waveEnd = function()
       }
     });
 
-  next.bind('click', function () 
+  next.bind('click', function ()
   {
     closeMenu();
   });
