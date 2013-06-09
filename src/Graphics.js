@@ -51,6 +51,7 @@ function Graphics()
     light.position.set( 0, 80, levelDepth / 2);
     this.scene.add( light );
 
+
     var levelChunk = createLevelChunk(levelWidth, levelDepth, 1);
     for(var i = 0; i < levelWidth; ++i)
     {

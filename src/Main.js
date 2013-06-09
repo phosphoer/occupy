@@ -11,7 +11,7 @@ function main()
   tower.components.collider.width = tower.components.tower.sizeX;
   tower.components.collider.height = tower.components.tower.sizeZ;
 
-
+  /*
   // var ui = $("<div />").appendTo($("body"));
   // ui.text("blah");
   // ui.css("position", "absolute");
@@ -113,6 +113,7 @@ function main()
     plot.setData(series);
     plot.draw();
   }, 40);
+  */
 
   // center tower on ground
   tower.position.set(0, 1, 0);

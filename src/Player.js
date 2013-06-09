@@ -31,6 +31,10 @@ function Player(parent, inputProfile)
 
   this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));
   this.bloodMeter = $("<div class='BloodMeter' />").appendTo(this.bloodMeterContainer);
+
+  var light = new THREE.PointLight(0xFFFFFF, 1, 100);
+  light.position = this.parent.position;
+  JSEngine.graphics.scene.add(light);
 }
 
 Player.prototype.upgradedStuff = function()
