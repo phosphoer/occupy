@@ -96,6 +96,9 @@ Player.prototype.update = function(dt)
   var moveX = 0;
   var moveZ = 0;
 
+  if (JSEngine.game.inMenu)
+    return;
+
   if (JSEngine.input.isKeyDown(this.forwardKey))
   {
     moveZ -= 1;
