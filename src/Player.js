@@ -2,15 +2,14 @@ function Player(parent, inputProfile)
 {
   this.parent = parent;
   this.normalSpeed = 10;
-  this.dashSpeed = 20;
+  this.dashSpeed = this.normalSpeed * 2;
   this.dashTime = 0.3;
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
-  this.bloodLevel = 1;
-  this.bloodLevelMax = 1;
   this.rotationSmoothing = 0.2;
   this.usesMouse = false;
+  this.size = 1;
 
   this.knockBack = new THREE.Vector3();
   this.knockBackSlowdown = 0.7;
@@ -40,16 +39,29 @@ function Player(parent, inputProfile)
   this.light = new THREE.PointLight(0xFFFFFF, 1, 100);
   JSEngine.graphics.scene.add(this.light);
 
-  this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));
-  this.bloodMeter = $("<div class='BloodMeter' />").appendTo(this.bloodMeterContainer);
 
 }
 
-Player.prototype.upgradedStuff = function()
+Player.prototype.upgradeSize = function()
 {
-  this.bloodLevelMax = 1 + JSEngine.game.vampireLevel;
-  this.bloodLevel = this.bloodLevelMax;
+  this.size = 1.5 * this.size;
+  this.parent.position.y = this.size;
+  this.parent.components.cube.mesh.scale.set(this.size, this.size, this.size); 
+  this.parent.components.collider.width = this.size;
+  this.parent.components.collider.height = this.size;  
 }
+
+Player.prototype.upgradeDash = function()
+{
+  this.dashTime *= 1.5;
+}
+
+Player.prototype.upgradeSpeed = function()
+{
+  this.normalSpeed += 2;
+  this.dashSpeed = this.normalSpeed * 2;
+}
+
 
 Player.prototype.onCollide = function(obj)
 {
@@ -70,11 +82,6 @@ Player.prototype.destroy = function()
 
 Player.prototype.update = function(dt)
 {
-  if (!JSEngine.game.inMenu)
-    this.bloodLevel -= dt * 0.05;
-  this.bloodMeterContainer.css("width", 200 + this.bloodLevelMax * 50 + "px");
-  this.bloodMeter.css("width", (this.bloodLevel / this.bloodLevelMax) * 100 + "%");
-
   this.dashTimer -= dt;
   if (this.dashTimer <= 0 && this.isDashing)
   {
@@ -108,7 +115,7 @@ Player.prototype.update = function(dt)
 
   if (this.usesMouse)
   {
-    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_LEFT))
+    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_LEFT) && !JSEngine.game.inMenu)
     {
       moveX = JSEngine.input.mouseWorldPosition.x - this.parent.position.x;
       moveZ = JSEngine.input.mouseWorldPosition.z - this.parent.position.z;

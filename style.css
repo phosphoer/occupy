@@ -1,21 +1,25 @@
+@font-face { font-family: Retro; src: url( 'res/visitor2.ttf'); }
+
 html, body
 {
   -webkit-user-select:none;
   -moz-user-select:none;
   cursor: default;
+  font-family: Retro;
 }
 
 div.Menu
 {
   position: absolute;
-  width: 400px;
-  height: 300px;
+  width: 450px;
+  height: 400px;
   left: 200px;
   top: 10px;
   color: #888;
   background-color: #222;
   border-radius: 5px;
   padding: 10px;
+  font-size: 30px;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -52,6 +56,20 @@ div.Button
   background-color: #333;
   padding: 5px;
   margin: 10px;
+  text-align: center;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.ButtonIcon
+{
+  background-color: #333;
+  padding: 5px;
+  margin: 10px;
+  text-align: center;
+  display: inline-block;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -63,18 +81,30 @@ div.Button:hover
   background-color: #555;
 }
 
+div.ButtonIcon:hover
+{
+  background-color: #555;
+}
+
 div.HealthBarContainer
 {
-  position: absolute;
-  left: 20px;
-  bottom: 20px;
-  background-color: #222;
+  position: relative;
+  
+  bottom: 98%;
+  background-color: #000;
   width: 200px;
   height: 20px;
   padding: 10px;
+  margin: 0 auto;
 }
 
 div.HealthBar
+{
+  background-color: #3D0000;
+  height: 100%;
+}
+
+div.HealthBarInner
 {
   background-color: #922;
   height: 100%;
@@ -83,10 +113,12 @@ div.HealthBar
 div.MoneyCounter
 {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
-  color: #888;
-
+  top: 7%;
+  width: 100%;
+  text-align:center;
+  color: #888;  
+  font-size: 26px;
+  margin: 0 auto;
 
   -webkit-user-select:none;
   -moz-user-select:none;
