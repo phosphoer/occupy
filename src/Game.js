@@ -27,10 +27,10 @@ Game.prototype.waveEnd = function()
   this.inMenu = true;
 
   var ui = $("<div class='Menu' />").appendTo($("body"));
-  ui.text("Upgrade your shit!");
+  ui.append("<div class='MenuTitle'>Upgrade your shit!</div>");
 
-  var upgradeVamp = ui.append("<div class='Button'>Upgrade your vampire</div>");
-  var upgradeTower = ui.append("<div class='Button'>Upgrade your tower</div>");
+  var upgradeVamp = $("<div class='Button'>Upgrade your vampire</div>").appendTo(ui);
+  var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(ui);
 
   var that = this;
   upgradeVamp.bind("click", function()

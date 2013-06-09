@@ -42,12 +42,16 @@ Player.prototype.onCollide = function(obj)
   if (human && this.isDashing)
   {
     obj.sendEvent("killed", Math.atan2(obj.position.z - this.parent.position.z, obj.position.x - this.parent.position.x));
+    this.bloodLevel += 0.1;
+    if (this.bloodLevel > this.bloodLevelMax)
+      this.bloodLevel = this.bloodLevelMax;
   }
 }
 
 Player.prototype.update = function(dt)
 {
-  this.bloodLevel -= dt * 0.05;
+  if (!JSEngine.game.inMenu)
+    this.bloodLevel -= dt * 0.05;
   this.bloodMeterContainer.css("width", 200 + this.bloodLevelMax * 50 + "px");
   this.bloodMeter.css("width", (this.bloodLevel / this.bloodLevelMax) * 100 + "%");
 
@@ -58,8 +62,8 @@ Player.prototype.update = function(dt)
     this.movementSpeed = this.normalSpeed;
   }
 
-  moveX = 0;
-  moveZ = 0;
+  var moveX = 0;
+  var moveZ = 0;
 
   if (JSEngine.input.isDown(this.forwardKey))
   {
