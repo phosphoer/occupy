@@ -353,6 +353,14 @@ Game.prototype.nextWave = function()
 
 
   // SPECIAL WAVES
+  if (this.wave == 3)
+  {
+    typeCount[0] = 5;
+    typeCount[1] = 2;
+    typeCount[2] = 0;
+    typeCount[3] = 0;
+    typeCount[4] = 0;
+  }
   if (this.wave == 5)
   {
     typeCount[0] = 0;
@@ -361,13 +369,29 @@ Game.prototype.nextWave = function()
     typeCount[3] = 0;
     typeCount[4] = 0;
   }
-  if (this.wave == 10)
+  if (this.wave == 7)
   {
-    typeCount[0] = 0;
+    typeCount[0] = 3;
     typeCount[1] = 2;
     typeCount[2] = 20;
     typeCount[3] = 0;
     typeCount[4] = 0;
+  }
+  if (this.wave == 8)
+  {
+    typeCount[0] = 3;
+    typeCount[1] = 2;
+    typeCount[2] = 10;
+    typeCount[3] = 3;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 10)
+  {
+    typeCount[0] = 8;
+    typeCount[1] = 3;
+    typeCount[2] = 5;
+    typeCount[3] = 7;
+    typeCount[4] = 5;
   }
   if (this.wave == 15)
   {
