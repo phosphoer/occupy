@@ -29,11 +29,33 @@ function main()
   }
   var skyGeometry = new THREE.CubeGeometry(100, 100, 100);
 
-  var material = new THREE.MeshFaceMaterial(materials);
+
+  skyGeometry.faces[0].vertexColors[0] = new THREE.Color(0x111199);
+  skyGeometry.faces[0].vertexColors[1] = new THREE.Color(0);
+  skyGeometry.faces[0].vertexColors[2] = new THREE.Color(0);
+  skyGeometry.faces[0].vertexColors[3] = new THREE.Color(0x111199);
+
+  skyGeometry.faces[1].vertexColors[0] = new THREE.Color(0x111199);
+  skyGeometry.faces[1].vertexColors[1] = new THREE.Color(0);
+  skyGeometry.faces[1].vertexColors[2] = new THREE.Color(0);
+  skyGeometry.faces[1].vertexColors[3] = new THREE.Color(0x111199);
+
+  skyGeometry.faces[3].vertexColors[0] = new THREE.Color(0);
+  skyGeometry.faces[3].vertexColors[1] = new THREE.Color(0);
+  skyGeometry.faces[3].vertexColors[2] = new THREE.Color(0);
+  skyGeometry.faces[3].vertexColors[3] = new THREE.Color(0);  
+
+  skyGeometry.faces[5].vertexColors[0] = new THREE.Color(0x111199);
+  skyGeometry.faces[5].vertexColors[1] = new THREE.Color(0);
+  skyGeometry.faces[5].vertexColors[2] = new THREE.Color(0);
+  skyGeometry.faces[5].vertexColors[3] = new THREE.Color(0x111199);   
+
+  var material = new THREE.MeshLambertMaterial({side: THREE.BackSide, vertexColors: THREE.VertexColors});
+  console.log(skyGeometry.faces);
 
   var skybox = new THREE.Mesh(skyGeometry, material);
   skybox.position.y = -10;
-  //JSEngine.graphics.scene.add(skybox);
+  JSEngine.graphics.scene.add(skybox);
 
   e.start();
 }
