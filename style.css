@@ -69,16 +69,23 @@ div.Button:hover
 
 div.HealthBarContainer
 {
-  position: absolute;
-  left: 20px;
-  bottom: 20px;
-  background-color: #222;
+  position: relative;
+  
+  bottom: 98%;
+  background-color: #000;
   width: 200px;
   height: 20px;
   padding: 10px;
+  margin: 0 auto;
 }
 
 div.HealthBar
+{
+  background-color: #3D0000;
+  height: 100%;
+}
+
+div.HealthBarInner
 {
   background-color: #922;
   height: 100%;

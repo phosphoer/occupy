@@ -29,7 +29,8 @@ function Tower(parent)
   this.lastDt = 0;
 
   this.healthBarContainer = $("<div class='HealthBarContainer' />").appendTo($("body"));
-  this.healthBar = $("<div class='HealthBar' />").appendTo(this.healthBarContainer);  
+  this.healthBar = $("<div class='HealthBar' />").appendTo(this.healthBarContainer); 
+  this.healthBarInner = $("<div class='HealthBarInner' />").appendTo(this.healthBar);  
 
 }
 
@@ -39,7 +40,8 @@ Tower.prototype.update = function(dt)
     this.lastDt = dt;
 
     this.healthBarContainer.css("width", 200 + 5 * 50 + "px");
-    this.healthBar.css("width", (this.health / this.maxHealth) * 100 + "%");    
+    this.healthBar.css("width", 100 + "%"); 
+    this.healthBarInner.css("width", (this.health / this.maxHealth) * 100 + "%");   
 }
 
 Tower.prototype.onCollide = function(other)
