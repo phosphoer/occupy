@@ -50,6 +50,7 @@ function createBloodSpray(amount, pos, angle)
     obj.components.collider = new Collider(obj);
     obj.components.collider.isSolid = false;
     obj.components.collider.frictionOnGround = true;
+    obj.components.collider.collidesWithOthers = false;
     var scale = Math.random() * 0.3 + 0.2;
     obj.components.cube.mesh.scale.set(scale, scale, scale);
     obj.position.x = pos.x;

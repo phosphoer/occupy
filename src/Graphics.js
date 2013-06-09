@@ -2,11 +2,6 @@
 var renderer;
 var levelCubes;
 
-function Material(config)
-{
-    this.color = config.color || 0xFFFFFF;
-};
-
 function createLevelChunk(xWidth, zWidth, height)
 {
     var level = [];
@@ -17,11 +12,11 @@ function createLevelChunk(xWidth, zWidth, height)
             var material;
             if(Math.random() < 0.5)
             {
-                material = new Material({ color: 0x22aa22 });
+                material = 0x22aa22;
             }
             else
             {
-                material = new Material({ color: 0x559933 });
+                material = 0x559933;
             }
             level.push(material);
         }
@@ -30,45 +25,6 @@ function createLevelChunk(xWidth, zWidth, height)
     return level;
 }
 
-/*
-function buildGeometryFromChunk(chunk, sizeX, sizeY, sizeZ)
-{
-    var geometry = new THREE.BufferGeometry;
-
-    for(var i = 0; i < sizeX; ++i)
-    {
-        for (var j = 0; j < sizeY; ++j)
-        {
-            for (var k = 0; k < sizeZ; ++k)
-            {
-                var index = i * sizeY * sizeZ + j * sizeZ + k;
-                var block = chunk[index];
-                if(block != null)
-                {
-                    var n = geometry.vertices.length;
-                    geometry.vertices.push(new THREE.Vector3(i, j, k));
-                    geometry.vertices.push(new THREE.Vector3(i + 1, j, k));
-                    geometry.vertices.push(new THREE.Vector3(i + 1, j, k + 1));
-                    geometry.vertices.push(new THREE.Vector3(i, j, k + 1));
-                    geometry.vertices.push(new THREE.Vector3(i, j + 1, k));
-                    geometry.vertices.push(new THREE.Vector3(i + 1, j + 1, k));
-                    geometry.vertices.push(new THREE.Vector3(i + 1, j + 1, k + 1));
-                    geometry.vertices.push(new THREE.Vector3(i, j + 1, k + 1));
-
-                    var normal = new THREE.Vector3(0, -1, 0);
-                    var color = new THREE.Vector3(0xFF0000);
-                    geometry.faces.push(new THREE.Face4(n + 0, n + 1, n + 2, n + 3),
-                                        normal, color);
-                }
-            }
-        }
-    }
-
-    geometry.verticesNeedsUpdate = true;
-    geometry.elementsNeedsUpdate = true;
-    return geometry;
-}
-*/
 
 function Graphics()
 {
@@ -103,16 +59,16 @@ function Graphics()
             var block = levelChunk[i * levelDepth + j];
             if(block != null)
             {
-                var material = new THREE.MeshLambertMaterial( { color: block.color} );
+                var material = new THREE.MeshLambertMaterial( { color: block} );
                 var cube = new THREE.Mesh( this.UnitCube, material );
                 cube.position = new THREE.Vector3(i, 0, j);
-                base.add(cube);
+                //base.add(cube);
             }
         }
     }
 
-    //var geo = buildGeometryFromChunk(levelChunk);
-    //base.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({color:0xFFFFFF})));
+    var geo = buildGeometryFromChunk(levelChunk, levelWidth, 1, levelDepth);
+    base.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({vertexColors:true})));
 }
 
 Graphics.prototype.update = function(dt)

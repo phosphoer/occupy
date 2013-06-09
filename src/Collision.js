@@ -6,19 +6,24 @@ function Collider(parent)
   this.isSolid = true;
   this.stopOnGround = true;
   this.frictionOnGround = false;
+  this.collidesWithOthers = true;
 }
 
 Collider.prototype.update = function(dt)
 {
   var obj;
   var c;
-  for (var i in JSEngine.factory.objects)
-  {
-    obj = JSEngine.factory.objects[i];
-    if (!obj.components.collider || obj === this.parent)
-      continue;
 
-    this.collide(obj.components.collider);
+  if (this.collidesWithOthers)
+  {
+    for (var i in JSEngine.factory.objects)
+    {
+      obj = JSEngine.factory.objects[i];
+      if (!obj.components.collider || obj === this.parent)
+        continue;
+
+      this.collide(obj.components.collider);
+    }
   }
 
   var pos = this.parent.position;

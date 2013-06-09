@@ -7,8 +7,9 @@ div.Menu
   top: 10px;
   color: #888;
   background-color: #222;
-  border-radius: 5px;
-  padding: 10px;
+<<<<<<< HEAD
+}
+
 .graph
 {
   width: 500px;
@@ -17,6 +18,9 @@ div.Menu
   margin: 15px auto 30px auto;
   background: rgba(0, 0, 0, 0);
 }
+=======
+  border-radius: 5px;
+  padding: 10px;
 }
 
 div.Button
@@ -30,3 +34,4 @@ div.Button:hover
 {
   background-color: #555;
 }
+>>>>>>> a68aa7b4d4acf64de88ae727e2b5a15f56b6fe0f
