@@ -157,11 +157,11 @@ div.ButtonIcon:active
 
 div.HealthBarContainer
 {
-  position: relative;
-  
-  bottom: 98%;
+  position: absolute;
+  left: 25%;
+  top: 10px;
   background-color: #000;
-  width: 200px;
+  width: 50%;
   height: 20px;
   padding: 10px;
   margin: 0 auto;
@@ -182,10 +182,10 @@ div.HealthBarInner
 div.MoneyCounter
 {
   position: absolute;
-  top: 7%;
+  top: 60px;
   width: 100%;
   text-align:center;
-  color: #888;  
+  color: #888;
   font-size: 26px;
   margin: 0 auto;
 
