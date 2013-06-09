@@ -10,6 +10,15 @@ function Velocity(parent, vel, omega, target)
   this.target = target;
 }
 
+Velocity.prototype.onCollide = function(obj)
+{
+  if (obj.components.player)
+  {
+    this.parent.destroy();
+    JSEngine.game.money += 1;
+  }
+}
+
 Velocity.prototype.update = function(dt)
 {
   if(this.parent.components.lifetime.life <= 0)

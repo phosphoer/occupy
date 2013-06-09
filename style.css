@@ -13,7 +13,7 @@ div.Menu
   position: absolute;
   width: 460px;
   height: 250px;
-  left: 300px;
+  left: 200px;
   top: 500px;
   color: #888;
   background-color: #222;
@@ -31,7 +31,7 @@ div.WaveMenu
   position: absolute;
   width: 460px;
   height: 250px;
-  left: 300px;
+  left: 200px;
   top: 160px;
   color: #888;
   background-color: #222;
@@ -50,7 +50,7 @@ div.StockMenu
   position: absolute;
   width: 460px;
   height: 380px;
-  right: 300px;
+  left: 800px;
   top: 250px;
   color: #888;
   background-color: #222;
@@ -86,7 +86,7 @@ div.WaveTimer
   font-size: 88px;
   padding: 15px;
   margin: 25px;
-  background-color: #3D0000;
+  background-color: #511;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -95,7 +95,7 @@ div.WaveTimer
 
 div.WaveTimer:hover
 {
-  background-color: #555;
+  background-color: #722;
 }
 
 .graph
@@ -104,7 +104,7 @@ div.WaveTimer:hover
   height: 200px;
   background: rgba(0, 0, 0, 0);
   position: absolute;
-  right: 300px;
+  left: 800px;
   top: 480px;
   opacity: 0.9;
   z-index: 2;
