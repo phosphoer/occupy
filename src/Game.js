@@ -7,8 +7,8 @@ function Game()
   this.numStocks = 0;
   this.stockPrice = 0;
   this.money = 1000;
-  this.menuTime = 800;
-  this.menuTimer = 8;
+  this.menuTime = 8;
+  this.menuTimer = 0;
   this.hasAccepted = false;
 
   this.increaseSpeedPrice = 2500;
