@@ -15,8 +15,23 @@ function Game()
   this.upgradeSound = new Audio("res/powerup.wav");
   this.buySound = new Audio("res/buy.wav");
   this.sellSound = new Audio("res/sell.wav");
+  this.stockMusic = new Audio("res/TheStockMarket.mp3");
+  this.gameMusic = new Audio("res/TheBloodMarket.mp3");
   this.buySound.volume = 0.2;
   this.sellSound.volume = 0.2;
+  this.gameMusic.volume = 0.5;
+  this.stockMusic.volume = 0.5;
+
+  this.stockMusic.addEventListener("ended", function()
+  {
+    this.currentTime = 0;
+    this.play();
+  }, false);
+  this.gameMusic.addEventListener("ended", function()
+  {
+    this.currentTime = 0;
+    this.play();
+  }, false);
 
   this.waveEnemyTypes = [];
 
@@ -73,6 +88,9 @@ function Game()
     {
       fade.remove();
     });    
+
+    that.gameMusic.play();
+
   });
 
 }
@@ -144,6 +162,8 @@ Game.prototype.update = function(dt)
     this.inMenu = false;
     this.menuUIContainer.remove();
     JSEngine.stocks.hide();
+    this.stockMusic.pause();
+    this.gameMusic.play();
     this.nextWave();
   }
 
@@ -181,6 +201,8 @@ Game.prototype.lose = function()
 
 Game.prototype.waveEnd = function()
 {
+  this.gameMusic.pause();
+  this.stockMusic.play();
   this.inMenu = true;
   this.menuTimer = 0;
   JSEngine.stocks.show();
@@ -229,6 +251,8 @@ Game.prototype.waveEnd = function()
     that.menuUIContainer.remove();
     that.nextWave();
     JSEngine.stocks.hide();
+    that.stockMusic.pause();
+    that.gameMusic.play();
   }
 
   upgradeSpeed.bind("click", function()
