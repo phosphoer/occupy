@@ -12,6 +12,11 @@ function Game()
   this.menuTimer = 0;
   this.hasAccepted = false;
   this.wave = 0;
+  this.upgradeSound = new Audio("res/powerup.wav");
+  this.buySound = new Audio("res/buy.wav");
+  this.sellSound = new Audio("res/sell.wav");
+  this.buySound.volume = 0.2;
+  this.sellSound.volume = 0.2;
 
   this.waveEnemyTypes = [];
 
@@ -216,6 +221,7 @@ Game.prototype.waveEnd = function()
         JSEngine.factory.sendEventToAll("upgradeSpeed");
         that.increaseSpeedPrice = Math.round(that.increaseSpeedPrice * 1.5);
         $("#buySpeedPrice").text(that.increaseSpeedPrice + " pints");
+        that.upgradeSound.play();
       }
     });
   upgradeSize.bind("click", function()
@@ -226,6 +232,7 @@ Game.prototype.waveEnd = function()
         that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
         JSEngine.factory.sendEventToAll("upgradeSize");
         $("#buySizePrice").text(that.increaseSizePrice + " pints");
+        that.upgradeSound.play();
       }
     });
   upgradeDash.bind("click", function()
@@ -236,6 +243,7 @@ Game.prototype.waveEnd = function()
         JSEngine.factory.sendEventToAll("upgradeDash");
         that.increaseDashPrice = Math.round(that.increaseDashPrice * 1.5);
         $("#buyDashPrice").text(that.increaseDashPrice + " pints");
+        that.upgradeSound.play();
       }
     });
 
@@ -247,10 +255,12 @@ Game.prototype.waveEnd = function()
   buy.bind("click", function()
     {
       that.buyStocks();
+      that.buySound.play();
     });
   sell.bind("click", function()
     {
       that.sellStocks();
+      that.sellSound.play();
     });
 }
 
