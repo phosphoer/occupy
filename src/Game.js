@@ -166,6 +166,28 @@ Game.prototype.update = function(dt)
       $("#buyDash").addClass("ButtonIcon");
       $("#buyDash").removeClass("ButtonIconDisabled");
     }
+
+    if (this.money < this.stockPrice && $("#buyStocks").hasClass("ButtonIcon"))
+    {
+      $("#buyStocks").removeClass("ButtonIcon");
+      $("#buyStocks").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.stockPrice )
+    {
+      $("#buyStocks").addClass("ButtonIcon");
+      $("#buyStocks").removeClass("ButtonIconDisabled");
+    }   
+
+    if (this.numStocks <= 0 && $("#sellStocks").hasClass("ButtonIcon"))
+    {
+      $("#sellStocks").removeClass("ButtonIcon");
+      $("#sellStocks").addClass("ButtonIconDisabled");
+    }
+    else if (this.numStocks > 0)
+    {
+      $("#sellStocks").addClass("ButtonIcon");
+      $("#sellStocks").removeClass("ButtonIconDisabled");
+    }      
   }
 
   // Look for end of wave
@@ -246,11 +268,11 @@ Game.prototype.waveEnd = function()
 
   var next = $("<div class='WaveTimer'>Next Wave <span id='waveTimer'></span></div>").appendTo(this.waveCompleteMenu);
 
-  var buy = $("<div class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
+  var buy = $("<div id='buyStocks' class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
   buy.append("<div>Buy</div>");
   buy.append("<img width='100px' height='100px' src='res/icons/buy.png' />");
 
-  var sell = $("<div class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
+  var sell = $("<div id='sellStocks' class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
   sell.append("<div>Sell</div>");
   sell.append("<img width='100px' height='100px' src='res/icons/sell.png' />");
 
