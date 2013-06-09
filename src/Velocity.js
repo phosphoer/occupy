@@ -24,6 +24,13 @@ Velocity.prototype.update = function(dt)
 
     if(len < 5 || JSEngine.game.inMenu)
     {
+        toTargetForce = 0.5;
+
+        if (JSEngine.game.inMenu)
+        {
+          toTargetForce = 1.5;
+        }
+
         if(len != 0)
         {
             dir.x /= len;
@@ -38,9 +45,9 @@ Velocity.prototype.update = function(dt)
         }
         else
         {
-            this.x += .5 * dir.x;
-            this.y += .5 * dir.y;
-            this.z += .5 * dir.z;
+            this.x += toTargetForce * dir.x;
+            this.y += toTargetForce * dir.y;
+            this.z += toTargetForce * dir.z;
         }
     }
   }
