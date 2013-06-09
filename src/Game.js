@@ -22,9 +22,9 @@ function Game()
   this.spawnsPerCheck = 3;
   this.spawnCap = 10 + this.difficulty * 0.1;
 
-  this.increaseSpeedPrice = 2500;
-  this.increaseSizePrice = 2500;
-  this.increaseDashPrice = 2500;
+  this.increaseSpeedPrice = 500;
+  this.increaseSizePrice = 1000;
+  this.increaseDashPrice = 600;
 
   $("<div id='topHudContainer' />").appendTo($("body"));
   this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("#topHudContainer"));
@@ -111,7 +111,6 @@ Game.prototype.waveEnd = function()
   upgradeDash.append("<img width='100px' height='100px' src='res/icons/dash.png' />");
   upgradeDash.append("<div>" + this.increaseDashPrice + " pints</div>");
 
-
   var that = this;
   function closeMenu()
   {
@@ -130,7 +129,6 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseSpeedPrice;
         JSEngine.factory.sendEventToAll("upgradeSpeed");
         that.increaseSpeedPrice = Math.round(that.increaseSpeedPrice * 1.5);
-        closeMenu();
       }
     });
   upgradeSize.bind("click", function()
@@ -140,7 +138,6 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseSizePrice;
         that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
         JSEngine.factory.sendEventToAll("upgradeSize");
-        closeMenu();
       }
     });
   upgradeDash.bind("click", function()
@@ -150,7 +147,6 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseDashPrice;
         JSEngine.factory.sendEventToAll("upgradeDash");
         that.increaseDashPrice = Math.round(that.increaseDashPrice * 1.5);
-        closeMenu();
       }
     });
 
