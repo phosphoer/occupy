@@ -26,7 +26,6 @@ function createLevelChunk(xWidth, zWidth, height)
 }
 
 
-
 function Graphics()
 {
     this.scene = new THREE.Scene();
