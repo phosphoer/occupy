@@ -1,3 +1,10 @@
+html, body
+{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
 div.Menu
 {
   position: absolute;
@@ -79,4 +86,9 @@ div.MoneyCounter
   right: 20px;
   bottom: 20px;
   color: #888;
+
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
