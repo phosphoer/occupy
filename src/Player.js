@@ -93,6 +93,17 @@ Player.prototype.update = function(dt)
     this.parent.components.cube.trailLength = 0;
   }
 
+  if(this.isDashing == false)
+  {
+    this.parent.components.cube.minRotation = 0;
+    this.parent.components.cube.maxRotation = 0;
+  }
+  else
+  {
+    this.parent.components.cube.minRotation = -.6;
+    this.parent.components.cube.maxRotation = -.6;   
+  }
+
   var moveX = 0;
   var moveZ = 0;
 
