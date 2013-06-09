@@ -86,7 +86,7 @@ div.WaveTimer
   font-size: 88px;
   padding: 15px;
   margin: 25px;
-  background-color: #3D0000;
+  background-color: #511;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -95,7 +95,7 @@ div.WaveTimer
 
 div.WaveTimer:hover
 {
-  background-color: #555;
+  background-color: #722;
 }
 
 .graph
