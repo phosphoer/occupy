@@ -38,6 +38,7 @@ function Stocks()
   series = [
     {
       data: getRandomData(),
+      color: "rgb(200, 50, 50)",
       lines:
       {
         fill: true
@@ -62,18 +63,6 @@ function Stocks()
       {
         var markings = [];
         var xaxis = axes.xaxis;
-        for (var x = Math.floor(xaxis.min); x < xaxis.max; x += xaxis.tickSize * 2)
-        {
-          markings.push(
-          {
-            xaxis:
-            {
-              from: x,
-              to: x + xaxis.tickSize
-            },
-            color: "rgba(232, 232, 255, 0.0)"
-          });
-        }
         return markings;
       }
     },
@@ -87,11 +76,12 @@ function Stocks()
     yaxis:
     {
       min: 0,
-      max: 110
+      max: 110,
+      show: false
     },
     legend:
     {
-      show: true
+      show: false
     }
   });
 
