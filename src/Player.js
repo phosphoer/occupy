@@ -2,7 +2,7 @@ function Player(parent, inputProfile)
 {
   this.parent = parent;
   this.normalSpeed = 10;
-  this.dashSpeed = 20;
+  this.dashSpeed = this.normalSpeed * 2;
   this.dashTime = 0.3;
   this.dashTimer = 0;
   this.isDashing = false;
@@ -45,6 +45,18 @@ Player.prototype.upgradeSize = function()
   this.parent.components.collider.width = this.size;
   this.parent.components.collider.height = this.size;  
 }
+
+Player.prototype.upgradeDash = function()
+{
+  this.dashTime *= 1.5;
+}
+
+Player.prototype.upgradeSpeed = function()
+{
+  this.normalSpeed += 2;
+  this.dashSpeed = this.normalSpeed * 2;
+}
+
 
 Player.prototype.onCollide = function(obj)
 {
