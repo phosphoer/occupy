@@ -43,7 +43,7 @@ function createHuman(type)
 function createEnemyProjectile(pos, vel, damage)
 {
   var obj = JSEngine.factory.createObject();
-  obj.components.cube = new Cube(obj, { emissive:0x220000, color:0xFF0000 });
+  obj.components.cube = new Cube(obj, { emissive:0x111111, color:0xFFFFFF });
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.components.projectile = new Projectile(obj, vel);
@@ -55,7 +55,7 @@ function createEnemyProjectile(pos, vel, damage)
   obj.position.z = pos.z;
 }
 
-function createBloodSpray(amount, pos, angle)
+function createBloodSpray(amount, pos, angle, extraScale)
 {
   var player;
   for(var i in JSEngine.game.players)
@@ -84,7 +84,7 @@ function createBloodSpray(amount, pos, angle)
     obj.components.collider.isSolid = false;
     obj.components.collider.frictionOnGround = true;
     obj.components.collider.collidesWithOthers = false;
-    var scale = Math.random() * 0.3 + 0.2;
+    var scale = Math.random() * 0.3 * extraScale + 0.2;
     obj.components.cube.mesh.scale.set(scale, scale, scale);
     obj.position.x = pos.x;
     obj.position.y = pos.y || 1;

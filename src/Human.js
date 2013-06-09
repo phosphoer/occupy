@@ -7,6 +7,7 @@ function Human(parent, type)
   this.rotateSpeed = 5 + Math.random() * 10;
   this.rotateSpeed *= Math.random() > 0.5 ? 1 : -1;
   this.timeAlive = 0;
+  this.lastHitTime = -10000;
   this.lastTargetAngle = 0;
   this.refireTime = 0;
   this.refireTimer = 0;
@@ -14,11 +15,13 @@ function Human(parent, type)
   this.wormTime = 0;
   this.wormTimer = 0;
   this.wormDirectionIndex = 0;
+  this.bloodScale = 1;
+  this.maxHits = 1;
+  this.blinkSpeed = 15;
 
   // Standard drone
   if (type == 0)
   {
-    this.blood = 20;
     this.damage = 5;
     this.movementSpeed = 3;
     this.parent.components.cube.material.color.setHex(0xCC6600);
@@ -28,7 +31,8 @@ function Human(parent, type)
   // Big drone
   else if (type == 1)
   {
-    this.blood = 100;
+    this.maxHits = 20;
+    this.bloodScale = 3;
     this.damage = 50.0;
     this.movementSpeed = 1.5;
     this.parent.scale.set(3, 3, 3);
@@ -42,7 +46,6 @@ function Human(parent, type)
     this.refireTime = 2;
     this.projectileSpeed = 10;
     this.minTargetRange = 15;
-    this.blood = 25;
     this.damage = 1.5;
     this.movementSpeed = 4;
     this.parent.scale.set(0.6, 2.2, 0.6);
@@ -56,7 +59,6 @@ function Human(parent, type)
     this.wormTime = 1;
     this.refireTime = 0.2;
     this.projectileSpeed = 20;
-    this.blood = 25;
     this.damage = 0.5;
     this.movementSpeed = 10 + Math.random() * 2;
     this.parent.scale.set(0.6, 2.2, 0.6);
@@ -68,24 +70,32 @@ function Human(parent, type)
   else if (type == 4)
   {
     this.bouncer = true;
-    this.blood = 10;
     this.damage = 1;
+    this.bloodScale = 0.5;
     this.movementSpeed = 3 + Math.random() * 8;
     this.parent.scale.set(0.5, 0.5, 0.5);
     this.parent.components.cube.material.color.setHex(0x4F4444);
     this.parent.components.cube.material.emissive.setHex(0x090202);
     this.target = pickRandomValue(JSEngine.game.players).parent;
   }
+
+  this.originalColor = this.parent.components.cube.material.color.getHex();
 }
 
 Human.prototype.killed = function(angle)
 {
-  createBloodSpray(this.blood, this.parent.position, angle);
-  this.parent.destroy();
+  --this.maxHits;
+  this.lastHitTime = this.timeAlive;
 
-  if (!this.dead)
-    --JSEngine.game.humanCount;
-  this.dead = true;
+  if (this.maxHits <= 0)
+  {
+    createBloodSpray(20, this.parent.position, angle, this.bloodScale);
+    this.parent.destroy();
+
+    if (!this.dead)
+      --JSEngine.game.humanCount;
+    this.dead = true;
+  }
 }
 
 Human.prototype.onCollide = function(obj)
@@ -101,6 +111,24 @@ Human.prototype.onCollide = function(obj)
 Human.prototype.update = function(dt)
 {
   this.timeAlive += dt;
+
+  var materialColor = this.parent.components.cube.material.color;
+
+  if (this.timeAlive - this.lastHitTime < 0.5)
+  {
+    if (Math.floor(this.timeAlive * this.blinkSpeed) % 2 == 0)
+    {
+      materialColor.setHex(0xFF0000);
+    }
+    else
+    {
+      materialColor.setHex(this.originalColor);
+    }
+  }
+  else
+  {
+    materialColor.setHex(this.originalColor);
+  }
 
   if(this.hittingTower)
   {

@@ -44,7 +44,7 @@ function Player(parent, inputProfile)
 
 Player.prototype.upgradeSize = function()
 {
-  this.size = 1.5 * this.size;
+  this.size *= 1.3;
   this.parent.position.y = this.size;
   this.parent.components.cube.mesh.scale.set(this.size, this.size, this.size); 
   this.parent.components.collider.width = this.size;

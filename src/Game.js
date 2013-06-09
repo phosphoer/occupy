@@ -1,6 +1,5 @@
 function Game()
 {
-  this.nextWaveCount = 3;
   this.humanCount = 0;
   this.players = {};
   this.firstRun = true;
@@ -21,6 +20,7 @@ function Game()
   this.spawnTimer = 0;
   this.spawnsPerCheck = 3;
   this.spawnCap = 10 + this.difficulty * 0.1;
+  this.nextWaveCount = 2.5 + this.difficulty * 0.1;
 
   this.increaseSpeedPrice = 500;
   this.increaseSizePrice = 1000;
@@ -87,6 +87,11 @@ Game.prototype.update = function(dt)
       this.waveEnd();
     else
       this.nextWave();
+  }
+
+  if (this.inMenu)
+  {
+    this.tower.components.tower.health = this.tower.components.tower.health * 0.95 + this.tower.components.tower.maxHealth * 0.05;
   }
 
   if (this.menuTimer >= this.menuTime && this.inMenu)
@@ -273,6 +278,8 @@ Game.prototype.nextWave = function()
 {
   ++this.wave;
 
+  this.tower.components.tower.health = this.tower.components.tower.maxHealth;
+
   JSEngine.game.humanCount = 0;
 
   if (Math.random() < 0.5)
@@ -284,25 +291,75 @@ Game.prototype.nextWave = function()
 
   typeCount[0] = Math.min(this.nextWaveCount, this.spawnCap);
 
-  if (this.wave >= 3)
+  if (this.wave >= 2)
   {
-    typeCount[1] = Math.min(this.nextWaveCount * 0.1 - 1, this.spawnCap);
+    typeCount[1] = Math.min(this.nextWaveCount * 0.4 - 1, this.spawnCap);
   }
 
   if (this.wave >= 6)
   {
-    typeCount[2] = Math.min(this.nextWaveCount * 0.1 - 5, this.spawnCap10);
-  }
+    var cap = this.spawnCap;
 
-  if (this.wave >= 10)
-  {
-    typeCount[3] = Math.min(this.nextWaveCount * 0.2 - 8, this.spawnCap);
+    if (this.wave >= 12)
+    {
+      cap *= 0.6;
+    }
+    typeCount[2] = Math.min(this.nextWaveCount * 0.15 - 4, this.spawnCap);
   }
 
   if (this.wave >= 14)
   {
+    typeCount[3] = Math.min(this.nextWaveCount * 0.2 - 8, this.spawnCap);
+  }
+
+  if (this.wave >= 18)
+  {
     typeCount[4] = Math.min(this.nextWaveCount * 0.05 - 20, this.spawnCap * 0.3);
   }
+
+
+  // SPECIAL WAVES
+  if (this.wave == 5)
+  {
+    typeCount[0] = 0;
+    typeCount[1] = 10;
+    typeCount[2] = 0;
+    typeCount[3] = 0;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 10)
+  {
+    typeCount[0] = 0;
+    typeCount[1] = 2;
+    typeCount[2] = 20;
+    typeCount[3] = 0;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 15)
+  {
+    typeCount[0] = 6;
+    typeCount[1] = 0;
+    typeCount[2] = 0;
+    typeCount[3] = 12;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 20)
+  {
+    typeCount[0] = 6;
+    typeCount[1] = 6;
+    typeCount[2] = 6;
+    typeCount[3] = 6;
+    typeCount[4] = 6;
+  }
+  if (this.wave == 30)
+  {
+    typeCount[0] = 12;
+    typeCount[1] = 12;
+    typeCount[2] = 12;
+    typeCount[3] = 12;
+    typeCount[4] = 12;
+  }
+
 
   // Loop through enemy types
   for(var j = 0; j <= 4; ++j)
