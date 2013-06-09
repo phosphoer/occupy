@@ -103,7 +103,7 @@ Player.prototype.update = function(dt)
 
   if (this.usesMouse)
   {
-    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_LEFT))
+    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_LEFT) && !JSEngine.game.inMenu)
     {
       moveX = JSEngine.input.mouseWorldPosition.x - this.parent.position.x;
       moveZ = JSEngine.input.mouseWorldPosition.z - this.parent.position.z;

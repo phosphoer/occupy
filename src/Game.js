@@ -11,9 +11,9 @@ function Game()
   this.menuTimer = 0;
   this.hasAccepted = false;
 
-  this.increaseSpeedPrice = 5000;
-  this.increaseSizePrice = 10000;
-  this.increaseDashPrice = 20000;
+  this.increaseSpeedPrice = 2500;
+  this.increaseSizePrice = 2500;
+  this.increaseDashPrice = 2500;
 
   this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("body"));
   this.moneyCountUI = $("<div />").appendTo(this.moneyDisplay);
@@ -77,6 +77,7 @@ Game.prototype.waveEnd = function()
       if (that.money >= that.increaseSpeedPrice)
       {
         that.money -= that.increaseSpeedPrice;
+        that.increaseSpeedPrice = Math.round(that.increaseSpeedPrice * 1.5);
         closeMenu();
       }
     });
@@ -85,6 +86,7 @@ Game.prototype.waveEnd = function()
       if (that.money >= that.increaseSizePrice)
       {
         that.money -= that.increaseSizePrice;
+        that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
         closeMenu();
       }
     });
@@ -93,6 +95,7 @@ Game.prototype.waveEnd = function()
       if (that.money >= that.increaseDashPrice)
       {
         that.money -= that.increaseDashPrice;
+        that.increaseDashPrice = Math.round(that.increaseDashPrice * 1.5);
         closeMenu();
       }
     });
