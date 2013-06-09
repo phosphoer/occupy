@@ -59,9 +59,7 @@ Game.prototype.update = function(dt)
   if (this.menuTimer >= this.menuTime && this.inMenu)
   {
     this.inMenu = false;
-    this.menuUI.remove();
-    this.stockMenu.remove();
-    this.waveCompleteMenu.remove();
+    this.menuUIContainer.remove();
     JSEngine.stocks.hide();
     this.nextWave();
   }
@@ -77,13 +75,16 @@ Game.prototype.waveEnd = function()
   this.menuTimer = 0;
   JSEngine.stocks.show();
 
-  this.menuUI = $("<div class='Menu' />").appendTo($("body"));
+
+  this.menuUIContainer = $("<div class='MenuContainer' />").appendTo($("body"));
+
+  this.menuUI = $("<div class='Menu' />").appendTo(this.menuUIContainer);
   this.menuUI.append("<div class='MenuTitle'>Upgrades</div>");
 
-  this.stockMenu = $("<div class='StockMenu' />").appendTo($("body"));
+  this.stockMenu = $("<div class='StockMenu' />").appendTo(this.menuUIContainer);
   this.stockMenu.append("<div class='MenuTitle'>Stock Market</div>");
 
-  this.waveCompleteMenu = $("<div class='WaveMenu' />").appendTo($("body"));
+  this.waveCompleteMenu = $("<div class='WaveMenu' />").appendTo(this.menuUIContainer);
   this.waveCompleteMenu.append("<div class='MenuTitle'>Wave " + JSEngine.game.wave + " Complete</div>");
 
   var next = $("<div class='WaveTimer'>Next Wave <span id='waveTimer'></span></div>").appendTo(this.waveCompleteMenu);
@@ -115,9 +116,7 @@ Game.prototype.waveEnd = function()
   function closeMenu()
   {
     that.inMenu = false;
-    that.menuUI.remove();
-    that.stockMenu.remove();
-    that.waveCompleteMenu.remove();
+    that.menuUIContainer.remove();
     that.nextWave();
     JSEngine.stocks.hide();
   }
