@@ -7,6 +7,7 @@ function Cube(parent, config)
   var cubeColor = config.color || 0xFFFFFF;
   var cubeEmissive = config.emissive || 0x000000;
   this.color = cubeColor;
+  this.emissive = cubeEmissive;
 
   this.parent = parent;
 
@@ -45,7 +46,7 @@ Cube.prototype.update = function(dt)
 {
   if (this.trailLength > 0)
   {
-    var trailMaterial = new THREE.MeshLambertMaterial( { color: this.color, transparent: true, opacity: 0.5 } );
+    var trailMaterial = new THREE.MeshLambertMaterial( { emissive: this.emissive, color: this.color, transparent: true, opacity: 0.5 } );
     var trailMesh = new THREE.Mesh(CUBE_GEOMETRY, trailMaterial);
 
     trailMesh.position.set(this.parent.position.x, this.parent.position.y, this.parent.position.z);

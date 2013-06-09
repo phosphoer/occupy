@@ -3,7 +3,7 @@ function Player(parent, inputProfile)
   this.parent = parent;
   this.normalSpeed = 10;
   this.dashSpeed = 20;
-  this.dashTime = 0.2;
+  this.dashTime = 0.3;
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
@@ -103,7 +103,7 @@ Player.prototype.update = function(dt)
 
   if (this.usesMouse)
   {
-    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_MIDDLE))
+    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_LEFT))
     {
       moveX = JSEngine.input.mouseWorldPosition.x - this.parent.position.x;
       moveZ = JSEngine.input.mouseWorldPosition.z - this.parent.position.z;
@@ -126,7 +126,7 @@ Player.prototype.update = function(dt)
     this.parent.rotation.y = Math.atan2(moveZ, -moveX);
   }
 
-  if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= -0.5)
+  if (JSEngine.input.isKeyDown(this.boostKey) && this.dashTimer <= -0.5)
   {
     this.movementSpeed = this.dashSpeed;
     this.dashTimer = this.dashTime;
