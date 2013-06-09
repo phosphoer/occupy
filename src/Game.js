@@ -1,6 +1,6 @@
 function Game()
 {
-  this.nextWaveCount = 3;
+  this.nextWaveCount = 0;
   this.humanCount = 0;
   this.players = {};
   this.firstRun = true;
@@ -44,7 +44,40 @@ Game.prototype.update = function(dt)
 
   if(this.inMenu)
   {
-    $('#waveTimer').text((this.menuTime - this.menuTimer).toFixed(2));
+    $('#waveTimer').text(Math.round(this.menuTime - this.menuTimer));
+
+    if (this.money < this.increaseSpeedPrice && $("#buySpeed").hasClass("ButtonIcon"))
+    {
+      $("#buySpeed").removeClass("ButtonIcon");
+      $("#buySpeed").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.increaseSpeedPrice)
+    {
+      $("#buySpeed").addClass("ButtonIcon");
+      $("#buySpeed").removeClass("ButtonIconDisabled");
+    }
+
+    if (this.money < this.increaseSizePrice && $("#buySize").hasClass("ButtonIcon"))
+    {
+      $("#buySize").removeClass("ButtonIcon");
+      $("#buySize").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.increaseSizePrice )
+    {
+      $("#buySize").addClass("ButtonIcon");
+      $("#buySize").removeClass("ButtonIconDisabled");
+    }
+
+    if (this.money < this.increaseDashPrice && $("#buyDash").hasClass("ButtonIcon"))
+    {
+      $("#buyDash").removeClass("ButtonIcon");
+      $("#buyDash").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.increaseDashPrice )
+    {
+      $("#buyDash").addClass("ButtonIcon");
+      $("#buyDash").removeClass("ButtonIconDisabled");
+    }
   }
 
   // Look for end of wave
@@ -124,20 +157,20 @@ Game.prototype.waveEnd = function()
   sell.append("<div>Sell</div>");
   sell.append("<img width='100px' height='100px' src='res/icons/sell.png' />");
 
-  var upgradeSpeed = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  var upgradeSpeed = $("<div id='buySpeed' class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeSpeed.append("<div>Speed</div>");
   upgradeSpeed.append("<img width='100px' height='100px' src='res/icons/speed.png' />");
-  upgradeSpeed.append("<div>" + this.increaseSpeedPrice + " pints</div>");
+  upgradeSpeed.append("<div id='buySpeedPrice'>" + this.increaseSpeedPrice + " pints</div>");
 
-  var upgradeSize = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  var upgradeSize = $("<div id='buySize' class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeSize.append("<div>Size</div>");
   upgradeSize.append("<img width='100px' height='100px' src='res/icons/size.png' />");
-  upgradeSize.append("<div>" + this.increaseSizePrice + " pints</div>");
+  upgradeSize.append("<div id='buySizePrice'>" + this.increaseSizePrice + " pints</div>");
 
-  var upgradeDash = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  var upgradeDash = $("<div id='buyDash' class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeDash.append("<div>Dash</div>");
   upgradeDash.append("<img width='100px' height='100px' src='res/icons/dash.png' />");
-  upgradeDash.append("<div>" + this.increaseDashPrice + " pints</div>");
+  upgradeDash.append("<div id='buyDashPrice'>" + this.increaseDashPrice + " pints</div>");
 
   var that = this;
   function closeMenu()
@@ -155,6 +188,7 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseSpeedPrice;
         JSEngine.factory.sendEventToAll("upgradeSpeed");
         that.increaseSpeedPrice = Math.round(that.increaseSpeedPrice * 1.5);
+        $("#buySpeedPrice").text(that.increaseSpeedPrice + " pints");
       }
     });
   upgradeSize.bind("click", function()
@@ -164,6 +198,7 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseSizePrice;
         that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
         JSEngine.factory.sendEventToAll("upgradeSize");
+        $("#buySizePrice").text(that.increaseSizePrice + " pints");
       }
     });
   upgradeDash.bind("click", function()
@@ -173,6 +208,7 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseDashPrice;
         JSEngine.factory.sendEventToAll("upgradeDash");
         that.increaseDashPrice = Math.round(that.increaseDashPrice * 1.5);
+        $("#buyDashPrice").text(that.increaseDashPrice + " pints");
       }
     });
 

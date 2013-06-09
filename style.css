@@ -34,7 +34,7 @@ div.WaveMenu
   width: 460px;
   height: 250px;
   left: 200px;
-  
+
   color: #888;
   background-color: #222;
   border-radius: 5px;
@@ -67,7 +67,7 @@ div.MenuContainer
     left: 0px;
     top: 0px;
     animation: fadein .5;
-    -webkit-animation: fadein .5s; /* Safari and Chrome */    
+    -webkit-animation: fadein .5s; /* Safari and Chrome */
     position: absolute;
 }
 
@@ -136,7 +136,7 @@ div.WaveTimer:hover
   z-index: 2;
 
     animation: fadein .5;
-    -webkit-animation: fadein .5s; /* Safari and Chrome */   
+    -webkit-animation: fadein .5s; /* Safari and Chrome */
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -159,6 +159,20 @@ div.Button
 div.ButtonIcon
 {
   background-color: #333;
+  padding: 5px;
+  margin: 10px;
+  text-align: center;
+  display: inline-block;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.ButtonIconDisabled
+{
+  background-color: #333;
+  opacity: 0.2;
   padding: 5px;
   margin: 10px;
   text-align: center;
