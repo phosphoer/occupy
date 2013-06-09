@@ -2,7 +2,7 @@ function createPlayer(inputProfile, playerColor, offsetY)
 {
   var newPlayer = JSEngine.factory.createObject();
   newPlayer.components.player = new Player(newPlayer, inputProfile);
-  newPlayer.components.cube = new Cube(newPlayer, { color:playerColor });
+  newPlayer.components.cube = new Cube(newPlayer, { emissive:0x440000, color:playerColor });
   newPlayer.components.collider = new Collider(newPlayer);
   newPlayer.position.y = 1;
   if (inputProfile == 0)
@@ -22,7 +22,7 @@ function createHuman(type)
 {
   var obj = JSEngine.factory.createObject();
   obj.components.human = new Human(obj, type);
-  obj.components.cube = new Cube(obj, { color:0xE8C0A7 });
+  obj.components.cube = new Cube(obj, { emissive:0x606060, color:0xCC6600 });
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.position.y = 1;
@@ -35,17 +35,29 @@ function createHuman(type)
 
 function createBloodSpray(amount, pos, angle)
 {
+  var player;
+  for(var i in JSEngine.game.players)
+  {
+    player = JSEngine.game.players[i];
+  }
+  console.log(player);
+
   for (var i = 0; i < amount; ++i)
   {
     var obj = JSEngine.factory.createObject();
     var v = {};
-    var speed = 5 + Math.random() * 10;
+    var speed = 10 + Math.random() * 10;
     v.x = Math.cos(angle - 0.3 + Math.random() * 0.6) * speed;
     v.y = Math.random() * 10;
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
-    obj.components.lifetime = new LifeTime(obj, 0.5 + Math.random() * 2);
+    obj.components.lifetime = new LifeTime(obj, .2);
     obj.components.cube = new Cube(obj, { color: 0xFF0000 });
-    obj.components.velocity = new Velocity(obj, v);
+
+    var w = {};
+    w.x = speed * Math.random();
+    w.y = speed * Math.random();
+    w.z = speed * Math.random();
+    obj.components.velocity = new Velocity(obj, v, w, player.parent.position);
     obj.components.gravity = new Gravity(obj, 8);
     obj.components.collider = new Collider(obj);
     obj.components.collider.isSolid = false;

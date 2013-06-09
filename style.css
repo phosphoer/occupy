@@ -1,3 +1,10 @@
+html, body
+{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
 div.Menu
 {
   position: absolute;
@@ -9,26 +16,79 @@ div.Menu
   background-color: #222;
   border-radius: 5px;
   padding: 10px;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.MenuTitle
+{
+  margin: auto;
+  text-align: center;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 .graph
 {
   width: 500px;
   height: 200px;
-  padding: 20px 15px 15px 15px;
-  margin: 15px auto 30px auto;
   background: rgba(0, 0, 0, 0);
-}
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  opacity: 0.9;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 div.Button
 {
   background-color: #333;
   padding: 5px;
-  margin: 5px;
+  margin: 10px;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 div.Button:hover
 {
   background-color: #555;
+}
+
+div.BloodMeterContainer
+{
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  background-color: #222;
+  width: 200px;
+  height: 20px;
+  padding: 10px;
+}
+
+div.BloodMeter
+{
+  background-color: #922;
+  height: 100%;
+}
+
+div.MoneyCounter
+{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  color: #888;
+
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }

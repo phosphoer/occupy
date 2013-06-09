@@ -1,12 +1,14 @@
 function Player(parent, inputProfile)
 {
   this.parent = parent;
-  this.normalSpeed = 5;
-  this.dashSpeed = 15;
+  this.normalSpeed = 10;
+  this.dashSpeed = 20;
   this.dashTime = 0.2;
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
+  this.bloodLevel = 1;
+  this.bloodLevelMax = 1;
   this.rotationSmoothing = 0.2;
   this.usesMouse = false;
 
@@ -29,6 +31,19 @@ function Player(parent, inputProfile)
     this.rightKey = JSEngine.input.L;
     this.boostKey = JSEngine.input.SHIFT;
   }
+
+  this.light = new THREE.PointLight(0xFFFFFF, 1, 100);
+  JSEngine.graphics.scene.add(this.light);
+
+  this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));
+  this.bloodMeter = $("<div class='BloodMeter' />").appendTo(this.bloodMeterContainer);
+
+}
+
+Player.prototype.upgradedStuff = function()
+{
+  this.bloodLevelMax = 1 + JSEngine.game.vampireLevel;
+  this.bloodLevel = this.bloodLevelMax;
 }
 
 Player.prototype.onCollide = function(obj)
@@ -37,6 +52,9 @@ Player.prototype.onCollide = function(obj)
   if (human && this.isDashing)
   {
     obj.sendEvent("killed", Math.atan2(obj.position.z - this.parent.position.z, obj.position.x - this.parent.position.x));
+    this.bloodLevel += 0.1;
+    if (this.bloodLevel > this.bloodLevelMax)
+      this.bloodLevel = this.bloodLevelMax;
   }
 }
 
@@ -47,17 +65,21 @@ Player.prototype.destroy = function()
 
 Player.prototype.update = function(dt)
 {
-  if (this.dashTimer > 0)
-    this.dashTimer -= dt;
-  else
+  if (!JSEngine.game.inMenu)
+    this.bloodLevel -= dt * 0.05;
+  this.bloodMeterContainer.css("width", 200 + this.bloodLevelMax * 50 + "px");
+  this.bloodMeter.css("width", (this.bloodLevel / this.bloodLevelMax) * 100 + "%");
+
+  this.dashTimer -= dt;
+  if (this.dashTimer <= 0 && this.isDashing)
   {
     this.isDashing = false;
     this.movementSpeed = this.normalSpeed;
     this.parent.components.cube.trailLength = 0;
   }
 
-  moveX = 0;
-  moveZ = 0;
+  var moveX = 0;
+  var moveZ = 0;
 
   if (JSEngine.input.isKeyDown(this.forwardKey))
   {
@@ -104,7 +126,7 @@ Player.prototype.update = function(dt)
     this.parent.rotation.y = Math.atan2(moveZ, -moveX);
   }
 
-  if (JSEngine.input.isKeyDown(this.boostKey) && this.dashTimer <= 0)
+  if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= -0.5)
   {
     this.movementSpeed = this.dashSpeed;
     this.dashTimer = this.dashTime;
@@ -116,4 +138,7 @@ Player.prototype.update = function(dt)
   {
     this.parent.destroy();
   }
+
+  this.light.position.copy(this.parent.position);
+  this.light.position.y += 1;
 }
