@@ -17,7 +17,7 @@ function createPlayer(inputProfile, playerColor, offsetY)
   chaseCam.components.camera.sizeY = 1;
   chaseCam.components.camera.offsetY = offsetY;
 
-  
+
 }
 
 function createHuman(type)
@@ -74,7 +74,7 @@ function createBloodSpray(amount, pos, angle, extraScale)
     v.y = Math.random() * 10;
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
     obj.components.lifetime = new LifeTime(obj, 0.7);
-    obj.components.cube = new Cube(obj, { color: 0xFF0000 });
+    obj.components.cube = new BloodCube(obj, { color: 0xFF0000 });
 
     var w = {};
     w.x = speed * Math.random();

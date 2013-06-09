@@ -16,13 +16,52 @@ function Cube(parent, config)
   this.trail = [];
 
   this.material = new THREE.MeshLambertMaterial({ emissive:cubeEmissive, color:cubeColor });
-  this.mesh = new THREE.Mesh(CUBE_GEOMETRY, this.material);
+  this.mesh = new THREE.Object3D();
 
   JSEngine.graphics.scene.add(this.mesh);
   
   this.mesh.position = this.parent.position;
   this.mesh.rotation = this.parent.rotation;
   this.mesh.scale = this.parent.scale;
+
+  var cube = new THREE.Mesh(CUBE_GEOMETRY, this.material);
+  this.mesh.add(cube);
+
+  this.head = new THREE.Mesh(CUBE_GEOMETRY, this.material);
+  this.head.position.set(0, .7, 0);
+  this.head.scale.set(0.7, 0.5, 0.7);
+  this.mesh.add(this.head);
+
+  this.armOuterA = new THREE.Object3D;
+  this.armOuterA.position.set(0, .2, .5);
+  
+  var armInner = new THREE.Mesh(CUBE_GEOMETRY, this.material);
+  armInner.position.set(-.35, 0, 0);
+  armInner.scale.set(.8, .35, .35);
+  
+  this.mesh.add(this.armOuterA);
+  this.armOuterA.add(armInner);
+
+  this.armOuterB = new THREE.Object3D;
+  this.armOuterB.position.set(0, .15, -.5);
+  
+  armInner = new THREE.Mesh(CUBE_GEOMETRY, this.material);
+  armInner.position.set(-.35, 0, 0);
+  armInner.scale.set(.8, .35, .35);
+  
+  this.mesh.add(this.armOuterB);
+  this.armOuterB.add(armInner);  
+
+
+  this.minRotation = -.5;
+  this.maxRotation = .4;
+
+  // -.5 - .3
+  this.armOuterA.rotation.z = this.minRotation + (this.maxRotation - this.minRotation) * Math.random();
+  this.armOuterB.rotation.z = this.minRotation + (this.maxRotation - this.minRotation) * Math.random();
+  this.armADir = Math.random() > 0.5 ? 1 : -1;
+  this.armBDir = Math.random() > 0.5 ? 1 : -1;
+
 }
 
 Cube.prototype.destroy = function()
@@ -45,6 +84,32 @@ Cube.prototype.clearTrail = function()
 
 Cube.prototype.update = function(dt)
 {
+  this.armOuterA.rotation.z += dt * 2 * this.armADir;
+  this.armOuterB.rotation.z += dt * 2 * this.armBDir;
+
+  if(this.armOuterA.rotation.z > this.maxRotation)
+  {
+    this.armOuterA.rotation.z = this.maxRotation;
+    this.armADir *= -1;
+  }
+
+  if(this.armOuterA.rotation.z < this.minRotation)
+  {
+    this.armOuterA.rotation.z = this.minRotation;
+    this.armADir *= -1;
+  }
+
+  if(this.armOuterB.rotation.z > this.maxRotation)
+  {
+    this.armOuterB.rotation.z = this.maxRotation;
+    this.armBDir *= -1;
+  }
+
+  if(this.armOuterB.rotation.z < this.minRotation)
+  {
+    this.armOuterB.rotation.z = this.minRotation;
+    this.armBDir *= -1;
+  }
   if (this.trailLength > 0)
   {
     var trailMaterial = new THREE.MeshLambertMaterial( { emissive: this.emissive, color: this.color, transparent: true, opacity: 0.5 } );

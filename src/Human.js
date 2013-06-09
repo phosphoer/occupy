@@ -165,7 +165,7 @@ Human.prototype.update = function(dt)
 
   var range = Math.sqrt(toTargetX * toTargetX + toTargetZ * toTargetZ);
 
-  this.parent.rotation.y = -targetAngle;
+  this.parent.rotation.y = -targetAngle + Math.PI;
 
 
   if (this.wormTime > 0)
