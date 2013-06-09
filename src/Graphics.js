@@ -12,11 +12,11 @@ function createLevelChunk(xWidth, zWidth, height)
             var material;
             if(Math.random() < 0.5)
             {
-                material = 0x22aa22;
+                material = 0x202020;
             }
             else
             {
-                material = 0x559933;
+                material = 0x221111;
             }
             level.push(material);
         }
@@ -39,7 +39,7 @@ function Graphics()
     document.body.appendChild(renderer.domElement);
 
     var levelWidth = 60;
-    var levelDepth = 20;
+    var levelDepth = 30;
     var base = new THREE.Object3D();
     base.position.x = -levelWidth/2;
     base.position.z = -levelDepth/2;

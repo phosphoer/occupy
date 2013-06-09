@@ -1,8 +1,8 @@
 function Player(parent, inputProfile)
 {
   this.parent = parent;
-  this.normalSpeed = 5;
-  this.dashSpeed = 15;
+  this.normalSpeed = 10;
+  this.dashSpeed = 20;
   this.dashTime = 0.2;
   this.dashTimer = 0;
   this.isDashing = false;
@@ -29,7 +29,7 @@ function Player(parent, inputProfile)
     this.boostKey = JSEngine.input.SHIFT;
   }
 
-  this.light = new THREE.PointLight(0xFFFFFF, 1, 50);
+  this.light = new THREE.PointLight(0xFFFFFF, 1, 100);
   JSEngine.graphics.scene.add(this.light);
 
   this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));

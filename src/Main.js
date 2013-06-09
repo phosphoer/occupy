@@ -116,7 +116,7 @@ function main()
   */
 
   // center tower on ground
-  tower.position.set(0, 1, 0);
+  tower.position.set(0, 1, -12);
 
   var prefix = "res/skybox";
   var suffix = ".bmp";

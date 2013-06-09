@@ -2,7 +2,7 @@ function createPlayer(inputProfile, playerColor, offsetY)
 {
   var newPlayer = JSEngine.factory.createObject();
   newPlayer.components.player = new Player(newPlayer, inputProfile);
-  newPlayer.components.cube = new Cube(newPlayer, { color:playerColor });
+  newPlayer.components.cube = new Cube(newPlayer, { emissive:0x440000, color:playerColor });
   newPlayer.components.collider = new Collider(newPlayer);
   newPlayer.position.y = 1;
   if (inputProfile == 0)
@@ -22,7 +22,7 @@ function createHuman(type)
 {
   var obj = JSEngine.factory.createObject();
   obj.components.human = new Human(obj, type);
-  obj.components.cube = new Cube(obj, { color:0xE8C0A7 });
+  obj.components.cube = new Cube(obj, { emissive:0x606060, color:0xCC6600 });
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.position.y = 1;

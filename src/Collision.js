@@ -31,10 +31,10 @@ Collider.prototype.update = function(dt)
     pos.x = -30;
   if (pos.x > 29)
     pos.x = 29;
-  if (pos.z < -10)
-    pos.z = -10;
-  if (pos.z > 9)
-    pos.z = 9;
+  if (pos.z < -15)
+    pos.z = -15;
+  if (pos.z > 14)
+    pos.z = 14;
 
   if (this.stopOnGround && pos.y < 1)
     pos.y = 1;
