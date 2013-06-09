@@ -9,12 +9,20 @@ div.Menu
   background-color: #222;
   border-radius: 5px;
   padding: 10px;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 div.MenuTitle
 {
   margin: auto;
   text-align: center;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 .graph
@@ -26,6 +34,10 @@ div.MenuTitle
   right: 20px;
   top: 20px;
   opacity: 0.9;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 div.Button
@@ -33,6 +45,10 @@ div.Button
   background-color: #333;
   padding: 5px;
   margin: 10px;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
 }
 
 div.Button:hover
@@ -55,4 +71,12 @@ div.BloodMeter
 {
   background-color: #922;
   height: 100%;
+}
+
+div.MoneyCounter
+{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  color: #888;
 }

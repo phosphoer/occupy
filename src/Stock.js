@@ -8,27 +8,28 @@ function Stocks()
   // this gives us a nice high-res plot while avoiding more than one point per pixel.
   var maximum = container.outerWidth() / 2 || 300;
 
-  var data = [];
+  this.data = [];
 
+  var that = this;
   function getRandomData()
   {
-    if (data.length)
+    if (that.data.length)
     {
-      data = data.slice(1);
+      that.data = that.data.slice(1);
     }
 
-    while (data.length < maximum)
+    while (that.data.length < maximum)
     {
-      var previous = data.length ? data[data.length - 1] : 50;
+      var previous = that.data.length ? that.data[that.data.length - 1] : 50;
       var y = previous + Math.random() * 10 - 5;
-      data.push(y < 0 ? 0 : y > 100 ? 100 : y);
+      that.data.push(y < 0 ? 0 : y > 100 ? 100 : y);
     }
 
     // zip the generated y values with the x values
     var res = [];
-    for (var i = 0; i < data.length; ++i)
+    for (var i = 0; i < that.data.length; ++i)
     {
-      res.push([i, data[i]])
+      res.push([i, that.data[i]])
     }
 
     return res;

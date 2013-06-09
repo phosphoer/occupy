@@ -6,10 +6,21 @@ function Game()
   this.firstRun = true;
   this.vampireLevel = 0;
   this.towerLevel = 0;
+  this.numStocks = 0;
+  this.stockPrice = 0;
+  this.money = 1000;
+
+  this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("body"));
+  this.moneyCountUI = $("<div />").appendTo(this.moneyDisplay);
+  this.stockCountUI = $("<div />").appendTo(this.moneyDisplay);
 }
 
 Game.prototype.update = function(dt)
 {
+  this.stockPrice = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
+  this.moneyCountUI.text("Blood Money: " + Math.round(this.money) + " pints ");
+  this.stockCountUI.text("Blood Stocks: " + Math.round(this.numStocks));
+
   // Look for end of wave
   if (this.humanCount === 0 && !this.inMenu)
   {
@@ -54,10 +65,30 @@ Game.prototype.waveEnd = function()
     });
   buyStocks.bind("click", function()
     {
+      that.buyStocks();
     });
   sellStocks.bind("click", function()
     {
+      that.sellStocks();
     });
+}
+
+Game.prototype.buyStocks = function()
+{
+  if (this.money >= this.stockPrice)
+  {
+    ++this.numStocks;
+    this.money -= this.stockPrice;
+  }
+}
+
+Game.prototype.sellStocks = function()
+{
+  if (this.numStocks > 0)
+  {
+    --this.numStocks;
+    this.money += this.stockPrice;
+  }
 }
 
 Game.prototype.upgradeVampire = function()
