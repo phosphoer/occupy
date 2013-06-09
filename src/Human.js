@@ -21,12 +21,12 @@ Human.prototype.killed = function(angle)
 
 Human.prototype.update = function(dt)
 {
+  var targetAngle = 0;
+
   // Move towards center
   if (this.type == 0)
   {
-    var angleToCenter = Math.atan2(-this.parent.position.z, -this.parent.position.x);
-    this.parent.position.x += Math.cos(angleToCenter) * this.movementSpeed * dt;
-    this.parent.position.z += Math.sin(angleToCenter) * this.movementSpeed * dt;
+    targetAngle = Math.atan2(-this.parent.position.z, -this.parent.position.x);
   }
   else if (this.type == 1)
   {
@@ -39,8 +39,10 @@ Human.prototype.update = function(dt)
     var result = new THREE.Vector3();
     result.subVectors(this.parent.position, this.target.position);
 
-    var angleToCenter = Math.atan2(-result.z, -result.x);
-    this.parent.position.x += Math.cos(angleToCenter) * this.movementSpeed * dt;
-    this.parent.position.z += Math.sin(angleToCenter) * this.movementSpeed * dt;
+    targetAngle = Math.atan2(-result.z, -result.x);
   }
+
+  this.parent.rotation.y = -targetAngle;
+  this.parent.position.x += Math.cos(targetAngle) * this.movementSpeed * dt;
+  this.parent.position.z += Math.sin(targetAngle) * this.movementSpeed * dt;
 }

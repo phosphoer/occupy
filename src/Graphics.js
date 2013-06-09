@@ -31,6 +31,8 @@ function Graphics()
     this.scene = new THREE.Scene();
     this.cameras = {};
 
+    this.projector = new THREE.Projector();
+
     this.UnitCube = new THREE.CubeGeometry(1, 1, 1);
 
     renderer = new THREE.WebGLRenderer({ antialias:true });
@@ -69,6 +71,35 @@ function Graphics()
 
     var geo = buildGeometryFromChunk(levelChunk, levelWidth, 1, levelDepth);
     base.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({vertexColors:true})));
+}
+
+Graphics.prototype.rayCast = function(pixelX, pixelY)
+{
+    var mouseNX = (pixelX / window.innerWidth);
+    var mouseNY = 1 - (pixelY / window.innerHeight);
+
+    var mouseNDCX = mouseNX * 2 - 1;
+    var mouseNDCY = mouseNY * 2 - 1;
+
+    for (var i in this.cameras)
+    {
+        var camera = this.cameras[i];
+
+        if (mouseNX < camera.offsetX || mouseNY < camera.offsetY)
+        {
+            continue;
+        }
+
+        if (mouseNX > camera.offsetX + camera.sizeX || mouseNY > camera.offsetY + camera.sizeY)
+        {
+            continue;
+        }
+
+        var vector = new THREE.Vector3(mouseNDCX, mouseNDCY, 0.5);
+        return this.projector.pickingRay(vector, camera.cam);
+    }
+
+    return null;
 }
 
 Graphics.prototype.update = function(dt)

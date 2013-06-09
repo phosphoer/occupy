@@ -3,6 +3,14 @@ function Input()
 {
   // Object thats going to be used as a dictionary
   this.pressedKeys = {};
+  this.pressedMouseButtons = {};
+
+  this.mouseX = 0;
+  this.mouseY = 0;
+
+  this.mouseWorldPosition = new THREE.Vector3();
+
+  var self = this;
 
   // Register for events
   var that = this;
@@ -15,6 +23,29 @@ function Input()
   {
     delete that.pressedKeys[event.keyCode];
   }, false);
+
+  window.addEventListener('mousemove', function(event)
+  {
+    self.mouseX = event.x;
+    self.mouseY = event.y;
+
+    self.update();
+  }, false);
+
+  window.addEventListener('mousedown', function(event)
+  {
+    self.pressedMouseButtons[event.button] = true;
+  }, false);
+
+  window.addEventListener('mouseup', function(event)
+  {
+    delete self.pressedMouseButtons[event.button];
+  }, false);
+
+
+  this.MOUSE_LEFT = 0;
+  this.MOUSE_MIDDLE = 1;
+  this.MOUSE_RIGHT = 2;
 
   // List of all the keys we may need
   this.LEFT_ARROW = 37;
@@ -66,8 +97,24 @@ function Input()
   this.NUM0 = 48;
 }
 
-Input.prototype.isDown = function(keyCode)
+Input.prototype.update = function()
+{
+    var rayCaster = JSEngine.graphics.rayCast(this.mouseX, this.mouseY);
+
+    var groundPlane = new THREE.Plane();
+    groundPlane.normal = new THREE.Vector3(0, 1, 0);
+    groundPlane.constant = 1;
+
+    this.mouseWorldPosition = rayCaster.ray.intersectPlane(groundPlane);
+}
+
+Input.prototype.isKeyDown = function(keyCode)
 {
   return this.pressedKeys[keyCode];
+}
+
+Input.prototype.isMouseDown = function(button)
+{
+  return this.pressedMouseButtons[button];
 }
 

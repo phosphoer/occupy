@@ -40,6 +40,7 @@ function engineUpdate()
   JSEngine.factory.update(dt);
   JSEngine.game.update(dt);
   JSEngine.graphics.update(dt);
+  JSEngine.input.update();
 
   JSEngine.stats.update();
 }
