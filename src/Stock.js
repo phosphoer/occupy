@@ -41,8 +41,6 @@ function Stocks()
 
 
   var data2 = [
-    //[0.7,3.0,0.2,0.4],
-    //[1.5,2.2,0.3,0.4],
     [maximum,100.0,0.0,0.0]
   ];
 
@@ -125,7 +123,7 @@ function Stocks()
 
     series[0].data = getRandomData();
 
-
+    data2[0] -= 1 / maximum;
     //series[1]
 
     plot.setData(series);
