@@ -2,7 +2,7 @@ function main()
 {
   var e = new Engine();
 
-  player1 = createPlayer(0, 0x440000, 0.0);
+  var player1 = createPlayer(0, 0x440000, 0.0);
   // var player2 = createPlayer(1, 0xFF0000, 0.5);
 
   var tower = e.factory.createObject();
@@ -119,7 +119,7 @@ function main()
   tower.position.set(0, 1, 0);
 
   var prefix = "res/skybox";
-  var suffix = ".jpg";
+  var suffix = ".bmp";
 
   var materials = [];
   for(var i = 0; i < 6; ++i)
@@ -132,6 +132,7 @@ function main()
   var material = new THREE.MeshFaceMaterial(materials);
 
   var skybox = new THREE.Mesh(skyGeometry, material);
+  skybox.position.y = -10;
   JSEngine.graphics.scene.add(skybox);
 
   e.start();
