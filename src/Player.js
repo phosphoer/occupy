@@ -28,9 +28,8 @@ function Player(parent, inputProfile)
     this.boostKey = JSEngine.input.SHIFT;
   }
 
-  var light = new THREE.PointLight(0xFFFFFF, 1, 100);
-  light.position = this.parent.position;
-  JSEngine.graphics.scene.add(light);
+  this.light = new THREE.PointLight(0xFFFFFF, 1, 50);
+  JSEngine.graphics.scene.add(this.light);
 }
 
 Player.prototype.onCollide = function(obj)
@@ -99,4 +98,7 @@ Player.prototype.update = function(dt)
   {
     this.parent.destroy();
   }
+
+  this.light.position.copy(this.parent.position);
+  this.light.position.y += 1;
 }
