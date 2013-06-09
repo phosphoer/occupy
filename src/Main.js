@@ -33,7 +33,7 @@ function main()
 
   var skybox = new THREE.Mesh(skyGeometry, material);
   skybox.position.y = -10;
-  JSEngine.graphics.scene.add(skybox);
+  //JSEngine.graphics.scene.add(skybox);
 
   e.start();
 }

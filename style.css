@@ -91,6 +91,17 @@ div.StockMenu
   cursor: default;
 }
 
+div.MainMenuContainer
+{
+    background-color: rgba(0, 0, 0, 1);
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+  
+    position: absolute;
+}
+
 div.MenuTitle
 {
   margin: auto;
@@ -99,6 +110,65 @@ div.MenuTitle
   padding: 5px;
   margin-bottom: 5px;
   background-color: #181818;
+
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.MainMenuTitle
+{
+  position: absolute;
+  width: 100%;
+
+  left: 0%;
+  top: 5%;
+  color: #888;
+  background-color: #222;
+  border-radius: 5px;
+  padding: 20px;
+  margin: auto;
+  font-size: 120px;
+  text-align: center;
+  font-family: Retro;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.Agreement
+{
+  margin: auto;
+  text-align: center;
+  font-size: 34px;
+  padding: 20px;
+  margin: 25px;
+  background-color: #101010;
+
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.MainMenuBody
+{
+  position: absolute;
+  width: 80%;
+  height: 60%;
+
+  left: 10%;
+  top: 25%;
+  color: #888;
+  background-color: #222;
+  border-radius: 5px;
+  padding: 20px;
+  margin: auto;
+  font-size: 120px;
+  text-align: center;
+  font-family: Retro;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -148,8 +218,9 @@ div.Button
   background-color: #333;
   padding: 5px;
   margin: 10px;
-
   text-align: center;
+
+
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -172,6 +243,11 @@ div.ButtonIcon
 div.Button:hover
 {
   background-color: #555;
+}
+
+div.Button:active
+{
+  background-color: #777;
 }
 
 div.ButtonIcon:hover
