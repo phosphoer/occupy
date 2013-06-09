@@ -10,6 +10,7 @@ function Tower(parent)
   JSEngine.graphics.scene.add(this.base);
   this.base.position = this.parent.position;
 
+  this.blinkSpeed = 10;
 
   this.sizeX = ZeBestTower.x;
   this.sizeY = ZeBestTower.y;
@@ -20,6 +21,8 @@ function Tower(parent)
   var geometry = buildGeometryFromChunk(this.chunk, ZeBestTower.x, ZeBestTower.y, ZeBestTower.z);
   var material = new THREE.MeshLambertMaterial( { vertexColors: true} );
   var mesh = new THREE.Mesh(geometry, material);
+  this.material = material;
+  
 
   var offset = new THREE.Object3D();
   this.base.add(offset);
@@ -27,6 +30,9 @@ function Tower(parent)
   offset.position.set(-this.sizeX / 2 + 0.5, 0, -this.sizeZ / 2 + 0.5);
 
   this.lastDt = 0;
+
+  this.damageTimer = 0;
+  this.lastDamageTime = -10000;
 
   this.healthBarContainer = $("<div class='HealthBarContainer' />").appendTo($("body"));
   this.healthBar = $("<div class='HealthBar' />").appendTo(this.healthBarContainer);  
@@ -37,9 +43,25 @@ function Tower(parent)
 Tower.prototype.update = function(dt)
 {
     this.lastDt = dt;
-
+    this.damageTimer += dt;
     this.healthBarContainer.css("width", 200 + 5 * 50 + "px");
-    this.healthBar.css("width", (this.health / this.maxHealth) * 100 + "%");    
+    this.healthBar.css("width", (this.health / this.maxHealth) * 100 + "%");
+
+    if (this.damageTimer - this.lastDamageTime < 0.5)
+    {
+     if (Math.floor(this.damageTimer * this.blinkSpeed) % 2 == 0)
+     {
+        this.material.color.setHex(0xFF0000);
+     }
+     else
+     {
+        this.material.color.setHex(0xFFFFFF);
+     }
+    }
+    else
+    {
+    this.material.color.setHex(0xFFFFFF);
+    }
 }
 
 Tower.prototype.onCollide = function(other)
@@ -47,9 +69,18 @@ Tower.prototype.onCollide = function(other)
     if(other.components.human)
     {
         other.components.human.hittingTower = true;
-        this.health -= this.lastDt * other.components.human.damage;
+        this.applyDamage(this.lastDt * other.components.human.damage);
     }
 }
+
+
+Tower.prototype.applyDamage = function(amount)
+{
+  this.health -= amount;
+  this.lastDamageTime = this.damageTimer;
+}
+
+
 
 function buildChunkFromAsset(asset)
 {

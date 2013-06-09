@@ -12,6 +12,9 @@ function Player(parent, inputProfile)
   this.rotationSmoothing = 0.2;
   this.usesMouse = false;
 
+  this.knockBack = new THREE.Vector3();
+  this.knockBackSlowdown = 0.7;
+
   JSEngine.game.players[parent.id] = this;
 
   if (inputProfile == 0)
@@ -21,6 +24,7 @@ function Player(parent, inputProfile)
     this.leftKey = JSEngine.input.A;
     this.rightKey = JSEngine.input.D;
     this.boostKey = JSEngine.input.SPACE;
+    this.jumpKey = JSEngine.input.SHIFT;
     this.usesMouse = true;
   }
   else
@@ -29,7 +33,8 @@ function Player(parent, inputProfile)
     this.backwardKey = JSEngine.input.K;
     this.leftKey = JSEngine.input.J;
     this.rightKey = JSEngine.input.L;
-    this.boostKey = JSEngine.input.SHIFT;
+    this.boostKey = JSEngine.input.DOWN_ARROW;
+    this.jumpKey = JSEngine.input.UP_ARROW;
   }
 
   this.light = new THREE.PointLight(0xFFFFFF, 1, 100);
@@ -120,6 +125,12 @@ Player.prototype.update = function(dt)
 
   this.parent.position.x += moveX * this.movementSpeed * dt;
   this.parent.position.z += moveZ * this.movementSpeed * dt;
+
+  this.parent.position.x += this.knockBack.x;
+  this.parent.position.z += this.knockBack.z;
+
+  this.knockBack.x *= this.knockBackSlowdown;
+  this.knockBack.z *= this.knockBackSlowdown;
 
   if (moveX != 0 || moveZ != 0)
   {

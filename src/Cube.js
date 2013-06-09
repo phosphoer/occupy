@@ -22,6 +22,7 @@ function Cube(parent, config)
   
   this.mesh.position = this.parent.position;
   this.mesh.rotation = this.parent.rotation;
+  this.mesh.scale = this.parent.scale;
 }
 
 Cube.prototype.destroy = function()

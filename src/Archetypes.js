@@ -21,8 +21,8 @@ function createPlayer(inputProfile, playerColor, offsetY)
 function createHuman(type)
 {
   var obj = JSEngine.factory.createObject();
+  obj.components.cube = new Cube(obj, {});
   obj.components.human = new Human(obj, type);
-  obj.components.cube = new Cube(obj, { emissive:0x606060, color:0xCC6600 });
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.position.y = 1;
@@ -31,6 +31,21 @@ function createHuman(type)
   else
     obj.position.x = 30 - Math.random() * 5;
   obj.position.z = Math.round(-10 + Math.random() * 20);
+}
+
+function createEnemyProjectile(pos, vel, damage)
+{
+  var obj = JSEngine.factory.createObject();
+  obj.components.cube = new Cube(obj, { emissive:0x220000, color:0xFF0000 });
+  obj.components.collider = new Collider(obj);
+  obj.components.collider.isSolid = false;
+  obj.components.projectile = new Projectile(obj, vel);
+  obj.components.projectile.damage = damage;
+  obj.components.lifetime = new LifeTime(obj, 2);
+  obj.scale.set(0.3, 0.3, 0.3);
+  obj.position.y = 1;
+  obj.position.x = pos.x;
+  obj.position.z = pos.z;
 }
 
 function createBloodSpray(amount, pos, angle)
@@ -50,7 +65,7 @@ function createBloodSpray(amount, pos, angle)
     v.x = Math.cos(angle - 0.3 + Math.random() * 0.6) * speed;
     v.y = Math.random() * 10;
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
-    obj.components.lifetime = new LifeTime(obj, .2);
+    obj.components.lifetime = new LifeTime(obj, .3);
     obj.components.cube = new Cube(obj, { color: 0xFF0000 });
 
     var w = {};

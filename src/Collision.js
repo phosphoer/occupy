@@ -50,14 +50,20 @@ Collider.prototype.collide = function(c)
   var myPos = this.parent.position;
   var pos = c.parent.position;
 
+  var w = this.width  * this.parent.scale.x;
+  var h = this.height * this.parent.scale.y;
+
+  var cw = c.width  * c.parent.scale.x;
+  var ch = c.height * c.parent.scale.y;
+
   // Check for intersection
-  if (myPos.x + this.width / 2 < pos.x - c.width / 2)
+  if (myPos.x + w / 2 < pos.x - cw / 2)
     return false;
-  if (myPos.x - this.width / 2 > pos.x + c.width / 2)
+  if (myPos.x - w / 2 > pos.x + cw / 2)
     return false;
-  if (myPos.z + this.height / 2 < pos.z - c.height / 2)
+  if (myPos.z + h / 2 < pos.z - ch / 2)
     return false;
-  if (myPos.z - this.height / 2 > pos.z + c.height / 2)
+  if (myPos.z - h / 2 > pos.z + ch / 2)
     return false;
 
   // Send the oncollide message if we are colliding
@@ -70,14 +76,14 @@ Collider.prototype.collide = function(c)
   // Resolve penetration
   var pen = {x: 0, z: 0};
   if (myPos.x < pos.x)
-    pen.x = (myPos.x + this.width / 2) - (pos.x - c.width / 2);
+    pen.x = (myPos.x + w / 2) - (pos.x - cw / 2);
   else
-    pen.x = (myPos.x - this.width / 2) - (pos.x + c.width / 2);
+    pen.x = (myPos.x - w / 2) - (pos.x + cw / 2);
 
   if (myPos.z < pos.z)
-    pen.z = (myPos.z + this.height / 2) - (pos.z - c.height / 2);
+    pen.z = (myPos.z + h / 2) - (pos.z - ch / 2);
   else
-    pen.z = (myPos.z - this.height / 2) - (pos.z + c.height / 2);
+    pen.z = (myPos.z - h / 2) - (pos.z + ch / 2);
 
   if (Math.abs(pen.x) < Math.abs(pen.z))
     myPos.x -= pen.x;

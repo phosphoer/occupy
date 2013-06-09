@@ -4,6 +4,7 @@ function GameObject()
   this.isAlive = true;
   this.position = new THREE.Vector3(0, 0, 0);
   this.rotation = new THREE.Vector3(0, 0, 0);
+  this.scale = new THREE.Vector3(1, 1, 1);
   this.components = {};
 }
 

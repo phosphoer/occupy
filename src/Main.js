@@ -2,7 +2,6 @@ function main()
 {
   var e = new Engine();
 
-  var player1 = createPlayer(0, 0x440000, 0.0);
   // var player2 = createPlayer(1, 0xFF0000, 0.5);
 
   var tower = e.factory.createObject();
@@ -10,6 +9,9 @@ function main()
   tower.components.collider = new Collider(tower);
   tower.components.collider.width = tower.components.tower.sizeX;
   tower.components.collider.height = tower.components.tower.sizeZ;
+
+  
+  var player1 = createPlayer(0, 0x440000, 0.0);
 
   e.game.tower = tower;
   
@@ -22,7 +24,7 @@ function main()
   var materials = [];
   for(var i = 0; i < 6; ++i)
   {
-   materials.push(new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(prefix + i + suffix),
+    materials.push(new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(prefix + i + suffix),
                                                 side: THREE.BackSide}));
   }
   var skyGeometry = new THREE.CubeGeometry(100, 100, 100);
