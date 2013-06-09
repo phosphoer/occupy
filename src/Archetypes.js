@@ -6,9 +6,9 @@ function createPlayer(inputProfile, playerColor, offsetY)
   newPlayer.components.collider = new Collider(newPlayer);
   newPlayer.position.y = 1;
   if (inputProfile == 0)
-    newPlayer.position.x = -10;
+    newPlayer.position.x = -0;
   else
-    newPlayer.position.x = 10;
+    newPlayer.position.x = 0;
 
   chaseCam = JSEngine.factory.createObject();
   chaseCam.position.set(0, 20, 40);
@@ -16,6 +16,8 @@ function createPlayer(inputProfile, playerColor, offsetY)
   chaseCam.components.camera.target = newPlayer;
   chaseCam.components.camera.sizeY = 1;
   chaseCam.components.camera.offsetY = offsetY;
+
+  
 }
 
 function createHuman(type)

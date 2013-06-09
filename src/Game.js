@@ -55,6 +55,24 @@ function Game()
     that.hasAccepted = true;
     JSEngine.start();
     that.mainMenuContainer.remove();
+
+    var fade = $("<div />").appendTo($("body"));
+    fade.css("position", "absolute");
+    fade.css("display", "block");
+    fade.css("left", "0px");
+    fade.css("top", "0px");
+    fade.css("width", "100%");
+    fade.css("height", "100%");
+    fade.css("background-color", "#000");
+    fade.css("opacity", "1");
+
+    fade.animate(
+    {
+      opacity: 0
+    }, 2000, function()
+    {
+      fade.remove();
+    });    
   });
 
 }
