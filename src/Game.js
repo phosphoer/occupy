@@ -52,11 +52,13 @@ Game.prototype.waveEnd = function()
 Game.prototype.upgradeVampire = function()
 {
   ++this.vampireLevel;
+  JSEngine.factory.sendEventToAll("upgradedStuff");
 }
 
 Game.prototype.upgradeTower = function()
 {
   ++this.towerLevel;
+  JSEngine.factory.sendEventToAll("upgradedStuff");
 }
 
 Game.prototype.nextWave = function()
@@ -68,5 +70,5 @@ Game.prototype.nextWave = function()
   }
 
   // Scale up difficulty
-  this.nextWaveCount *= 1.2;
+  this.nextWaveCount *= 1.1;
 }

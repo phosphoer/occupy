@@ -22,3 +22,20 @@ div.Button:hover
 {
   background-color: #555;
 }
+
+div.BloodMeterContainer
+{
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  background-color: #222;
+  width: 200px;
+  height: 20px;
+  padding: 10px;
+}
+
+div.BloodMeter
+{
+  background-color: #922;
+  height: 100%;
+}

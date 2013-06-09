@@ -7,6 +7,8 @@ function Player(parent, inputProfile)
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
+  this.bloodLevel = 1;
+  this.bloodLevelMax = 1;
 
   if (inputProfile == 0)
   {
@@ -24,6 +26,14 @@ function Player(parent, inputProfile)
     this.rightKey = JSEngine.input.L;
     this.boostKey = JSEngine.input.SHIFT;
   }
+
+  this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));
+  this.bloodMeter = $("<div class='BloodMeter' />").appendTo(this.bloodMeterContainer);
+}
+
+Player.prototype.upgradedStuff = function()
+{
+  this.bloodLevelMax = 1 + JSEngine.game.vampireLevel;
 }
 
 Player.prototype.onCollide = function(obj)
@@ -37,9 +47,12 @@ Player.prototype.onCollide = function(obj)
 
 Player.prototype.update = function(dt)
 {
-  if (this.dashTimer > 0)
-    this.dashTimer -= dt;
-  else
+  this.bloodLevel -= dt * 0.05;
+  this.bloodMeterContainer.css("width", 200 + this.bloodLevelMax * 50 + "px");
+  this.bloodMeter.css("width", (this.bloodLevel / this.bloodLevelMax) * 100 + "%");
+
+  this.dashTimer -= dt;
+  if (this.dashTimer <= 0 && this.isDashing)
   {
     this.isDashing = false;
     this.movementSpeed = this.normalSpeed;
@@ -73,7 +86,7 @@ Player.prototype.update = function(dt)
 
   angle = Math.atan2(-moveZ, -moveX);
 
-  if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= 0)
+  if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= -0.5)
   {
     this.movementSpeed = this.dashSpeed;
     this.dashTimer = this.dashTime;
