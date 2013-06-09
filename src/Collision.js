@@ -69,9 +69,26 @@ Collider.prototype.collide = function(c)
   // Send the oncollide message if we are colliding
   this.parent.sendEvent("onCollide", c.parent);
 
+  if (!c.collidesWithOthers)
+  {
+    return;
+  }
+
+
+  var penScalar = 1;
+
   // Don't resolve if other is not solid (but doesn't matter if we are?)
   if (!c.isSolid)
-    return;
+  {
+    if (this.isSolid)
+    {
+      return;
+    }
+    else
+    {
+      penScalar = 0.1;
+    }
+  }
 
   // Resolve penetration
   var pen = {x: 0, z: 0};
@@ -86,9 +103,9 @@ Collider.prototype.collide = function(c)
     pen.z = (myPos.z - h / 2) - (pos.z + ch / 2);
 
   if (Math.abs(pen.x) < Math.abs(pen.z))
-    myPos.x -= pen.x;
+    myPos.x -= pen.x * penScalar;
   else
-    myPos.z -= pen.z;
+    myPos.z -= pen.z * penScalar;
 
   return true;
 }
