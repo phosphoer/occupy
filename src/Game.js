@@ -7,7 +7,7 @@ function Game()
   this.numStocks = 0;
   this.stockPrice = 0;
   this.money = 1000;
-  this.menuTime = 8;
+  this.menuTime = 12;
   this.menuTimer = 0;
   this.hasAccepted = false;
 
@@ -27,6 +27,11 @@ Game.prototype.update = function(dt)
   this.moneyCountUI.text("Blood Money: " + Math.round(this.money) + " pints ");
   this.stockCountUI.text("Blood Stocks: " + Math.round(this.numStocks));
 
+  if(this.inMenu)
+  {
+    $('#waveTimer').text((this.menuTime - this.menuTimer).toFixed(2));
+  }
+
   // Look for end of wave
   if (this.humanCount === 0 && !this.inMenu)
   {
@@ -40,6 +45,8 @@ Game.prototype.update = function(dt)
   {
     this.inMenu = false;
     this.menuUI.remove();
+    this.stockMenu.remove();
+    this.waveCompleteMenu.remove();
     JSEngine.stocks.hide();
     this.nextWave();
   }
@@ -54,7 +61,23 @@ Game.prototype.waveEnd = function()
   JSEngine.stocks.show();
 
   this.menuUI = $("<div class='Menu' />").appendTo($("body"));
-  this.menuUI.append("<div class='MenuTitle'>Upgrade your shit!</div>");
+  this.menuUI.append("<div class='MenuTitle'>Upgrades</div>");
+
+  this.stockMenu = $("<div class='StockMenu' />").appendTo($("body"));
+  this.stockMenu.append("<div class='MenuTitle'>Stock Market</div>");
+
+  this.waveCompleteMenu = $("<div class='WaveMenu' />").appendTo($("body"));
+  this.waveCompleteMenu.append("<div class='MenuTitle'>Wave 1 Complete</div>");
+
+  var next = $("<div class='WaveTimer'>Next Wave <span id='waveTimer'></span></div>").appendTo(this.waveCompleteMenu);
+
+  var buy = $("<div class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
+  buy.append("<div>Buy</div>");
+  buy.append("<img width='100px' height='100px' src='res/icons/buy.png' />");
+
+  var sell = $("<div class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
+  sell.append("<div>Sell</div>");
+  sell.append("<img width='100px' height='100px' src='res/icons/sell.png' />");
 
   var upgradeSpeed = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeSpeed.append("<div>Speed</div>");
@@ -71,15 +94,14 @@ Game.prototype.waveEnd = function()
   upgradeDash.append("<img width='100px' height='100px' src='res/icons/dash.png' />");
   upgradeDash.append("<div>" + this.increaseDashPrice + " pints</div>");
 
-  var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(this.menuUI);
-  var buyStocks = $("<div class='Button'>Buy stocks</div>").appendTo(this.menuUI);
-  var sellStocks = $("<div class='Button'>Sell stocks</div>").appendTo(this.menuUI);
 
   var that = this;
   function closeMenu()
   {
     that.inMenu = false;
     that.menuUI.remove();
+    that.stockMenu.remove();
+    that.waveCompleteMenu.remove();
     that.nextWave();
     JSEngine.stocks.hide();
   }
@@ -114,15 +136,17 @@ Game.prototype.waveEnd = function()
         closeMenu();
       }
     });
-  upgradeTower.bind("click", function()
-    {
-      closeMenu();
-    });
-  buyStocks.bind("click", function()
+
+  next.bind('click', function () 
+  {
+    closeMenu();
+  });
+
+  buy.bind("click", function()
     {
       that.buyStocks();
     });
-  sellStocks.bind("click", function()
+  sell.bind("click", function()
     {
       that.sellStocks();
     });

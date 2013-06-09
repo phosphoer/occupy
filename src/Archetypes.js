@@ -40,7 +40,6 @@ function createBloodSpray(amount, pos, angle)
   {
     player = JSEngine.game.players[i];
   }
-  console.log(player);
 
   for (var i = 0; i < amount; ++i)
   {
