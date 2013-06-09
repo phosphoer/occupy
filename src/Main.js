@@ -11,6 +11,8 @@ function main()
   tower.components.collider.width = tower.components.tower.sizeX;
   tower.components.collider.height = tower.components.tower.sizeZ;
 
+  e.game.tower = tower;
+  
   // center tower on ground
   tower.position.set(0, 1, -11);
 

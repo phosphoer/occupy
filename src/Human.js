@@ -1,10 +1,14 @@
 function Human(parent, type)
 {
   this.parent = parent;
-  this.movementSpeed = 2;
+  this.movementSpeed = 3;
   this.dead = false;
   this.type = type;
   this.target = null;
+  this.damage = 2.5;
+  this.hittingTower = false;
+  this.rotateSpeed = 5 + Math.random() * 10;
+  this.rotateSpeed *= Math.random() > 0.5 ? 1 : -1;
 
   ++JSEngine.game.humanCount;
 }
@@ -21,10 +25,17 @@ Human.prototype.killed = function(angle)
 
 Human.prototype.update = function(dt)
 {
+  if(this.hittingTower)
+  {
+    this.parent.components.cube.mesh.rotation.y += this.rotateSpeed * dt;
+    return;
+  }
+
   // Move towards center
   if (this.type == 0)
   {
-    var angleToCenter = Math.atan2(-this.parent.position.z, -this.parent.position.x);
+    var towerPos = JSEngine.game.tower.position;
+    var angleToCenter = Math.atan2(towerPos.z - this.parent.position.z, towerPos.x - this.parent.position.x);
     this.parent.position.x += Math.cos(angleToCenter) * this.movementSpeed * dt;
     this.parent.position.z += Math.sin(angleToCenter) * this.movementSpeed * dt;
   }
@@ -43,4 +54,5 @@ Human.prototype.update = function(dt)
     this.parent.position.x += Math.cos(angleToCenter) * this.movementSpeed * dt;
     this.parent.position.z += Math.sin(angleToCenter) * this.movementSpeed * dt;
   }
+
 }
