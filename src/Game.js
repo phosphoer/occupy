@@ -15,10 +15,12 @@ function Game()
   this.upgradeSound = new Audio("res/powerup.wav");
   this.buySound = new Audio("res/buy.wav");
   this.sellSound = new Audio("res/sell.wav");
+  this.selectSound = new Audio("res/select.wav");
   this.stockMusic = new Audio("res/TheStockMarket.mp3");
   this.gameMusic = new Audio("res/TheBloodMarket.mp3");
   this.buySound.volume = 0.2;
   this.sellSound.volume = 0.2;
+  this.selectSound.volume = 0.2;
   this.gameMusic.volume = 0.5;
   this.stockMusic.volume = 0.5;
 
@@ -268,6 +270,19 @@ Game.prototype.waveEnd = function()
         that.upgradeSound.play();
       }
     });
+
+  $(".Button").bind("mouseenter", function()
+  {
+    that.selectSound.play();
+  });
+  $(".ButtonIcon").bind("mouseenter", function()
+  {
+    that.selectSound.play();
+  });
+  $(".WaveTimer").bind("mouseenter", function()
+  {
+    that.selectSound.play();
+  });
 
   next.bind('click', function ()
   {
