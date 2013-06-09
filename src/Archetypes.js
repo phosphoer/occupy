@@ -45,7 +45,7 @@ function createHuman(type)
 function createEnemyProjectile(pos, vel, damage)
 {
   var obj = JSEngine.factory.createObject();
-  obj.components.cube = new Cube(obj, { emissive:0x111111, color:0xFFFFFF });
+  obj.components.cube = new BloodCube(obj, { emissive:0x111111, color:0xFFFFFF });
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.components.projectile = new Projectile(obj, vel);

@@ -44,6 +44,10 @@ function main()
   skyGeometry.faces[5].vertexColors[2] = new THREE.Color(0);
   skyGeometry.faces[5].vertexColors[3] = new THREE.Color(0x151133);   
 
+  skyGeometry.faces[4].vertexColors[0] = new THREE.Color(0x151133);
+  skyGeometry.faces[4].vertexColors[1] = new THREE.Color(0);
+  skyGeometry.faces[4].vertexColors[2] = new THREE.Color(0);
+  skyGeometry.faces[4].vertexColors[3] = new THREE.Color(0x151133); 
 
   skyGeometry.faces[2].vertexColors[0] = new THREE.Color(0x151133);
   skyGeometry.faces[2].vertexColors[1] = new THREE.Color(0x151133);
