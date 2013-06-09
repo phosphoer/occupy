@@ -34,10 +34,11 @@ function Tower(parent)
   this.damageTimer = 0;
   this.lastDamageTime = -10000;
 
-  this.healthBarContainer = $("<div class='HealthBarContainer' />").appendTo($("body"));
+  this.healthBarContainer = $("<div class='HealthBarContainer' />").appendTo($("#topHudContainer"));
   this.healthBar = $("<div class='HealthBar' />").appendTo(this.healthBarContainer);
   this.healthBarInner = $("<div class='HealthBarInner' />").appendTo(this.healthBar);
-
+  JSEngine.game.stockDisplay.remove();
+  JSEngine.game.stockDisplay.appendTo($("#topHudContainer"));
 }
 
 

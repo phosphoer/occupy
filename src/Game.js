@@ -25,17 +25,21 @@ function Game()
   this.increaseSizePrice = 2500;
   this.increaseDashPrice = 2500;
 
-  this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("body"));
-  this.moneyCountUI = $("<div />").appendTo(this.moneyDisplay);
-  this.stockCountUI = $("<div />").appendTo(this.moneyDisplay);
+  $("<div id='topHudContainer' />").appendTo($("body"));
+  this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("#topHudContainer"));
+  $("<img width='75px' height='75px' src='res/icons/money.png' />").appendTo(this.moneyDisplay);
+  $("<div id='moneyCount'></div>").appendTo(this.moneyDisplay);
+  this.stockDisplay = $("<div class='StockCounter'></div>").appendTo($("#topHudContainer"));
+  $("<img width='75px' height='75px' src='res/icons/stocks.png' />").appendTo(this.stockDisplay);
+  $("<div id='stockCount'></div>").appendTo(this.stockDisplay);
 }
 
 Game.prototype.update = function(dt)
 {
   this.menuTimer += dt;
   this.stockPrice = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
-  this.moneyCountUI.text("Blood Money: " + Math.round(this.money) + " pints ");
-  this.stockCountUI.text("Blood Stocks: " + Math.round(this.numStocks));
+  $("#moneyCount").text(Math.round(this.money));
+  $("#stockCount").text(Math.round(this.numStocks));
 
   // Look for end of wave
   if (this.humanCount === 0 && !this.inMenu)
