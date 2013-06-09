@@ -21,12 +21,6 @@ function main()
   var prefix = "res/skybox";
   var suffix = ".bmp";
 
-  var materials = [];
-  for(var i = 0; i < 6; ++i)
-  {
-    materials.push(new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture(prefix + i + suffix),
-                                                side: THREE.BackSide}));
-  }
   var skyGeometry = new THREE.CubeGeometry(100, 100, 100);
 
 
