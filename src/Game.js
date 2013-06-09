@@ -1,6 +1,6 @@
 function Game()
 {
-  this.nextWaveCount = 0;
+  this.nextWaveCount = 3;
   this.humanCount = 0;
   this.players = {};
   this.firstRun = true;
