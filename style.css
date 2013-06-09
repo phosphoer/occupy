@@ -56,6 +56,20 @@ div.Button
   background-color: #333;
   padding: 5px;
   margin: 10px;
+  text-align: center;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.ButtonIcon
+{
+  background-color: #333;
+  padding: 5px;
+  margin: 10px;
+  text-align: center;
+  display: inline-block;
 
   -webkit-user-select:none;
   -moz-user-select:none;
@@ -63,6 +77,11 @@ div.Button
 }
 
 div.Button:hover
+{
+  background-color: #555;
+}
+
+div.ButtonIcon:hover
 {
   background-color: #555;
 }
