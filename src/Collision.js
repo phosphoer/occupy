@@ -75,7 +75,12 @@ Collider.prototype.collide = function(c)
   }
 
 
-  var penScalar = 1;
+  var penScalar = 0.6;
+
+  if (c.parent.components.tower)
+  {
+    penScalar = 1.0;
+  }
 
   // Don't resolve if other is not solid (but doesn't matter if we are?)
   if (!c.isSolid)
@@ -102,6 +107,7 @@ Collider.prototype.collide = function(c)
   else
     pen.z = (myPos.z - h / 2) - (pos.z + ch / 2);
 
+  // This is the normal penetration resolution
   if (Math.abs(pen.x) < Math.abs(pen.z))
     myPos.x -= pen.x * penScalar;
   else

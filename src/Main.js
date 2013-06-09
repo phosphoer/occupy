@@ -16,7 +16,7 @@ function main()
   e.game.tower = tower;
   
   // center tower on ground
-  tower.position.set(0, 1, -11);
+  tower.position.set(0, 1, -12);
 
   var prefix = "res/skybox";
   var suffix = ".bmp";
@@ -51,7 +51,7 @@ function main()
   skyGeometry.faces[2].vertexColors[3] = new THREE.Color(0x151133);  
 
   var material = new THREE.MeshBasicMaterial({side: THREE.BackSide, vertexColors: THREE.VertexColors});
-  console.log(skyGeometry.faces);
+  //console.log(skyGeometry.faces);
 
   var skybox = new THREE.Mesh(skyGeometry, material);
   skybox.position.y = -10;

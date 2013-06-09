@@ -50,7 +50,8 @@ function createEnemyProjectile(pos, vel, damage)
   obj.components.collider.isSolid = false;
   obj.components.projectile = new Projectile(obj, vel);
   obj.components.projectile.damage = damage;
-  obj.components.lifetime = new LifeTime(obj, 2);
+  obj.components.lifetime = new LifeTime(obj, 5);
+  obj.components.lifetime.destroyOnEnd = true;
   obj.scale.set(0.3, 0.3, 0.3);
   obj.position.y = 1;
   obj.position.x = pos.x;

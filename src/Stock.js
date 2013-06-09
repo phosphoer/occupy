@@ -40,13 +40,22 @@ function Stocks()
   }
 
 
-  var data2 = [
-    [maximum,100.0,0.0,0.0]
+  var buys = [
   ];
 
-  var data2_points = {
+  var buys_points = {
     show: true,
-    radius: 5,
+    radius: 3,
+    errorbars: "y", 
+    yerr: {show:true, asymmetric:true}
+  };
+
+  var sells = [
+  ];
+
+  var sells_points = {
+    show: true,
+    radius: 3,
     errorbars: "y", 
     yerr: {show:true, asymmetric:true}
   };
@@ -61,9 +70,14 @@ function Stocks()
       }
     },
     {
-      data: data2,
-      color: "rgb(200, 50, 50)",
-      points: data2_points,
+      data: buys,
+      color: "rgb(200, 200, 50)",
+      points: buys_points,
+    },
+    {
+      data: sells,
+      color: "rgb(50, 210, 50)",
+      points: sells_points,
     }
   ];
 
@@ -108,6 +122,21 @@ function Stocks()
 
   self = this;
 
+  
+
+  Stocks.prototype.addBuyPoint = function()
+  {
+    var value = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
+    buys.push([maximum,value,0.0,0.0]);
+  }
+
+  Stocks.prototype.addSellPoint = function()
+  {
+    var value = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
+    sells.push([maximum,value,0.0,0.0]);
+  }
+
+
   // Update the random dataset at 25FPS for a smoothly-animating chart
   setInterval(function updateRandom()
   {
@@ -123,8 +152,16 @@ function Stocks()
 
     series[0].data = getRandomData();
 
-    data2[0] -= 1 / maximum;
-    //series[1]
+    var killPoint = false;
+
+    for (var point in buys)
+    {
+      buys[point][0] -= 1;
+    }
+    for (var point in sells)
+    {
+      sells[point][0] -= 1;
+    }
 
     plot.setData(series);
     plot.draw();

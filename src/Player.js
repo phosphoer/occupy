@@ -46,7 +46,7 @@ function Player(parent, inputProfile)
 
 Player.prototype.upgradeSize = function()
 {
-  this.size *= 1.3;
+  this.size *= 1.25;
   this.parent.position.y = this.size;
   this.parent.components.cube.mesh.scale.set(this.size, this.size, this.size);
   this.parent.components.collider.width = this.size;
@@ -55,12 +55,12 @@ Player.prototype.upgradeSize = function()
 
 Player.prototype.upgradeDash = function()
 {
-  this.dashTime *= 1.5;
+  this.dashTime *= 1.4;
 }
 
 Player.prototype.upgradeSpeed = function()
 {
-  this.normalSpeed += 2;
+  this.normalSpeed += 1.8;
   this.dashSpeed = this.normalSpeed * 2;
 }
 
@@ -75,6 +75,12 @@ Player.prototype.onCollide = function(obj)
     this.bloodLevel += 0.1;
     if (this.bloodLevel > this.bloodLevelMax)
       this.bloodLevel = this.bloodLevelMax;
+  }
+
+  // BLOOD
+  if (obj.components.velocity)
+  {
+    obj.components.velocity.collectedByPlayer();
   }
 }
 

@@ -62,22 +62,49 @@ function Human(parent, type)
     this.projectileSpeed = 20;
     this.damage = 0.5;
     this.movementSpeed = 10 + Math.random() * 2;
-    this.parent.scale.set(0.6, 2.2, 0.6);
-    this.parent.components.cube.material.color.setHex(0x82C9FA);
-    this.parent.components.cube.material.emissive.setHex(0x0C030F);
+    this.parent.scale.set(0.8, 2.8, 0.8);
+    this.parent.components.cube.material.color.setHex(0x52A9FA);
+    this.parent.components.cube.material.emissive.setHex(0x0A030F);
     this.target = JSEngine.game.tower;
   }
   // Annoying little shits
   else if (type == 4)
   {
+    this.maxHits = 6;
     this.bouncer = true;
     this.damage = 1;
     this.bloodScale = 0.5;
     this.movementSpeed = 3 + Math.random() * 8;
-    this.parent.scale.set(0.5, 0.5, 0.5);
-    this.parent.components.cube.material.color.setHex(0x4F4444);
+    this.parent.scale.set(1.0, 1.0, 1.0);
+    this.parent.components.cube.material.color.setHex(0x7F6F6F);
     this.parent.components.cube.material.emissive.setHex(0x090202);
     this.target = pickRandomValue(JSEngine.game.players).parent;
+  }
+  // Behemoth!
+  else if (type == 5)
+  {
+    this.maxHits = 80;
+    this.bloodScale = 3;
+    this.damage = 160.0;
+    this.movementSpeed = 2;
+    this.parent.scale.set(6, 6, 6);
+    this.parent.components.cube.material.color.setHex(0x00FF00);
+    this.parent.components.cube.material.emissive.setHex(0x00330F);
+    this.target = JSEngine.game.tower;
+  }
+  // Swag archers
+  else if (type == 6)
+  {
+    this.maxHits = 12;
+    this.wormTime = 0.4;
+    this.refireTime = 0.08;
+    this.projectileSpeed = 30;
+    this.damage = 3;
+    this.movementSpeed = 16 + Math.random() * 4;
+    this.parent.scale.set(3, 6, 3);
+    this.parent.components.cube.material.color.setHex(0x0000FF);
+    this.parent.components.cube.material.emissive.setHex(0x0A031F);
+    this.target = JSEngine.game.tower;
   }
 
   this.originalColor = this.parent.components.cube.material.color.getHex();
@@ -107,6 +134,8 @@ Human.prototype.onCollide = function(obj)
   {
     player.knockBack.set(this.parent.position.x - obj.position.x, 0, this.parent.position.z - obj.position.z);
     player.knockBack.normalize();
+    player.knockBack.x *= 0.4;
+    player.knockBack.z *= 0.4;
   }
 }
 
