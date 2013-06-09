@@ -26,10 +26,17 @@ function createHuman(type)
   obj.components.collider = new Collider(obj);
   obj.components.collider.isSolid = false;
   obj.position.y = 1;
-  if (Math.random() < 0.5)
+
+  var side = JSEngine.game.spawnSide;
+
+  if (Math.random() < 0.1)
+    side = -side;
+
+  if (side == -1)
     obj.position.x = -30 + Math.random() * 5;
   else
     obj.position.x = 30 - Math.random() * 5;
+  
   obj.position.z = Math.round(-10 + Math.random() * 20);
 }
 
