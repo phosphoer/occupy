@@ -63,7 +63,7 @@ div.Button:hover
   background-color: #555;
 }
 
-div.BloodMeterContainer
+div.HealthBarContainer
 {
   position: absolute;
   left: 20px;
@@ -74,7 +74,7 @@ div.BloodMeterContainer
   padding: 10px;
 }
 
-div.BloodMeter
+div.HealthBar
 {
   background-color: #922;
   height: 100%;

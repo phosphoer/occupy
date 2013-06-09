@@ -6,7 +6,7 @@ function Camera(parent)
   this.target = null;
 
   // The offset to the object we are focusing on
-  this.offset = new THREE.Vector3(0, 15, 10);
+  this.offset = new THREE.Vector3(0, 15, 15);
 
   // Any smoothing we apply to the camera
   this.smoothing = 0.05;

@@ -133,7 +133,7 @@ Game.prototype.nextWave = function()
   // Spawn humans
   for (var i = 0; i < this.nextWaveCount; ++i)
   {
-    createHuman(1);
+    createHuman(0);
   }
 
   // Scale up difficulty
