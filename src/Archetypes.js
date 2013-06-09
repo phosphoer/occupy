@@ -45,7 +45,12 @@ function createBloodSpray(amount, pos, angle)
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
     obj.components.lifetime = new LifeTime(obj, 0.5 + Math.random() * 2);
     obj.components.cube = new Cube(obj, { color: 0xFF0000 });
-    obj.components.velocity = new Velocity(obj, v);
+
+    var w = {};
+    w.x = speed * Math.random();
+    w.y = speed * Math.random();
+    w.z = speed * Math.random();
+    obj.components.velocity = new Velocity(obj, v, w);
     obj.components.gravity = new Gravity(obj, 8);
     obj.components.collider = new Collider(obj);
     obj.components.collider.isSolid = false;
