@@ -51,6 +51,7 @@ Cube.prototype.update = function(dt)
 
     trailMesh.position.set(this.parent.position.x, this.parent.position.y, this.parent.position.z);
     trailMesh.rotation.set(this.parent.rotation.x, this.parent.rotation.y, this.parent.rotation.z);
+    trailMesh.scale = this.mesh.scale;
 
     JSEngine.graphics.scene.add(trailMesh);
     this.trail.push(trailMesh);

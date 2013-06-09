@@ -42,7 +42,7 @@ Game.prototype.waveEnd = function()
   var ui = $("<div class='Menu' />").appendTo($("body"));
   ui.append("<div class='MenuTitle'>Upgrade your shit!</div>");
 
-  var upgradeVamp = $("<div class='Button'>Upgrade your vampire</div>").appendTo(ui);
+  var upgradeVamp = $("<div class='Button'>Upgrade Size</div>").appendTo(ui);
   var upgradeTower = $("<div class='Button'>Upgrade your tower</div>").appendTo(ui);
   var buyStocks = $("<div class='Button'>Buy stocks</div>").appendTo(ui);
   var sellStocks = $("<div class='Button'>Sell stocks</div>").appendTo(ui);
@@ -95,7 +95,7 @@ Game.prototype.sellStocks = function()
 Game.prototype.upgradeVampire = function()
 {
   ++this.vampireLevel;
-  JSEngine.factory.sendEventToAll("upgradedStuff");
+  JSEngine.factory.sendEventToAll("upgradeSize");
 }
 
 Game.prototype.upgradeTower = function()

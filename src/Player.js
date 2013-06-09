@@ -7,10 +7,9 @@ function Player(parent, inputProfile)
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
-  this.bloodLevel = 1;
-  this.bloodLevelMax = 1;
   this.rotationSmoothing = 0.2;
   this.usesMouse = false;
+  this.size = 1;
 
   JSEngine.game.players[parent.id] = this;
 
@@ -35,15 +34,16 @@ function Player(parent, inputProfile)
   this.light = new THREE.PointLight(0xFFFFFF, 1, 100);
   JSEngine.graphics.scene.add(this.light);
 
-  this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));
-  this.bloodMeter = $("<div class='BloodMeter' />").appendTo(this.bloodMeterContainer);
 
 }
 
-Player.prototype.upgradedStuff = function()
+Player.prototype.upgradeSize = function()
 {
-  this.bloodLevelMax = 1 + JSEngine.game.vampireLevel;
-  this.bloodLevel = this.bloodLevelMax;
+  this.size = 1.5 * this.size;
+  this.parent.position.y = this.size;
+  this.parent.components.cube.mesh.scale.set(this.size, this.size, this.size); 
+  this.parent.components.collider.width = this.size;
+  this.parent.components.collider.height = this.size;  
 }
 
 Player.prototype.onCollide = function(obj)
@@ -65,11 +65,6 @@ Player.prototype.destroy = function()
 
 Player.prototype.update = function(dt)
 {
-  if (!JSEngine.game.inMenu)
-    this.bloodLevel -= dt * 0.05;
-  this.bloodMeterContainer.css("width", 200 + this.bloodLevelMax * 50 + "px");
-  this.bloodMeter.css("width", (this.bloodLevel / this.bloodLevelMax) * 100 + "%");
-
   this.dashTimer -= dt;
   if (this.dashTimer <= 0 && this.isDashing)
   {
