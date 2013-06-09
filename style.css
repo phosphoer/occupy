@@ -1,0 +1,24 @@
+div.Menu
+{
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  left: 200px;
+  top: 10px;
+  color: #888;
+  background-color: #222;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+div.Button
+{
+  background-color: #333;
+  padding: 5px;
+  margin: 5px;
+}
+
+div.Button:hover
+{
+  background-color: #555;
+}

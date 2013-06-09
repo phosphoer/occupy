@@ -19,6 +19,7 @@ Human.prototype.killed = function(angle)
 
 Human.prototype.update = function(dt)
 {
+  // Move towards center
   var angleToCenter = Math.atan2(-this.parent.position.z, -this.parent.position.x);
   this.parent.position.x += Math.cos(angleToCenter) * this.movementSpeed * dt;
   this.parent.position.z += Math.sin(angleToCenter) * this.movementSpeed * dt;
