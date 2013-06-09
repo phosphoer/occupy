@@ -7,6 +7,8 @@ function Engine()
   this.factory = new Factory();
   this.game = new Game();
   this.graphics = new Graphics();
+  this.stocks = new Stocks();
+  this.stocks.hide();
 
   this.lastTime = new Date();
 
@@ -16,7 +18,7 @@ function Engine()
   this.stats.domElement.style.zIndex = 100;
 
   var container = document.createElement('div');
-  container.appendChild(this.stats.domElement);  
+  container.appendChild(this.stats.domElement);
   document.body.appendChild(container);
 }
 
