@@ -45,10 +45,15 @@ function Game()
   this.spawnsPerCheck = 3;
   this.spawnCap = 10 + this.difficulty * 0.1;
   this.nextWaveCount = 2.5 + this.difficulty * 0.1;
+  this.behemothCounter = 0;
+  this.swagArcherCounter = 0;
 
   this.increaseSpeedPrice = 500;
   this.increaseSizePrice = 1000;
   this.increaseDashPrice = 600;
+
+  this.introText = "10,000 years into the future vampires have taken over planet Earth - after the glorious setting of the sun, known to the pitiful humans as the 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his journey will not be over until every last human is dead, and all the available upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path.";
+  this.introTextCounter = 0;
 
   $("<div id='topHudContainer' />").appendTo($("body"));
   this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("#topHudContainer"));
@@ -63,7 +68,22 @@ function Game()
 
   $("<div class='MainMenuTitle'>#Occupy Vampire Wallstreet</div>").appendTo(this.mainMenuContainer);
   var mainMenuBody = $("<div class='MainMenuBody'></div>").appendTo(this.mainMenuContainer);
-  $("<div class='Agreement'>10,000 years into the future, vampires have taken over planet Earth, after the great setting of the sun, known to the pitiful humans as the great 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his  journey will not be over until every last human is dead, and all the available  upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path. </div>").appendTo(mainMenuBody);
+  $("<div id='agreement' class='Agreement'>10,000 years into the future, vampires have taken over planet Earth, after the great setting of the sun, known to the pitiful humans as the great 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his  journey will not be over until every last human is dead, and all the available  upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path. </div>").appendTo(mainMenuBody);
+  
+  $("#agreement").text("");
+
+  me = this;
+
+   // Update the random dataset at 25FPS for a smoothly-animating chart
+  setInterval(function()
+  {
+    if (me.introTextCounter <= me.introText.length)
+    {
+      me.introTextCounter += 10;
+      $("#agreement").text(me.introText.substring(0, me.introTextCounter));
+    }
+  }, 40);
+
   var startGame = $("<div class='Button'>I Accept</div>").appendTo(mainMenuBody);
   var that = this;
 
@@ -72,13 +92,36 @@ function Game()
     that.hasAccepted = true;
     JSEngine.start();
     that.mainMenuContainer.remove();
+
+    var fade = $("<div />").appendTo($("body"));
+    fade.css("position", "absolute");
+    fade.css("display", "block");
+    fade.css("left", "0px");
+    fade.css("top", "0px");
+    fade.css("width", "100%");
+    fade.css("height", "100%");
+    fade.css("background-color", "#000");
+    fade.css("opacity", "1");
+
+    fade.animate(
+    {
+      opacity: 0
+    }, 2000, function()
+    {
+      fade.remove();
+    });    
+
     that.gameMusic.play();
+
   });
 
 }
 
 Game.prototype.update = function(dt)
 {
+  // We're scared that physics can move the tower, because.. well.. things and stuff
+  this.tower.position.set(0, 1, -12);
+
   if (!this.hasAccepted)
     JSEngine.stop();
 
@@ -123,6 +166,28 @@ Game.prototype.update = function(dt)
       $("#buyDash").addClass("ButtonIcon");
       $("#buyDash").removeClass("ButtonIconDisabled");
     }
+
+    if (this.money < this.stockPrice && $("#buyStocks").hasClass("ButtonIcon"))
+    {
+      $("#buyStocks").removeClass("ButtonIcon");
+      $("#buyStocks").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.stockPrice )
+    {
+      $("#buyStocks").addClass("ButtonIcon");
+      $("#buyStocks").removeClass("ButtonIconDisabled");
+    }   
+
+    if (this.numStocks <= 0 && $("#sellStocks").hasClass("ButtonIcon"))
+    {
+      $("#sellStocks").removeClass("ButtonIcon");
+      $("#sellStocks").addClass("ButtonIconDisabled");
+    }
+    else if (this.numStocks > 0)
+    {
+      $("#sellStocks").addClass("ButtonIcon");
+      $("#sellStocks").removeClass("ButtonIconDisabled");
+    }      
   }
 
   // Look for end of wave
@@ -203,11 +268,11 @@ Game.prototype.waveEnd = function()
 
   var next = $("<div class='WaveTimer'>Next Wave <span id='waveTimer'></span></div>").appendTo(this.waveCompleteMenu);
 
-  var buy = $("<div class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
+  var buy = $("<div id='buyStocks' class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
   buy.append("<div>Buy</div>");
   buy.append("<img width='100px' height='100px' src='res/icons/buy.png' />");
 
-  var sell = $("<div class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
+  var sell = $("<div id='sellStocks' class='ButtonIcon'></div>").appendTo(this.stockMenu).css("width", "120px");
   sell.append("<div>Sell</div>");
   sell.append("<img width='100px' height='100px' src='res/icons/sell.png' />");
 
@@ -307,6 +372,10 @@ Game.prototype.buyStocks = function()
   {
     ++this.numStocks;
     this.money -= this.stockPrice;
+
+    JSEngine.stocks.tempColor = "rgb(215, 80, 55)";
+    JSEngine.stocks.tempColorFrames = 2;
+    JSEngine.stocks.addBuyPoint();
   }
 }
 
@@ -316,6 +385,10 @@ Game.prototype.sellStocks = function()
   {
     --this.numStocks;
     this.money += this.stockPrice;
+
+    JSEngine.stocks.tempColor = "rgb(215, 80, 55)";
+    JSEngine.stocks.tempColorFrames = 2;
+    JSEngine.stocks.addSellPoint();
   }
 }
 
@@ -383,9 +456,21 @@ Game.prototype.nextWave = function()
     typeCount[3] = Math.min(this.nextWaveCount * 0.2 - 8, this.spawnCap);
   }
 
+  if (this.wave >= 16)
+  {
+    typeCount[4] = Math.min(this.nextWaveCount * 0.06 - 18, this.spawnCap * 0.4);
+  }
+
   if (this.wave >= 18)
   {
-    typeCount[4] = Math.min(this.nextWaveCount * 0.05 - 20, this.spawnCap * 0.3);
+    ++this.behemothCounter;
+    typeCount[5] = this.behemothCounter;
+  }
+
+  if (this.wave >= 24)
+  {
+    ++this.swagArcherCounter;
+    typeCount[6] = this.swagArcherCounter;
   }
 
 
@@ -457,7 +542,7 @@ Game.prototype.nextWave = function()
 
 
   // Loop through enemy types
-  for(var j = 0; j <= 4; ++j)
+  for(var j = 0; j <= 6; ++j)
   {
     if (typeCount[j])
     {

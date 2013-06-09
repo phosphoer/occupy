@@ -4,13 +4,14 @@ function Velocity(parent, vel, omega, target)
   this.x = vel.x;
   this.y = vel.y;
   this.z = vel.z;
+  this.dead = false;
 
   this.omega = omega;
 
   this.target = target;
   ++JSEngine.game.bloodCount;
 
-  if (JSEngine.game.bloodCount >= 200)
+  if (JSEngine.game.bloodCount >= 150)
   {
     JSEngine.game.tooMuchBlood = true;
   }
@@ -20,8 +21,26 @@ Velocity.prototype.onCollide = function(obj)
 {
   if (obj.components.player)
   {
+    this.collectedByPlayer();
+  }
+}
+
+Velocity.prototype.collectedByPlayer = function(obj)
+{
+  if (this.dead)
+    return;
+  
+  if(this.parent.components.lifetime.life <= 0)
+  {
     this.parent.destroy();
+    --JSEngine.game.bloodCount;
     JSEngine.game.money += 1;
+    this.dead = true;
+
+    if (JSEngine.game.bloodCount <= 10)
+    {
+      JSEngine.game.tooMuchBlood = false;
+    }
   }
 }
 
@@ -57,14 +76,7 @@ Velocity.prototype.update = function(dt)
 
         if (len < 1)
         {
-            this.parent.destroy();
-            --JSEngine.game.bloodCount;
-            JSEngine.game.money += 1;
-
-            if (JSEngine.game.bloodCount <= 10)
-            {
-              JSEngine.game.tooMuchBlood = false;
-            }
+            this.collectedByPlayer();
         }
         else
         {

@@ -2,6 +2,10 @@ function Stocks()
 {
   this.ui = $('<div id="placeholder" class="graph"></div>').appendTo($("body"));
 
+  this.tempColor = "rgb(200, 200, 50)";
+  this.tempColorFrames = 0;
+
+
   var container = $("#placeholder");
 
   // Determine how many data points to keep based on the placeholder's initial size;
@@ -35,6 +39,27 @@ function Stocks()
     return res;
   }
 
+
+  var buys = [
+  ];
+
+  var buys_points = {
+    show: true,
+    radius: 3,
+    errorbars: "y", 
+    yerr: {show:true, asymmetric:true}
+  };
+
+  var sells = [
+  ];
+
+  var sells_points = {
+    show: true,
+    radius: 3,
+    errorbars: "y", 
+    yerr: {show:true, asymmetric:true}
+  };
+
   series = [
     {
       data: getRandomData(),
@@ -43,6 +68,16 @@ function Stocks()
       {
         fill: true
       }
+    },
+    {
+      data: buys,
+      color: "rgb(200, 200, 50)",
+      points: buys_points,
+    },
+    {
+      data: sells,
+      color: "rgb(50, 210, 50)",
+      points: sells_points,
     }
   ];
 
@@ -85,10 +120,49 @@ function Stocks()
     }
   });
 
+  self = this;
+
+  
+
+  Stocks.prototype.addBuyPoint = function()
+  {
+    var value = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
+    buys.push([maximum,value,0.0,0.0]);
+  }
+
+  Stocks.prototype.addSellPoint = function()
+  {
+    var value = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
+    sells.push([maximum,value,0.0,0.0]);
+  }
+
+
   // Update the random dataset at 25FPS for a smoothly-animating chart
   setInterval(function updateRandom()
   {
+    if (self.tempColorFrames > 0)
+    {
+      series[0].color = self.tempColor;
+    }
+    else
+    {
+      series[0].color = "rgb(200, 50, 50)";
+    }
+    --self.tempColorFrames;
+
     series[0].data = getRandomData();
+
+    var killPoint = false;
+
+    for (var point in buys)
+    {
+      buys[point][0] -= 1;
+    }
+    for (var point in sells)
+    {
+      sells[point][0] -= 1;
+    }
+
     plot.setData(series);
     plot.draw();
   }, 40);

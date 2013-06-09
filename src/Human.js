@@ -10,7 +10,6 @@ function Human(parent, type)
   this.lastHitTime = -10000;
   this.lastTargetAngle = 0;
   this.refireTime = 0;
-  this.refireTimer = 0;
   this.minTargetRange = -10000;
   this.wormTime = 0;
   this.wormTimer = 0;
@@ -63,25 +62,53 @@ function Human(parent, type)
     this.projectileSpeed = 20;
     this.damage = 0.5;
     this.movementSpeed = 10 + Math.random() * 2;
-    this.parent.scale.set(0.6, 2.2, 0.6);
-    this.parent.components.cube.material.color.setHex(0x82C9FA);
-    this.parent.components.cube.material.emissive.setHex(0x0C030F);
+    this.parent.scale.set(0.8, 2.8, 0.8);
+    this.parent.components.cube.material.color.setHex(0x52A9FA);
+    this.parent.components.cube.material.emissive.setHex(0x0A030F);
     this.target = JSEngine.game.tower;
   }
   // Annoying little shits
   else if (type == 4)
   {
+    this.maxHits = 6;
     this.bouncer = true;
     this.damage = 1;
     this.bloodScale = 0.5;
     this.movementSpeed = 3 + Math.random() * 8;
-    this.parent.scale.set(0.5, 0.5, 0.5);
-    this.parent.components.cube.material.color.setHex(0x4F4444);
+    this.parent.scale.set(1.0, 1.0, 1.0);
+    this.parent.components.cube.material.color.setHex(0x7F6F6F);
     this.parent.components.cube.material.emissive.setHex(0x090202);
     this.target = pickRandomValue(JSEngine.game.players).parent;
   }
+  // Behemoth!
+  else if (type == 5)
+  {
+    this.maxHits = 80;
+    this.bloodScale = 3;
+    this.damage = 160.0;
+    this.movementSpeed = 2;
+    this.parent.scale.set(6, 6, 6);
+    this.parent.components.cube.material.color.setHex(0x00FF00);
+    this.parent.components.cube.material.emissive.setHex(0x00330F);
+    this.target = JSEngine.game.tower;
+  }
+  // Swag archers
+  else if (type == 6)
+  {
+    this.maxHits = 12;
+    this.wormTime = 0.4;
+    this.refireTime = 0.08;
+    this.projectileSpeed = 30;
+    this.damage = 3;
+    this.movementSpeed = 16 + Math.random() * 4;
+    this.parent.scale.set(3, 6, 3);
+    this.parent.components.cube.material.color.setHex(0x0000FF);
+    this.parent.components.cube.material.emissive.setHex(0x0A031F);
+    this.target = JSEngine.game.tower;
+  }
 
   this.originalColor = this.parent.components.cube.material.color.getHex();
+  this.refireTimer = Math.random() * this.refireTime;
 }
 
 Human.prototype.killed = function(angle)
@@ -107,6 +134,8 @@ Human.prototype.onCollide = function(obj)
   {
     player.knockBack.set(this.parent.position.x - obj.position.x, 0, this.parent.position.z - obj.position.z);
     player.knockBack.normalize();
+    player.knockBack.x *= 0.4;
+    player.knockBack.z *= 0.4;
   }
 }
 
@@ -151,7 +180,7 @@ Human.prototype.update = function(dt)
     if (this.refireTimer > this.refireTime)
     {
       this.refireTimer = 0;
-      var vel = new THREE.Vector3(Math.cos(targetAngle) * this.projectileSpeed, 10, Math.sin(targetAngle) * this.projectileSpeed);
+      var vel = new THREE.Vector3(Math.cos(targetAngle) * this.projectileSpeed, 14, Math.sin(targetAngle) * this.projectileSpeed);
       createEnemyProjectile(this.parent.position, vel, this.damage);
       this.shootSound.play();
     }
@@ -165,7 +194,7 @@ Human.prototype.update = function(dt)
 
   var range = Math.sqrt(toTargetX * toTargetX + toTargetZ * toTargetZ);
 
-  this.parent.rotation.y = -targetAngle;
+  this.parent.rotation.y = -targetAngle + Math.PI;
 
 
   if (this.wormTime > 0)

@@ -9,7 +9,9 @@ function Camera(parent)
   this.offset = new THREE.Vector3(0, 15, 15);
 
   // Any smoothing we apply to the camera
-  this.smoothing = 0.05;
+  this.initialSmoothing = 0.0025;
+  this.smoothing = this.initialSmoothing;
+  this.maxSmoothing = 0.05;
 
   // The field of view
   this.fov = 70;
@@ -37,6 +39,9 @@ function Camera(parent)
   this.pixelSizeY = 0;
   this.pixelOffsetX = 0;
   this.pixelOffsetY = 0;
+
+  this.cam.position.y = 50;
+  this.cam.position.z = 120;
 }
 
 Camera.prototype.destroy = function()
@@ -47,6 +52,12 @@ Camera.prototype.destroy = function()
 
 Camera.prototype.update = function(dt)
 {
+  this.smoothing += (this.maxSmoothing - this.initialSmoothing) * dt * 0.25;
+  if(this.smoothing > this.maxSmoothing)
+  {
+    this.smoothing = this.maxSmoothing;
+  }
+
   this.pixelSizeX = this.sizeX * window.innerWidth;
   this.pixelSizeY = this.sizeY * window.innerHeight;
 
