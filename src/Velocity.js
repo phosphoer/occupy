@@ -8,6 +8,12 @@ function Velocity(parent, vel, omega, target)
   this.omega = omega;
 
   this.target = target;
+  ++JSEngine.game.bloodCount;
+
+  if (JSEngine.game.bloodCount >= 200)
+  {
+    JSEngine.game.tooMuchBlood = true;
+  }
 }
 
 Velocity.prototype.onCollide = function(obj)
@@ -31,11 +37,13 @@ Velocity.prototype.update = function(dt)
     var len = dir.x * dir.x + dir.y * dir.y + dir.z * dir.z;
     len = Math.sqrt(len);
 
-    if(len < 5 || JSEngine.game.inMenu)
+    var fastSucking = JSEngine.game.inMenu || JSEngine.game.tooMuchBlood;
+
+    if(len < 5 || fastSucking)
     {
         toTargetForce = 0.5;
 
-        if (JSEngine.game.inMenu)
+        if (fastSucking)
         {
           toTargetForce = 1.5;
         }
@@ -50,7 +58,13 @@ Velocity.prototype.update = function(dt)
         if (len < 1)
         {
             this.parent.destroy();
+            --JSEngine.game.bloodCount;
             JSEngine.game.money += 1;
+
+            if (JSEngine.game.bloodCount <= 10)
+            {
+              JSEngine.game.tooMuchBlood = false;
+            }
         }
         else
         {

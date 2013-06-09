@@ -1,7 +1,8 @@
 function Game()
 {
-  this.nextWaveCount = 3;
   this.humanCount = 0;
+  this.bloodCount = 0;
+  this.tooMuchBlood = false;
   this.players = {};
   this.firstRun = true;
   this.numStocks = 0;
@@ -21,6 +22,7 @@ function Game()
   this.spawnTimer = 0;
   this.spawnsPerCheck = 3;
   this.spawnCap = 10 + this.difficulty * 0.1;
+  this.nextWaveCount = 2.5 + this.difficulty * 0.1;
 
   this.increaseSpeedPrice = 500;
   this.increaseSizePrice = 1000;
@@ -58,7 +60,40 @@ Game.prototype.update = function(dt)
 
   if(this.inMenu)
   {
-    $('#waveTimer').text((this.menuTime - this.menuTimer).toFixed(2));
+    $('#waveTimer').text(Math.round(this.menuTime - this.menuTimer));
+
+    if (this.money < this.increaseSpeedPrice && $("#buySpeed").hasClass("ButtonIcon"))
+    {
+      $("#buySpeed").removeClass("ButtonIcon");
+      $("#buySpeed").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.increaseSpeedPrice)
+    {
+      $("#buySpeed").addClass("ButtonIcon");
+      $("#buySpeed").removeClass("ButtonIconDisabled");
+    }
+
+    if (this.money < this.increaseSizePrice && $("#buySize").hasClass("ButtonIcon"))
+    {
+      $("#buySize").removeClass("ButtonIcon");
+      $("#buySize").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.increaseSizePrice )
+    {
+      $("#buySize").addClass("ButtonIcon");
+      $("#buySize").removeClass("ButtonIconDisabled");
+    }
+
+    if (this.money < this.increaseDashPrice && $("#buyDash").hasClass("ButtonIcon"))
+    {
+      $("#buyDash").removeClass("ButtonIcon");
+      $("#buyDash").addClass("ButtonIconDisabled");
+    }
+    else if (this.money >= this.increaseDashPrice )
+    {
+      $("#buyDash").addClass("ButtonIcon");
+      $("#buyDash").removeClass("ButtonIconDisabled");
+    }
   }
 
   // Look for end of wave
@@ -68,6 +103,11 @@ Game.prototype.update = function(dt)
       this.waveEnd();
     else
       this.nextWave();
+  }
+
+  if (this.inMenu)
+  {
+    this.tower.components.tower.health = this.tower.components.tower.health * 0.95 + this.tower.components.tower.maxHealth * 0.05;
   }
 
   if (this.menuTimer >= this.menuTime && this.inMenu)
@@ -81,6 +121,33 @@ Game.prototype.update = function(dt)
   this.firstRun = false;
 
   this.updateSpawns(dt);
+}
+
+Game.prototype.restart = function()
+{
+  window.location = window.location;
+}
+
+Game.prototype.lose = function()
+{
+  var fade = $("<div />").appendTo($("body"));
+  fade.css("position", "absolute");
+  fade.css("display", "block");
+  fade.css("left", "0px");
+  fade.css("top", "0px");
+  fade.css("width", "100%");
+  fade.css("height", "100%");
+  fade.css("background-color", "#000");
+  fade.css("opacity", "0");
+
+  fade.animate(
+  {
+    opacity: 1
+  }, 2000, function()
+  {
+    fade.remove();
+    JSEngine.game.restart();
+  });
 }
 
 Game.prototype.waveEnd = function()
@@ -111,20 +178,20 @@ Game.prototype.waveEnd = function()
   sell.append("<div>Sell</div>");
   sell.append("<img width='100px' height='100px' src='res/icons/sell.png' />");
 
-  var upgradeSpeed = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  var upgradeSpeed = $("<div id='buySpeed' class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeSpeed.append("<div>Speed</div>");
   upgradeSpeed.append("<img width='100px' height='100px' src='res/icons/speed.png' />");
-  upgradeSpeed.append("<div>" + this.increaseSpeedPrice + " pints</div>");
+  upgradeSpeed.append("<div id='buySpeedPrice'>" + this.increaseSpeedPrice + " pints</div>");
 
-  var upgradeSize = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  var upgradeSize = $("<div id='buySize' class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeSize.append("<div>Size</div>");
   upgradeSize.append("<img width='100px' height='100px' src='res/icons/size.png' />");
-  upgradeSize.append("<div>" + this.increaseSizePrice + " pints</div>");
+  upgradeSize.append("<div id='buySizePrice'>" + this.increaseSizePrice + " pints</div>");
 
-  var upgradeDash = $("<div class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
+  var upgradeDash = $("<div id='buyDash' class='ButtonIcon'></div>").appendTo(this.menuUI).css("width", "120px");
   upgradeDash.append("<div>Dash</div>");
   upgradeDash.append("<img width='100px' height='100px' src='res/icons/dash.png' />");
-  upgradeDash.append("<div>" + this.increaseDashPrice + " pints</div>");
+  upgradeDash.append("<div id='buyDashPrice'>" + this.increaseDashPrice + " pints</div>");
 
   var that = this;
   function closeMenu()
@@ -142,6 +209,7 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseSpeedPrice;
         JSEngine.factory.sendEventToAll("upgradeSpeed");
         that.increaseSpeedPrice = Math.round(that.increaseSpeedPrice * 1.5);
+        $("#buySpeedPrice").text(that.increaseSpeedPrice + " pints");
       }
     });
   upgradeSize.bind("click", function()
@@ -151,6 +219,7 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseSizePrice;
         that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
         JSEngine.factory.sendEventToAll("upgradeSize");
+        $("#buySizePrice").text(that.increaseSizePrice + " pints");
       }
     });
   upgradeDash.bind("click", function()
@@ -160,10 +229,11 @@ Game.prototype.waveEnd = function()
         that.money -= that.increaseDashPrice;
         JSEngine.factory.sendEventToAll("upgradeDash");
         that.increaseDashPrice = Math.round(that.increaseDashPrice * 1.5);
+        $("#buyDashPrice").text(that.increaseDashPrice + " pints");
       }
     });
 
-  next.bind('click', function () 
+  next.bind('click', function ()
   {
     closeMenu();
   });
@@ -224,6 +294,10 @@ Game.prototype.nextWave = function()
 {
   ++this.wave;
 
+  this.tooMuchBlood = false;
+
+  this.tower.components.tower.health = this.tower.components.tower.maxHealth;
+
   JSEngine.game.humanCount = 0;
 
   if (Math.random() < 0.5)
@@ -235,25 +309,75 @@ Game.prototype.nextWave = function()
 
   typeCount[0] = Math.min(this.nextWaveCount, this.spawnCap);
 
-  if (this.wave >= 3)
+  if (this.wave >= 2)
   {
-    typeCount[1] = Math.min(this.nextWaveCount * 0.1 - 1, this.spawnCap);
+    typeCount[1] = Math.min(this.nextWaveCount * 0.4 - 1, this.spawnCap);
   }
 
   if (this.wave >= 6)
   {
-    typeCount[2] = Math.min(this.nextWaveCount * 0.1 - 5, this.spawnCap10);
-  }
+    var cap = this.spawnCap;
 
-  if (this.wave >= 10)
-  {
-    typeCount[3] = Math.min(this.nextWaveCount * 0.2 - 8, this.spawnCap);
+    if (this.wave >= 12)
+    {
+      cap *= 0.6;
+    }
+    typeCount[2] = Math.min(this.nextWaveCount * 0.15 - 4, this.spawnCap);
   }
 
   if (this.wave >= 14)
   {
+    typeCount[3] = Math.min(this.nextWaveCount * 0.2 - 8, this.spawnCap);
+  }
+
+  if (this.wave >= 18)
+  {
     typeCount[4] = Math.min(this.nextWaveCount * 0.05 - 20, this.spawnCap * 0.3);
   }
+
+
+  // SPECIAL WAVES
+  if (this.wave == 5)
+  {
+    typeCount[0] = 0;
+    typeCount[1] = 10;
+    typeCount[2] = 0;
+    typeCount[3] = 0;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 10)
+  {
+    typeCount[0] = 0;
+    typeCount[1] = 2;
+    typeCount[2] = 20;
+    typeCount[3] = 0;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 15)
+  {
+    typeCount[0] = 6;
+    typeCount[1] = 0;
+    typeCount[2] = 0;
+    typeCount[3] = 12;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 20)
+  {
+    typeCount[0] = 6;
+    typeCount[1] = 6;
+    typeCount[2] = 6;
+    typeCount[3] = 6;
+    typeCount[4] = 6;
+  }
+  if (this.wave == 30)
+  {
+    typeCount[0] = 12;
+    typeCount[1] = 12;
+    typeCount[2] = 12;
+    typeCount[3] = 12;
+    typeCount[4] = 12;
+  }
+
 
   // Loop through enemy types
   for(var j = 0; j <= 4; ++j)
