@@ -1,6 +1,8 @@
 function Game()
 {
   this.humanCount = 0;
+  this.bloodCount = 0;
+  this.tooMuchBlood = false;
   this.players = {};
   this.firstRun = true;
   this.numStocks = 0;
@@ -277,6 +279,8 @@ Game.prototype.updateSpawns = function(dt)
 Game.prototype.nextWave = function()
 {
   ++this.wave;
+
+  this.tooMuchBlood = false;
 
   this.tower.components.tower.health = this.tower.components.tower.maxHealth;
 

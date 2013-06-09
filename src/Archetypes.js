@@ -71,7 +71,7 @@ function createBloodSpray(amount, pos, angle, extraScale)
     v.x = Math.cos(angle - 0.3 + Math.random() * 0.6) * speed;
     v.y = Math.random() * 10;
     v.z = Math.sin(angle - 0.3 + Math.random() * 0.6) * speed;
-    obj.components.lifetime = new LifeTime(obj, .3);
+    obj.components.lifetime = new LifeTime(obj, 0.7);
     obj.components.cube = new Cube(obj, { color: 0xFF0000 });
 
     var w = {};
