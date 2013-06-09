@@ -87,6 +87,7 @@ Game.prototype.waveEnd = function()
       {
         that.money -= that.increaseSizePrice;
         that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
+        JSEngine.factory.sendEventToAll("upgradeSize");
         closeMenu();
       }
     });
