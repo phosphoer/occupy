@@ -101,6 +101,11 @@ Input.prototype.update = function()
 {
     var rayCaster = JSEngine.graphics.rayCast(this.mouseX, this.mouseY);
 
+    if (!rayCaster)
+    {
+      return;
+    }
+
     var groundPlane = new THREE.Plane();
     groundPlane.normal = new THREE.Vector3(0, 1, 0);
     groundPlane.constant = 1;

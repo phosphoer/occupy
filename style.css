@@ -155,13 +155,24 @@ div.ButtonIcon:active
   background-color: #777;
 }
 
+#topHudContainer
+{
+  left: 25%;
+  width: 50%;
+  height: 200px;
+  position: absolute;
+  top: 10px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 div.HealthBarContainer
 {
-  position: absolute;
-  left: 25%;
-  top: 10px;
+  position: relative;
+  display: inline-block;
   background-color: #000;
-  width: 50%;
+  width: 400px;
+  top: -40px;
   height: 20px;
   padding: 10px;
   margin: 0 auto;
@@ -181,13 +192,20 @@ div.HealthBarInner
 
 div.MoneyCounter
 {
-  position: absolute;
-  top: 60px;
-  width: 100%;
-  text-align:center;
+  display: inline-block;
   color: #888;
   font-size: 26px;
-  margin: 0 auto;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  cursor: default;
+}
+
+div.StockCounter
+{
+  display: inline-block;
+  color: #888;
+  font-size: 26px;
 
   -webkit-user-select:none;
   -moz-user-select:none;

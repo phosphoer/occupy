@@ -10,22 +10,36 @@ function Game()
   this.menuTime = 12;
   this.menuTimer = 0;
   this.hasAccepted = false;
+  this.wave = 0;
+
+  this.waveEnemyTypes = [];
+
+  this.difficulty = 5;
+
+
+  this.spawnInterval = 1 - (this.difficulty * 0.1);
+  this.spawnTimer = 0;
+  this.spawnsPerCheck = 3;
 
   this.increaseSpeedPrice = 2500;
   this.increaseSizePrice = 2500;
   this.increaseDashPrice = 2500;
 
-  this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("body"));
-  this.moneyCountUI = $("<div />").appendTo(this.moneyDisplay);
-  this.stockCountUI = $("<div />").appendTo(this.moneyDisplay);
+  $("<div id='topHudContainer' />").appendTo($("body"));
+  this.moneyDisplay = $("<div class='MoneyCounter'></div>").appendTo($("#topHudContainer"));
+  $("<img width='75px' height='75px' src='res/icons/money.png' />").appendTo(this.moneyDisplay);
+  $("<div id='moneyCount'></div>").appendTo(this.moneyDisplay);
+  this.stockDisplay = $("<div class='StockCounter'></div>").appendTo($("#topHudContainer"));
+  $("<img width='75px' height='75px' src='res/icons/stocks.png' />").appendTo(this.stockDisplay);
+  $("<div id='stockCount'></div>").appendTo(this.stockDisplay);
 }
 
 Game.prototype.update = function(dt)
 {
   this.menuTimer += dt;
   this.stockPrice = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
-  this.moneyCountUI.text("Blood Money: " + Math.round(this.money) + " pints ");
-  this.stockCountUI.text("Blood Stocks: " + Math.round(this.numStocks));
+  $("#moneyCount").text(Math.round(this.money));
+  $("#stockCount").text(Math.round(this.numStocks));
 
   if(this.inMenu)
   {
@@ -52,6 +66,8 @@ Game.prototype.update = function(dt)
   }
 
   this.firstRun = false;
+
+  this.updateSpawns(dt);
 }
 
 Game.prototype.waveEnd = function()
@@ -170,14 +186,73 @@ Game.prototype.sellStocks = function()
   }
 }
 
+Game.prototype.updateSpawns = function(dt)
+{
+  this.spawnTimer += dt;
+
+  if (this.spawnTimer >= this.spawnInterval)
+  {
+    this.spawnTimer = 0;
+
+    // Loop for the number of spawns per check, and only while we have enemies to spawn
+    for(var j = 0; j < this.spawnsPerCheck && this.waveEnemyTypes.length > 0; ++j)
+    {
+      var index = Math.floor(Math.random() * this.waveEnemyTypes.length);
+      var type = this.waveEnemyTypes[index];
+
+      // Swap with the last
+      this.waveEnemyTypes[index] = this.waveEnemyTypes[this.waveEnemyTypes.length - 1];
+      this.waveEnemyTypes.pop();
+
+      // Create that enemy type
+      createHuman(type);
+    }
+  }
+}
+
 Game.prototype.nextWave = function()
 {
-  // Spawn humans
-  for (var i = 0; i < this.nextWaveCount; ++i)
+  ++this.wave;
+
+  JSEngine.game.humanCount = 0;
+
+  typeCount = {};
+
+  typeCount[0] = this.nextWaveCount;
+
+  if (this.wave >= 3)
   {
-    createHuman(2);
+    typeCount[1] = this.nextWaveCount * 0.1 - 1;
+  }
+
+  if (this.wave >= 6)
+  {
+    typeCount[2] = this.nextWaveCount * 0.1 - 5;
+  }
+
+  if (this.wave >= 10)
+  {
+    typeCount[3] = this.nextWaveCount * 0.2 - 8;
+  }
+
+  if (this.wave >= 14)
+  {
+    typeCount[4] = this.nextWaveCount * 0.1 - 12;
+  }
+
+  // Loop through enemy types
+  for(var j = 0; j <= 4; ++j)
+  {
+    if (typeCount[j])
+    {
+      for (var i = 0; i < typeCount[j]; ++i)
+      {
+        this.waveEnemyTypes.push(j);
+        ++JSEngine.game.humanCount;
+      }
+    }
   }
 
   // Scale up difficulty
-  this.nextWaveCount *= 1.1;
+  this.nextWaveCount *= 1.1 + this.difficulty * 0.05;
 }
