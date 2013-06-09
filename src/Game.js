@@ -16,10 +16,11 @@ function Game()
 
   this.difficulty = 5;
 
-
+  this.spawnSide = -1; // -1 Left, 1 Right
   this.spawnInterval = 1 - (this.difficulty * 0.1);
   this.spawnTimer = 0;
   this.spawnsPerCheck = 3;
+  this.spawnCap = 10 + this.difficulty * 0.1;
 
   this.increaseSpeedPrice = 2500;
   this.increaseSizePrice = 2500;
@@ -216,28 +217,33 @@ Game.prototype.nextWave = function()
 
   JSEngine.game.humanCount = 0;
 
+  if (Math.random() < 0.5)
+    this.spawnSide = -1;
+  else
+    this.spawnSide = 1;
+
   typeCount = {};
 
-  typeCount[0] = this.nextWaveCount;
+  typeCount[0] = Math.min(this.nextWaveCount, this.spawnCap);
 
   if (this.wave >= 3)
   {
-    typeCount[1] = this.nextWaveCount * 0.1 - 1;
+    typeCount[1] = Math.min(this.nextWaveCount * 0.1 - 1, this.spawnCap);
   }
 
   if (this.wave >= 6)
   {
-    typeCount[2] = this.nextWaveCount * 0.1 - 5;
+    typeCount[2] = Math.min(this.nextWaveCount * 0.1 - 5, this.spawnCap10);
   }
 
   if (this.wave >= 10)
   {
-    typeCount[3] = this.nextWaveCount * 0.2 - 8;
+    typeCount[3] = Math.min(this.nextWaveCount * 0.2 - 8, this.spawnCap);
   }
 
   if (this.wave >= 14)
   {
-    typeCount[4] = this.nextWaveCount * 0.1 - 12;
+    typeCount[4] = Math.min(this.nextWaveCount * 0.05 - 20, this.spawnCap * 0.3);
   }
 
   // Loop through enemy types
@@ -255,4 +261,5 @@ Game.prototype.nextWave = function()
 
   // Scale up difficulty
   this.nextWaveCount *= 1.1 + this.difficulty * 0.05;
+  this.spawnCap *= 1.01;
 }

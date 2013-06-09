@@ -50,20 +50,8 @@ function Human(parent, type)
     this.parent.components.cube.material.emissive.setHex(0x020209);
     this.target = JSEngine.game.tower;
   }
-  // Annoying little shits
-  else if (type == 3)
-  {
-    this.bouncer = true;
-    this.blood = 10;
-    this.damage = 1;
-    this.movementSpeed = 3 + Math.random() * 8;
-    this.parent.scale.set(0.5, 0.5, 0.5);
-    this.parent.components.cube.material.color.setHex(0x4F4444);
-    this.parent.components.cube.material.emissive.setHex(0x090202);
-    this.target = pickRandomValue(JSEngine.game.players).parent;
-  }
   // Advanced archers
-  else if (type == 4)
+  else if (type == 3)
   {
     this.wormTime = 1;
     this.refireTime = 0.2;
@@ -75,6 +63,18 @@ function Human(parent, type)
     this.parent.components.cube.material.color.setHex(0x82C9FA);
     this.parent.components.cube.material.emissive.setHex(0x0C030F);
     this.target = JSEngine.game.tower;
+  }
+  // Annoying little shits
+  else if (type == 4)
+  {
+    this.bouncer = true;
+    this.blood = 10;
+    this.damage = 1;
+    this.movementSpeed = 3 + Math.random() * 8;
+    this.parent.scale.set(0.5, 0.5, 0.5);
+    this.parent.components.cube.material.color.setHex(0x4F4444);
+    this.parent.components.cube.material.emissive.setHex(0x090202);
+    this.target = pickRandomValue(JSEngine.game.players).parent;
   }
 }
 
