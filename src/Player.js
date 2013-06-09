@@ -3,15 +3,14 @@ function Player(parent, inputProfile)
   this.parent = parent;
   this.normalSpeed = 10;
   this.dashSpeed = 20;
-  this.dashTime = 0.3;
+  this.dashTime = 0.2;
   this.dashTimer = 0;
   this.isDashing = false;
   this.movementSpeed = this.normalSpeed;
   this.bloodLevel = 1;
   this.bloodLevelMax = 1;
   this.rotationSmoothing = 0.2;
-  this.usesMouse = false;
-
+  this.size = 1;
   JSEngine.game.players[parent.id] = this;
 
   if (inputProfile == 0)
@@ -21,7 +20,6 @@ function Player(parent, inputProfile)
     this.leftKey = JSEngine.input.A;
     this.rightKey = JSEngine.input.D;
     this.boostKey = JSEngine.input.SPACE;
-    this.usesMouse = true;
   }
   else
   {
@@ -35,8 +33,7 @@ function Player(parent, inputProfile)
   this.light = new THREE.PointLight(0xFFFFFF, 1, 100);
   JSEngine.graphics.scene.add(this.light);
 
-  this.bloodMeterContainer = $("<div class='BloodMeterContainer' />").appendTo($("body"));
-  this.bloodMeter = $("<div class='BloodMeter' />").appendTo(this.bloodMeterContainer);
+
 
 }
 
@@ -65,76 +62,57 @@ Player.prototype.destroy = function()
 
 Player.prototype.update = function(dt)
 {
-  if (!JSEngine.game.inMenu)
-    this.bloodLevel -= dt * 0.05;
-  this.bloodMeterContainer.css("width", 200 + this.bloodLevelMax * 50 + "px");
-  this.bloodMeter.css("width", (this.bloodLevel / this.bloodLevelMax) * 100 + "%");
+
+  this.size += .0001;
+  this.parent.components.collider.width = this.size;
+  this.parent.components.collider.height = this.size;
 
   this.dashTimer -= dt;
   if (this.dashTimer <= 0 && this.isDashing)
   {
     this.isDashing = false;
     this.movementSpeed = this.normalSpeed;
-    this.parent.components.cube.trailLength = 0;
   }
 
   var moveX = 0;
   var moveZ = 0;
 
-  if (JSEngine.input.isKeyDown(this.forwardKey))
+  if (JSEngine.input.isDown(this.forwardKey))
   {
-    moveZ -= 1;
+    moveZ -= this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isKeyDown(this.backwardKey))
+  if (JSEngine.input.isDown(this.backwardKey))
   {
-    moveZ += 1;
+    moveZ += this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isKeyDown(this.leftKey))
+  if (JSEngine.input.isDown(this.leftKey))
   {
-    moveX -= 1;
+    moveX -= this.movementSpeed * dt;
   }
 
-  if (JSEngine.input.isKeyDown(this.rightKey))
+  if (JSEngine.input.isDown(this.rightKey))
   {
-    moveX += 1;
+    moveX += this.movementSpeed * dt;
   }
 
-  if (this.usesMouse)
-  {
-    if (JSEngine.input.isMouseDown(JSEngine.input.MOUSE_LEFT))
-    {
-      moveX = JSEngine.input.mouseWorldPosition.x - this.parent.position.x;
-      moveZ = JSEngine.input.mouseWorldPosition.z - this.parent.position.z;
-    }
-  }
+  this.parent.position.x += moveX;
+  this.parent.position.z += moveZ;
 
-  var magnitude = Math.sqrt(moveX * moveX + moveZ * moveZ);
+  angle = Math.atan2(moveZ, -moveX);
 
-  if (magnitude != 0)
-  {
-    moveX /= magnitude;
-    moveZ /= magnitude;
-  }
+  //this.parent.rotation.y = angle * this.rotationSmoothing + this.parent.rotation.y * (1.0 - this.rotationSmoothing);
+  this.parent.rotation.y = angle;
 
-  this.parent.position.x += moveX * this.movementSpeed * dt;
-  this.parent.position.z += moveZ * this.movementSpeed * dt;
-
-  if (moveX != 0 || moveZ != 0)
-  {
-    this.parent.rotation.y = Math.atan2(moveZ, -moveX);
-  }
-
-  if (JSEngine.input.isKeyDown(this.boostKey) && this.dashTimer <= -0.5)
+  if (JSEngine.input.isDown(this.boostKey) && this.dashTimer <= -0.5)
   {
     this.movementSpeed = this.dashSpeed;
     this.dashTimer = this.dashTime;
     this.isDashing = true;
-    this.parent.components.cube.trailLength = 40;
   }
 
-  if (JSEngine.input.isKeyDown(JSEngine.input.P))
+  if (JSEngine.input.isDown(JSEngine.input.P))
   {
     this.parent.destroy();
   }
