@@ -94,10 +94,12 @@ div.HealthBarInner
 div.MoneyCounter
 {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
-  color: #888;
+  top: 7%;
+  width: 100%;
+  text-align:center;
+  color: #888;  
   font-size: 26px;
+  margin: 0 auto;
 
   -webkit-user-select:none;
   -moz-user-select:none;
