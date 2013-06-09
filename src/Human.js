@@ -18,6 +18,8 @@ function Human(parent, type)
   this.bloodScale = 1;
   this.maxHits = 1;
   this.blinkSpeed = 15;
+  this.shootSound = new Audio("res/shoot.wav");
+  this.shootSound.volume = 0.1;
 
   // Standard drone
   if (type == 0)
@@ -151,6 +153,7 @@ Human.prototype.update = function(dt)
       this.refireTimer = 0;
       var vel = new THREE.Vector3(Math.cos(targetAngle) * this.projectileSpeed, 10, Math.sin(targetAngle) * this.projectileSpeed);
       createEnemyProjectile(this.parent.position, vel, this.damage);
+      this.shootSound.play();
     }
   }
 
@@ -161,7 +164,7 @@ Human.prototype.update = function(dt)
   }
 
   var range = Math.sqrt(toTargetX * toTargetX + toTargetZ * toTargetZ);
-  
+
   this.parent.rotation.y = -targetAngle;
 
 
@@ -199,7 +202,7 @@ Human.prototype.update = function(dt)
     }
 
     targetAngle = Math.atan2(toTargetZ, toTargetX);
-  }  
+  }
 
   if (range > this.minTargetRange)
   {

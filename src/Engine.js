@@ -17,9 +17,9 @@ function Engine()
   this.stats.domElement.style.top = '0px';
   this.stats.domElement.style.zIndex = 100;
 
-  var container = document.createElement('div');
-  container.appendChild(this.stats.domElement);
-  document.body.appendChild(container);
+  //var container = document.createElement('div');
+  //container.appendChild(this.stats.domElement);
+  //document.body.appendChild(container);
 }
 
 Engine.prototype.start = function()

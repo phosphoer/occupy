@@ -10,6 +10,8 @@ function Player(parent, inputProfile)
   this.rotationSmoothing = 0.2;
   this.usesMouse = false;
   this.size = 1;
+  this.dashSound = new Audio("res/dash.wav");
+  this.attackSound = new Audio("res/attack.wav");
 
   this.knockBack = new THREE.Vector3();
   this.knockBackSlowdown = 0.7;
@@ -46,9 +48,9 @@ Player.prototype.upgradeSize = function()
 {
   this.size *= 1.3;
   this.parent.position.y = this.size;
-  this.parent.components.cube.mesh.scale.set(this.size, this.size, this.size); 
+  this.parent.components.cube.mesh.scale.set(this.size, this.size, this.size);
   this.parent.components.collider.width = this.size;
-  this.parent.components.collider.height = this.size;  
+  this.parent.components.collider.height = this.size;
 }
 
 Player.prototype.upgradeDash = function()
@@ -68,6 +70,7 @@ Player.prototype.onCollide = function(obj)
   var human = obj.components.human;
   if (human && this.isDashing)
   {
+    this.attackSound.play();
     obj.sendEvent("killed", Math.atan2(obj.position.z - this.parent.position.z, obj.position.x - this.parent.position.x));
     this.bloodLevel += 0.1;
     if (this.bloodLevel > this.bloodLevelMax)
@@ -92,6 +95,9 @@ Player.prototype.update = function(dt)
 
   var moveX = 0;
   var moveZ = 0;
+
+  if (JSEngine.game.inMenu)
+    return;
 
   if (JSEngine.input.isKeyDown(this.forwardKey))
   {
@@ -150,6 +156,7 @@ Player.prototype.update = function(dt)
     this.dashTimer = this.dashTime;
     this.isDashing = true;
     this.parent.components.cube.trailLength = 40;
+    this.dashSound.play();
   }
 
   if (JSEngine.input.isKeyDown(JSEngine.input.P))

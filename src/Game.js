@@ -12,6 +12,11 @@ function Game()
   this.menuTimer = 0;
   this.hasAccepted = false;
   this.wave = 0;
+  this.upgradeSound = new Audio("res/powerup.wav");
+  this.buySound = new Audio("res/buy.wav");
+  this.sellSound = new Audio("res/sell.wav");
+  this.buySound.volume = 0.2;
+  this.sellSound.volume = 0.2;
 
   this.waveEnemyTypes = [];
 
@@ -35,10 +40,30 @@ function Game()
   this.stockDisplay = $("<div class='StockCounter'></div>").appendTo($("#topHudContainer"));
   $("<img width='75px' height='75px' src='res/icons/stocks.png' />").appendTo(this.stockDisplay);
   $("<div id='stockCount'></div>").appendTo(this.stockDisplay);
+
+
+  this.mainMenuContainer = $("<div class='MainMenuContainer'></div>").appendTo($("body"));
+
+  $("<div class='MainMenuTitle'>#Occupy Vampire Wallstreet</div>").appendTo(this.mainMenuContainer);
+  var mainMenuBody = $("<div class='MainMenuBody'></div>").appendTo(this.mainMenuContainer);
+  $("<div class='Agreement'>10,000 years into the future, vampires have taken over planet Earth, after the great setting of the sun, known to the pitiful humans as the great 'Lights Out' incident. It's the humans last hope to cripple the vampire economy and win the war. For some reason only a single lone vampire has been left to defend the vampire stock market.  'We are leaving the vampire economy in your capable hands, please make sure to buy and sell when appropriate.' The last words of his departed vampire brethern ran through our young vampire hero's mind, like a flowing river of wisdom. He knew in his non-beating heart that it was his calling to manage the stocks in between murdering the relentless waves of human aggressors. Our hero knows that his  journey will not be over until every last human is dead, and all the available  upgrades to him have been purchased with the blood of the deceased. He also reflected that he could move about using the WASD keys or by clicking and holding the mouse. Using the tremendous power of the 'Spacebar', he could dash forward with inhuman speed, totally brutalizing all in his vampiric path. </div>").appendTo(mainMenuBody);
+  var startGame = $("<div class='Button'>I Accept</div>").appendTo(mainMenuBody);
+  var that = this;
+
+  startGame.bind('click', function ()
+  {
+    that.hasAccepted = true;
+    JSEngine.start();
+    that.mainMenuContainer.remove();
+  });
+
 }
 
 Game.prototype.update = function(dt)
 {
+  if (!this.hasAccepted)
+    JSEngine.stop();
+
   this.menuTimer += dt;
   this.stockPrice = JSEngine.stocks.data[JSEngine.stocks.data.length - 1];
   $("#moneyCount").text(Math.round(this.money));
@@ -196,6 +221,7 @@ Game.prototype.waveEnd = function()
         JSEngine.factory.sendEventToAll("upgradeSpeed");
         that.increaseSpeedPrice = Math.round(that.increaseSpeedPrice * 1.5);
         $("#buySpeedPrice").text(that.increaseSpeedPrice + " pints");
+        that.upgradeSound.play();
       }
     });
   upgradeSize.bind("click", function()
@@ -206,6 +232,7 @@ Game.prototype.waveEnd = function()
         that.increaseSizePrice = Math.round(that.increaseSizePrice * 1.5);
         JSEngine.factory.sendEventToAll("upgradeSize");
         $("#buySizePrice").text(that.increaseSizePrice + " pints");
+        that.upgradeSound.play();
       }
     });
   upgradeDash.bind("click", function()
@@ -216,6 +243,7 @@ Game.prototype.waveEnd = function()
         JSEngine.factory.sendEventToAll("upgradeDash");
         that.increaseDashPrice = Math.round(that.increaseDashPrice * 1.5);
         $("#buyDashPrice").text(that.increaseDashPrice + " pints");
+        that.upgradeSound.play();
       }
     });
 
@@ -227,10 +255,12 @@ Game.prototype.waveEnd = function()
   buy.bind("click", function()
     {
       that.buyStocks();
+      that.buySound.play();
     });
   sell.bind("click", function()
     {
       that.sellStocks();
+      that.sellSound.play();
     });
 }
 
@@ -323,6 +353,14 @@ Game.prototype.nextWave = function()
 
 
   // SPECIAL WAVES
+  if (this.wave == 3)
+  {
+    typeCount[0] = 5;
+    typeCount[1] = 2;
+    typeCount[2] = 0;
+    typeCount[3] = 0;
+    typeCount[4] = 0;
+  }
   if (this.wave == 5)
   {
     typeCount[0] = 0;
@@ -331,13 +369,29 @@ Game.prototype.nextWave = function()
     typeCount[3] = 0;
     typeCount[4] = 0;
   }
-  if (this.wave == 10)
+  if (this.wave == 7)
   {
-    typeCount[0] = 0;
+    typeCount[0] = 3;
     typeCount[1] = 2;
     typeCount[2] = 20;
     typeCount[3] = 0;
     typeCount[4] = 0;
+  }
+  if (this.wave == 8)
+  {
+    typeCount[0] = 3;
+    typeCount[1] = 2;
+    typeCount[2] = 10;
+    typeCount[3] = 3;
+    typeCount[4] = 0;
+  }
+  if (this.wave == 10)
+  {
+    typeCount[0] = 8;
+    typeCount[1] = 3;
+    typeCount[2] = 5;
+    typeCount[3] = 7;
+    typeCount[4] = 5;
   }
   if (this.wave == 15)
   {
