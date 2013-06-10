@@ -55,7 +55,26 @@ body{
 
   <body>
     <script>
-      window.addEventListener("load", main);
+
+      var supported = true;
+      try
+      {
+        supported = !! window.WebGLRenderingContext && !! document.createElement( 'canvas' ).getContext( 'experimental-webgl' );
+      }
+      catch( e )
+      {
+        supported = false;
+      }
+      if (!supported)
+      {
+        // The browser doesn't even know what WebGL is
+        window.location = "http://get.webgl.org";
+      }
+      else
+      {
+        window.addEventListener("load", main);
+      }
+
     </script>
 
     <div id="footer">
