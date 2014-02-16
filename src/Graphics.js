@@ -95,6 +95,13 @@ Graphics.prototype.rayCast = function(pixelX, pixelY)
 Graphics.prototype.update = function(dt)
 {
     // This is basically the entire canvas size (note we use viewports below)
+    var that = JSEngine.graphics;
+
+    for (var i in that.cameras)
+    {
+      that.cameras[i].cam.aspect = window.innerWidth / window.innerHeight;
+      that.cameras[i].cam.updateProjectionMatrix();
+    }
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.clear();
 
@@ -104,13 +111,9 @@ Graphics.prototype.update = function(dt)
 
         if (camera.active)
         {
-            renderer.setViewport(camera.pixelOffsetX, camera.pixelOffsetY, camera.pixelSizeX, camera.pixelSizeY);
+            // This is broken now for some reason
+            // renderer.setViewport(0, 0, camera.pixelSizeX, camera.pixelSizeY);
             renderer.render( this.scene, camera.cam );
         }
     }
-}
-
-function onWindowResize()
-{
-    renderer.setSize( window.innerWidth, window.innerHeight );
 }
