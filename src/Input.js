@@ -26,8 +26,8 @@ function Input()
 
   window.addEventListener('mousemove', function(event)
   {
-    self.mouseX = event.x;
-    self.mouseY = event.y;
+    self.mouseX = event.clientX;
+    self.mouseY = event.clientY;
 
     self.update();
   }, false);
